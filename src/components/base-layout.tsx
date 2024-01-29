@@ -7,11 +7,9 @@ import Footer from "./footer";
 export default function BaseLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <div>
-        <Navbar />
-        {children}
-        <Footer />
-      </div>
+      <Navbar />
+      {children}
+      <Footer />
     </>
   );
 }
