@@ -2,7 +2,7 @@ import { FaBolt } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiSun } from "react-icons/fi";
-import { FaRegMoon } from "react-icons/fa";
+import { FiMoon } from "react-icons/fi";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -63,7 +63,7 @@ export default function Navbar() {
                   <DrawerTitle>Menu</DrawerTitle>
                   <DrawerDescription className="mt-5">
                     <button onClick={toggleTheme}>
-                      {theme === "light" ? <FiSun className="h-[1.2rem] w-[1.2rem]" /> : <FaRegMoon className="h-[1.2rem] w-[1.2rem]" />}
+                      {theme === "light" ? <FiSun className="h-[1.2rem] w-[1.2rem]" /> : <FiMoon className="h-[1.2rem] w-[1.2rem]" />}
                       <span className="sr-only">Toggle theme</span>
                     </button>
                   </DrawerDescription>
@@ -111,7 +111,6 @@ export default function Navbar() {
               <button
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0"
                 onClick={toggleTheme}
-                suppressHydrationWarning
               >
                 {theme === "light" ? (
                   <>
@@ -119,7 +118,7 @@ export default function Navbar() {
                   </>
                 ) : (
                   <>
-                    <FaRegMoon className="h-[1.2rem] w-[1.2rem]" />
+                    <FiMoon className="h-[1.2rem] w-[1.2rem]" />
                   </>
                 )}
               </button>
