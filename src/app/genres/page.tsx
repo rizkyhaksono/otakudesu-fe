@@ -1,5 +1,6 @@
 import BaseLayout from "@/components/base-layout";
 import Image from "next/image";
+import GenresList from "@/components/genre-list";
 
 export default function GenrePage() {
   return (
@@ -13,7 +14,9 @@ export default function GenrePage() {
         </div>
 
         <div className="container mx-auto">
-          <div className="mt-10">Hai</div>
+          <div className="mt-10">
+            <GenresList />
+          </div>
         </div>
       </BaseLayout>
     </>

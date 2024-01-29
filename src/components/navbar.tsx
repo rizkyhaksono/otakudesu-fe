@@ -1,7 +1,6 @@
 import { FaBolt } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import dynamic from "next/dynamic";
 import { FiSun } from "react-icons/fi";
 import { FaRegMoon } from "react-icons/fa";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
