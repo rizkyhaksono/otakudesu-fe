@@ -9,8 +9,14 @@ export const genreApi = baseApi.enhanceEndpoints({}).injectEndpoints({
           method: "GET",
         }),
       }),
+      getGenresBySlug: builder.query({
+        query: (slug) => ({
+          url: `/genre/${slug}`,
+          method: "GET",
+        }),
+      }),
     };
   },
 });
 
-export const { useGetGenresQuery } = genreApi;
+export const { useGetGenresQuery, useGetGenresBySlugQuery } = genreApi;

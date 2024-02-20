@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "otakudesu.media",
+        hostname: "otakudesu.cloud",
       },
       {
         protocol: "https",

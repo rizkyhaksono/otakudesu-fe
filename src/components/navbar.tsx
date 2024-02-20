@@ -1,9 +1,10 @@
 import { FaBolt } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { FiSun } from "react-icons/fi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoSunny } from "react-icons/io5";
 import { FiMoon } from "react-icons/fi";
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -50,29 +51,28 @@ export default function Navbar() {
             data-state="closed"
             onClick={toggleDrawer}
           >
-            <svg strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+            {/* <svg strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
               <path d="M3 5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M3 12H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M3 19H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-            </svg>
+            </svg> */}
+            <GiHamburgerMenu />
             <span className="sr-only">Toggle Menu</span>
             <Drawer open={isDrawerOpen} onClose={toggleDrawer}>
               <DrawerContent>
                 <DrawerHeader>
                   <DrawerClose onClick={toggleDrawer} />
-                  <DrawerTitle>Menu</DrawerTitle>
-                  <DrawerDescription className="mt-5">
+                  <DrawerTitle className="flex justify-center">Menu</DrawerTitle>
+                  <DrawerDescription className="mt-5 flex justify-center">
                     <button onClick={toggleTheme}>
-                      {theme === "light" ? <FiSun className="h-[1.2rem] w-[1.2rem]" /> : <FiMoon className="h-[1.2rem] w-[1.2rem]" />}
+                      {theme === "light" ? <IoSunny className="h-[1.2rem] w-[1.2rem]" /> : <FiMoon className="h-[1.2rem] w-[1.2rem]" />}
                       <span className="sr-only">Toggle theme</span>
                     </button>
                   </DrawerDescription>
                 </DrawerHeader>
                 {siteConfig.navMenuItems.map((item) => (
                   <Link key={item.label} href={item.href}>
-                    <div className={`ml-10 ${pathName === item.href ? "from-[#5ea9ef] to-[#0087f5] bg-clip-text text-transparent bg-gradient-to-br font-semibold hover:text-current" : "text-gray-400 hover:text-foreground"}`}>
-                      {item.label}
-                    </div>
+                    <div className={`ml-10 ${pathName === item.href ? "from-[#5ea9ef] to-[#0087f5] bg-clip-text text-transparent bg-gradient-to-br" : "text-gray-400 hover:text-foreground"}`}>{item.label}</div>
                   </Link>
                 ))}
                 <DrawerFooter>
@@ -96,7 +96,7 @@ export default function Navbar() {
           </button>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end sm:justify-end lg:justify-end xl:justify-end max-[640px]:justify-end">
             <div className="flex items-center">
-              <Link target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono">
+              <Link target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono/otakudesu-fe">
                 <div className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0">
                   <FaGithub />
                   <span className="sr-only">GitHub</span>
@@ -112,15 +112,7 @@ export default function Navbar() {
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0"
                 onClick={toggleTheme}
               >
-                {theme === "light" ? (
-                  <>
-                    <FiSun className="h-[1.2rem] w-[1.2rem]" />
-                  </>
-                ) : (
-                  <>
-                    <FiMoon className="h-[1.2rem] w-[1.2rem]" />
-                  </>
-                )}
+                {theme === "light" ? <IoSunny className="h-[1.2rem] w-[1.2rem]" /> : <FiMoon className="h-[1.2rem] w-[1.2rem]" />}
               </button>
             </div>
           </div>
