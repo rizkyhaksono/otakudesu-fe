@@ -1,8 +1,8 @@
-# Shadcn Boilerplate
+# Otakudesu
 
 ## Introduction
 
-Repo ini merupakan boilerplate dengan menggunakan [Shadcn](https://ui.shadcn.com/) dengan framework [Nextjs](https://nextjs.org/)
+An Otakudesu Frontend. Data from [Otakudesu API](https://github.com/rizkyhaksono/otakudesu-be)
 
 ## Table of Contents
 
