@@ -2,15 +2,15 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "Otakudesu Frontend",
-  description: "Otakudesu website for frontend",
+  description: "Otakudesu website for Frontend",
   navItems: [
     {
       label: "Home",
       href: "/"
     },
     {
-      label: "About",
-      href: "/about"
+      label: "Anime",
+      href: "/anime"
     },
     {
       label: "Genres",
@@ -23,8 +23,8 @@ export const siteConfig = {
       href: "/"
     },
     {
-      label: "About",
-      href: "/about"
+      label: "Anime",
+      href: "/anime"
     },
     {
       label: "Genres",

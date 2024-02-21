@@ -1,7 +1,11 @@
+import BaseLayout from "@/components/base-layout";
+
 export default function AnimePage() {
   return (
     <>
-      <div>Hai</div>
+      <BaseLayout>
+        <div>Hai</div>
+      </BaseLayout>
     </>
   );
 }
