@@ -10,11 +10,15 @@ export default function HomeCard() {
   const { data: dataHome, error: errorHome, isLoading: loadingHome } = useGetHomeQuery(arguments);
 
   if (loadingHome) {
-    <Skeleton />;
+    return (
+      <>
+        <Skeleton />
+      </>
+    );
   }
 
   if (errorHome) {
-    <>Error fetching data...</>;
+    return <>Error fetching...</>;
   }
 
   return (

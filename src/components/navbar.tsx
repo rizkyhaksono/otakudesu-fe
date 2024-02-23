@@ -54,7 +54,7 @@ export default function Navbar() {
             <GiHamburgerMenu />
             <span className="sr-only">Toggle Menu</span>
             <Drawer open={isDrawerOpen} onClose={toggleDrawer}>
-              <DrawerContent>
+              <DrawerContent className="mx-5">
                 <DrawerHeader>
                   <DrawerClose onClick={toggleDrawer} />
                   <DrawerTitle className="flex justify-center">Menu</DrawerTitle>

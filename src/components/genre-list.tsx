@@ -9,11 +9,11 @@ export default function GenresList() {
   const { data: dataGenres, error: errorGenres, isLoading: loadingGenres } = useGetGenresQuery(arguments);
 
   if (loadingGenres) {
-    <Skeleton />;
+    return <Skeleton />;
   }
 
   if (errorGenres) {
-    <>Error fetching data...</>;
+    return <>Error fetching data...</>;
   }
 
   const handleCardClick = (slug: any) => {
