@@ -1,36 +1,34 @@
-"use client"
+import BaseLayout from "@/components/base-layout"
+import { Metadata } from "next"
+import AnimeDetails from "@/components/anime-details"
 
-import { useEffect } from "react"
-import { useParams } from "next/navigation"
-import { useGetEpisodeQuery } from "@/redux/api/episode-api"
-import { useGetAnimeQuery } from "@/redux/api/anime-api"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import Skeleton from "@/components/skeleton"
+export const metadata: Metadata = {
+  title: "Slug | Otakudesu",
+  description: "Anime Slug Page Otakudesu. Build by Rizky Haksono",
+}
 
-export default function AnimeDetails() {
-  const router = useParams()
-  // const { data: dataEpisodeAnime } = useGetEpisodeQuery({ slug: router.slug, episode: 1 })
-  const { data: dataAnime, error: errorAnime, isLoading: loadingAnime } = useGetAnimeQuery("rag-crimson-sub-indo")
-
-  if (loadingAnime) {
-    return <Skeleton />
-  }
-
-  if (errorAnime) {
-    return <>Error fetching data...</>
-  }
-
+export default function AnimeSlug() {
   return (
-    <>
-      {dataAnime && dataAnime.data && (
-        <div key={dataAnime.data.title}>
-          {dataAnime.data.map((data: any) => (
-            <Card key={data.slug}>
-              <CardHeader>{data.title}</CardHeader>
-            </Card>
-          ))}
-        </div>
-      )}
-    </>
+    <BaseLayout>
+      <AnimeDetails
+        anime={{
+          title: "",
+          japanese_title: "",
+          producer: "",
+          type: "",
+          status: "",
+          episode_count: "",
+          duration: "",
+          release_date: "",
+          studio: "",
+          poster: "",
+          synopsis: "",
+          rating: "",
+          genres: [],
+          episode_lists: [],
+          recommendation: [],
+        }}
+      />
+    </BaseLayout>
   )
 }
