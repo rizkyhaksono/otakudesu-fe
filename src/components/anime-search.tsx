@@ -13,7 +13,7 @@ export default function AnimeSearch() {
   return (
     <>
       <div className="flex container w-full items-center mt-10 space-x-2">
-        <Input type="text" placeholder="Search anime..." value={search} onChange={(e) => setSearch(e.target.value)} />
+        <Input className="border-gray-600" type="text" placeholder="Search anime..." value={search} onChange={(e) => setSearch(e.target.value)} />
         <Button type="submit" onClick={() => console.log("Searching for:", search)}>
           Search
         </Button>

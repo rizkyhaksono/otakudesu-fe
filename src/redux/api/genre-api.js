@@ -1,4 +1,4 @@
-import { baseApi } from "../axios-base-query";
+import { baseApi } from "../axios-base-query"
 
 export const genreApi = baseApi.enhanceEndpoints({}).injectEndpoints({
   endpoints(builder) {
@@ -15,8 +15,8 @@ export const genreApi = baseApi.enhanceEndpoints({}).injectEndpoints({
           method: "GET",
         }),
       }),
-    };
+    }
   },
-});
+})
 
-export const { useGetGenresQuery, useGetGenreSlugQuery } = genreApi;
+export const { useGetGenresQuery, useGetGenreSlugQuery } = genreApi
