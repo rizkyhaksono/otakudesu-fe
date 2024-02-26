@@ -1,16 +1,18 @@
-"use client"
+import BaseLayout from "@/components/base-layout"
+import { Metadata } from "next"
+import AnimeEpisode from "@/components/anime-episode"
 
-import { useParams } from "next/navigation"
+export const metadata: Metadata = {
+  title: "Watch Anime | Otakudesu",
+  description: "Anime Page Otakudesu. Build by Rizky Haksono",
+}
 
-export default function AnimeEpisode() {
-  const router = useParams<{ slug: string; episodes: string }>()
-
-  console.log(router)
-
+export default function AnimeSlugEpisode() {
   return (
     <>
-      <div>{router.slug}</div>
-      <div className="mt-1">{router.episodes}</div>
+      <BaseLayout>
+        <AnimeEpisode />
+      </BaseLayout>
     </>
   )
 }

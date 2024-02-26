@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 import { useGetAnimeQuery } from "@/redux/api/anime-api"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Skeleton from "@/components/skeleton"
 import Image from "next/image"
 import React from "react"
@@ -35,8 +35,8 @@ const AnimeDetails = () => {
             <p>Status: {dataAnime.data.status}</p>
             <ul className="mt-5">
               {dataAnime.data.episode_lists.map((episode: any, index: number) => (
-                <li key={episode.slug}>
-                  <Link href={`/anime/${episode.slug}/episodes/${index + 1}`}>
+                <li className="bg-gray-100 dark:bg-black rounded-xl px-10 py-2 mt-2 font-normal text-md" key={episode.slug}>
+                  <Link href={`/anime/${router.slug}/episodes/${index + 1}`}>
                     <p>{episode.episode}</p>
                   </Link>
                 </li>
