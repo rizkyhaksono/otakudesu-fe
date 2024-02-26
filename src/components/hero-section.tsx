@@ -1,7 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { MdFilterList } from "react-icons/md"
+import Link from "next/link"
+import { FaSearch } from "react-icons/fa"
 import { FaArrowRight } from "react-icons/fa6"
 import { useTheme } from "next-themes"
 
@@ -16,16 +17,20 @@ export default function HeroSection() {
             <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">
               <span>Embark on a</span> <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-green-400 to-blue-500 lg:inline">journey into the anime realm</span> <span>like never before!</span>
             </h1>
-            <p className="px-0 mb-8 text-lg text-foreground md:text-xl lg:px-24">{"Start watching an anime without ads! For you from the otaku, for the otaku, by the otaku."}</p>
+            <p className="px-0 mb-8 text-lg font-medium text-foreground md:text-xl lg:px-24">
+              Start watching an anime without ads! For you from the <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline">community</span>, for the
+              <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline"> community</span>, by the
+              <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline"> community</span>.
+            </p>
             <div className="mb-4 space-x-2 md:space-x-2 md:mb-8">
-              <a href="#started" className="gap-2 hover:shadow-blue-300/30 duration-300 hover:shadow-lg inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-foreground bg-blue-400 rounded-2xl sm:w-auto sm:mb-0">
+              <Link href="#started" className="gap-2 hover:shadow-blue-300/30 duration-300 hover:shadow-lg inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-foreground bg-blue-400 rounded-2xl sm:w-auto sm:mb-0">
                 Get Started
                 <FaArrowRight />
-              </a>
-              <a href="#_" className="gap-2 inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-foreground dark:text-white bg-gray-100 dark:bg-gray-600 rounded-2xl sm:w-auto sm:mb-0">
-                Learn More
-                <MdFilterList />
-              </a>
+              </Link>
+              <Link href="/anime" className="gap-2 inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-foreground dark:text-white bg-gray-100 dark:bg-gray-600 rounded-2xl sm:w-auto sm:mb-0">
+                Search Anime
+                <FaSearch />
+              </Link>
             </div>
           </div>
           <div className="w-full mx-auto mt-20 text-center md:w-10/12">

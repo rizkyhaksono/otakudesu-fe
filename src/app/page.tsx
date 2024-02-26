@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <BaseLayout>
-      {/* <RandomImage pageName={"Home"} /> */}
       <HeroSection />
 
       <div className="mt-20" id="started">

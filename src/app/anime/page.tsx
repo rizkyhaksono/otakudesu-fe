@@ -12,7 +12,6 @@ export default function AnimePage() {
   return (
     <>
       <BaseLayout>
-        {/* <RandomImage pageName={"Search Anime"} /> */}
         <AnimeSearch />
       </BaseLayout>
     </>
