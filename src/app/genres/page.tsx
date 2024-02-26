@@ -12,13 +12,9 @@ export default function GenrePage() {
   return (
     <>
       <BaseLayout>
-        <RandomImage pageName={"Genres"} />
+        {/* <RandomImage pageName={"Genres"} /> */}
 
-        <div className="container mx-auto">
-          <div className="mt-10">
-            <GenresList />
-          </div>
-        </div>
+        <GenresList />
       </BaseLayout>
     </>
   )

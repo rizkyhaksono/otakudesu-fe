@@ -22,7 +22,7 @@ export default function HomeCard() {
   }
 
   return (
-    <>
+    <div className="container mx-auto">
       <Card>
         <CardHeader className="text-center font-bold text-2xl">Ongoing Anime</CardHeader>
         {dataHome && dataHome.data.ongoing_anime && (
@@ -33,7 +33,7 @@ export default function HomeCard() {
                   <div key={anime.slug} className="flex flex-wrap items-center space-x-4 rounded-md border p-4 dark:hover:bg-black hover:shadow-xl dark:hover:shadow-black transition duration-300 hover:translate-y-2">
                     <Image src={anime.poster} alt={anime.title} className="xl:w-72 xl:h-72 lg:w-72 lg:h-72 md:w-56 md:h-56 sm:h-36 sm:w-36 max-[640px]:w-32 max-[640px]:h-32 object-cover rounded" width={300} height={300} />
                     <div className="flex-1 space-y-1">
-                      <p className="text-lg mb-2 font-medium leading-none">{anime.title}</p>
+                      <p className="text-lg my-2 font-medium leading-none">{anime.title}</p>
                       <p className="text-sm text-muted-foreground">Current Episode: {anime.current_episode}</p>
                       <p className="text-sm text-muted-foreground">Release Day: {anime.release_day}</p>
                       <p className="text-sm text-muted-foreground">Newest: {anime.newest_release_date}</p>
@@ -45,7 +45,7 @@ export default function HomeCard() {
           </div>
         )}
         <CardFooter className="mt-2 flex justify-end">
-          <Link className="hover:underline hover:translate-y-2 duration-300" href={"/ongoing-anime/1"}>
+          <Link className="hover:underline hover:translate-y-2 duration-300 text-base" href={"/ongoing-anime/1"}>
             See all
           </Link>
         </CardFooter>
@@ -61,7 +61,7 @@ export default function HomeCard() {
                   <div key={anime.slug} className="flex flex-wrap items-center space-x-4 rounded-md border p-4 dark:hover:bg-black hover:shadow-xl dark:hover:shadow-black transition duration-300 hover:translate-y-2">
                     <Image src={anime.poster} alt={anime.title} className="xl:w-72 xl:h-72 lg:w-72 lg:h-72 md:w-56 md:h-56 sm:h-36 sm:w-36 max-[640px]:w-32 max-[640px]:h-32 object-cover rounded" width={300} height={300} />
                     <div className="flex-1 space-y-1">
-                      <p className="text-lg mb-2 font-medium leading-none">{anime.title}</p>
+                      <p className="text-lg my-2 font-medium leading-none">{anime.title}</p>
                       <p className="text-sm text-muted-foreground">Rate: {anime.rating}</p>
                       <p className="text-sm text-muted-foreground">Last Release Date: {anime.last_release_date}</p>
                     </div>
@@ -72,11 +72,11 @@ export default function HomeCard() {
           </div>
         )}
         <CardFooter className="mt-2 flex justify-end">
-          <Link className="hover:underline hover:translate-y-2 duration-300" href={"/completed-anime/1"}>
+          <Link className="hover:underline hover:translate-y-2 duration-300 text-base" href={"/completed-anime/1"}>
             See all
           </Link>
         </CardFooter>
       </Card>
-    </>
+    </div>
   )
 }

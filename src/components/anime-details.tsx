@@ -35,7 +35,7 @@ const AnimeDetails = () => {
             <p>Status: {dataAnime.data.status}</p>
             <ul className="mt-5">
               {dataAnime.data.episode_lists.map((episode: any, index: number) => (
-                <li className="bg-gray-100 dark:bg-black rounded-xl px-10 py-2 mt-2 font-normal text-md" key={episode.slug}>
+                <li className="bg-gray-100 dark:bg-black rounded-xl px-10 py-2 mt-2 font-normal text-base" key={episode.slug}>
                   <Link href={`/anime/${router.slug}/episodes/${index + 1}`}>
                     <p>{episode.episode}</p>
                   </Link>

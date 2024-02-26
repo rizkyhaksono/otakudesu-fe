@@ -1,29 +1,29 @@
-import { FaBolt } from "react-icons/fa6";
-import { FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { IoSunny } from "react-icons/io5";
-import { FiMoon } from "react-icons/fi";
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { useTheme } from "next-themes";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
-import { siteConfig } from "@/config/site";
-import Link from "next/link";
+import { FaBolt } from "react-icons/fa6"
+import { FaGithub } from "react-icons/fa"
+import { FaXTwitter } from "react-icons/fa6"
+import { GiHamburgerMenu } from "react-icons/gi"
+import { IoSunny } from "react-icons/io5"
+import { FiMoon } from "react-icons/fi"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
+import { useTheme } from "next-themes"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { siteConfig } from "@/config/site"
+import Link from "next/link"
 
 export default function Navbar() {
-  const pathName = usePathname();
+  const pathName = usePathname()
 
-  const { setTheme, theme } = useTheme();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { setTheme, theme } = useTheme()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+    setTheme(theme === "light" ? "dark" : "light")
+  }
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+    setIsDrawerOpen(!isDrawerOpen)
+  }
 
   return (
     <>
@@ -71,19 +71,17 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <DrawerFooter>
-                  <footer className="py-6 md:px-8 md:py-0">
-                    <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-                      <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
-                        Built by{" "}
-                        <a href="https://github.com/rizkyhaksono" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4 text-foreground">
-                          rizkyhaksono.
-                        </a>{" "}
-                        The source code is available on{" "}
-                        <a href="https://github.com/rizkyhaksono/shadcn-boilerplate" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4 text-foreground">
-                          GitHub.
-                        </a>
-                      </p>
-                    </div>
+                  <footer className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+                    <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
+                      Built by{" "}
+                      <a href="https://github.com/rizkyhaksono" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4 text-foreground">
+                        rizkyhaksono.
+                      </a>{" "}
+                      The source code is available on{" "}
+                      <a href="https://github.com/rizkyhaksono/shadcn-boilerplate" target="_blank" rel="noreferrer" className="font-medium underline underline-offset-4 text-foreground">
+                        GitHub.
+                      </a>
+                    </p>
                   </footer>
                 </DrawerFooter>
               </DrawerContent>
@@ -114,5 +112,5 @@ export default function Navbar() {
         </div>
       </header>
     </>
-  );
+  )
 }

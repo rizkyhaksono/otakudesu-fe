@@ -40,10 +40,11 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Project Structure
 
-```
+```basb
 ──public
 ──src
   ├───app
+  │   └───pages
   ├───components
   │   └───ui
   └───lib
@@ -52,7 +53,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Website URL
 
-</>
+<https://otakudesu.natee.my.id/>
 
 ## Contributors
 

@@ -2,6 +2,7 @@ import * as React from "react"
 import BaseLayout from "@/components/base-layout"
 import HomeCard from "@/components/home-card"
 import RandomImage from "@/components/random-image"
+import HeroSection from "@/components/hero-section"
 import { Metadata } from "next/types"
 
 export const metadata: Metadata = {
@@ -12,12 +13,11 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <BaseLayout>
-      <RandomImage pageName={"Home"} />
+      {/* <RandomImage pageName={"Home"} /> */}
+      <HeroSection />
 
-      <div className="container mx-auto">
-        <div className="mt-10">
-          <HomeCard />
-        </div>
+      <div className="mt-20" id="started">
+        <HomeCard />
       </div>
     </BaseLayout>
   )
