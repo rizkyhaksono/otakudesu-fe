@@ -47,7 +47,7 @@ const AnimeDetails = () => {
             <div className="flex gap-3">
               {dataAnime.data.recommendations.map((rec: any, index: number) => (
                 <div key={rec.title}>
-                  <Link href={`/anime/${rec.title}`}>
+                  <Link href={`/anime/${rec.slug}`}>
                     <Image className="rounded-xl" width={400} height={400} src={rec.poster} alt={rec.title} />
                     <p>{rec.title}</p>
                   </Link>

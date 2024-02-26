@@ -16,18 +16,14 @@ export default function GenresList() {
     return <>Error fetching data...</>
   }
 
-  const handleCardClick = (slug: any) => {
-    console.log("Clicked on genre with slug:", slug)
-  }
-
   return (
     <>
       {dataGenres && dataGenres.data && (
         <div className="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 max-[640px] gap-2">
           {dataGenres.data.map((genre: any) => (
             <>
-              <Link href={`/genres/${genre.slug}`}>
-                <Card key={genre.slug} className="text-center text-foreground dark:hover:bg-black dark:hover:shadow-black hover:shadow-xl transition duration-300 hover:translate-y-2" onClick={() => handleCardClick(genre)}>
+              <Link href={`/genres/${genre.slug}?page=1`}>
+                <Card key={genre.slug} className="text-center text-foreground dark:hover:bg-black dark:hover:shadow-black hover:shadow-xl transition duration-300 hover:translate-y-2">
                   <CardHeader>
                     <CardTitle className="text-lg">{genre.name}</CardTitle>
                   </CardHeader>
