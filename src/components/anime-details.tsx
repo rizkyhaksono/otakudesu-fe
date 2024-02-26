@@ -4,12 +4,11 @@ import { useParams } from "next/navigation"
 import { useGetAnimeQuery } from "@/redux/api/anime-api"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Skeleton from "@/components/skeleton"
-import AnimeCardProps from "@/types/anime"
 import Image from "next/image"
 import React from "react"
 import Link from "next/link"
 
-const AnimeDetails: React.FC<AnimeCardProps> = () => {
+const AnimeDetails = () => {
   const router = useParams()
   const { data: dataAnime, error: errorAnime, isLoading: loadingAnime } = useGetAnimeQuery(router.slug)
 
@@ -22,9 +21,9 @@ const AnimeDetails: React.FC<AnimeCardProps> = () => {
   }
 
   return (
-    <>
+    <div className="container mx-auto mt-10">
       {dataAnime && (
-        <Card className="container mx-auto mt-10">
+        <Card>
           <CardHeader>
             <Image className="rounded-xl" width={400} height={400} src={dataAnime.data.poster} alt={dataAnime.data.title} />
           </CardHeader>
@@ -43,11 +42,22 @@ const AnimeDetails: React.FC<AnimeCardProps> = () => {
                 </li>
               ))}
             </ul>
+
+            <p className="font-semibold text-2xl mt-10 mb-2">Recommendations</p>
+            <div className="flex gap-3">
+              {dataAnime.data.recommendations.map((rec: any, index: number) => (
+                <div key={rec.title}>
+                  <Link href={`/anime/${rec.title}`}>
+                    <Image className="rounded-xl" width={400} height={400} src={rec.poster} alt={rec.title} />
+                    <p>{rec.title}</p>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </CardContent>
-          <CardFooter></CardFooter>
         </Card>
       )}
-    </>
+    </div>
   )
 }
 
