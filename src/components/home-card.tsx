@@ -45,7 +45,9 @@ export default function HomeCard() {
           </div>
         )}
         <CardFooter className="mt-2 flex justify-end">
-          <Link href={"/"}>See all</Link>
+          <Link className="hover:underline hover:translate-y-2 duration-300" href={"/ongoing-anime/1"}>
+            See all
+          </Link>
         </CardFooter>
       </Card>
 
@@ -70,7 +72,9 @@ export default function HomeCard() {
           </div>
         )}
         <CardFooter className="mt-2 flex justify-end">
-          <Link href={"/"}>See all</Link>
+          <Link className="hover:underline hover:translate-y-2 duration-300" href={"/completed-anime/1"}>
+            See all
+          </Link>
         </CardFooter>
       </Card>
     </>

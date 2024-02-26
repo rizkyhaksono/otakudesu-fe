@@ -27,7 +27,7 @@ export default function GenresList() {
           {dataGenres.data.map((genre: any) => (
             <>
               <Link href={`/genres/${genre.slug}`}>
-                <Card key={genre.slug} className="text-center text-foreground dark:hover:bg-black hover:shadow-lg dark:hover:shadow-black shadow-xl transition duration-400" onClick={() => handleCardClick(genre)}>
+                <Card key={genre.slug} className="text-center text-foreground dark:hover:bg-black dark:hover:shadow-black hover:shadow-xl transition duration-300 hover:translate-y-2" onClick={() => handleCardClick(genre)}>
                   <CardHeader>
                     <CardTitle className="text-lg">{genre.name}</CardTitle>
                   </CardHeader>
