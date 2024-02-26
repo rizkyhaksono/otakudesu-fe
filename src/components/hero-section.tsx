@@ -3,10 +3,10 @@
 import Image from "next/image"
 import { MdFilterList } from "react-icons/md"
 import { FaArrowRight } from "react-icons/fa6"
+import { useTheme } from "next-themes"
 
 export default function HeroSection() {
-  const storedTheme = window.localStorage.getItem("theme")
-  const imageSrc = storedTheme === "dark" ? "/dark-home.png" : "/light-home.png"
+  const { theme } = useTheme()
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function HeroSection() {
                     <div className="w-3 h-3 border-2 border-white rounded-full"></div>
                   </div>
                 </div>
-                <Image width={1000} height={300} src={imageSrc} alt={"Hero"} />
+                <Image width={1000} height={300} src={theme === "dark" ? "/dark-home.png" : "/light-home.png"} alt={"Hero"} />
               </div>
             </div>
           </div>
