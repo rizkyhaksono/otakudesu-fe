@@ -18,11 +18,11 @@ export default function HeroSection() {
               <span>Embark on a</span> <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-green-400 to-blue-500 lg:inline">journey into the anime realm</span> <span>like never before!</span>
             </h1>
             <p className="px-0 mb-8 text-lg font-medium text-foreground md:text-xl lg:px-24">
-              Start watching an anime without ads! For you from the <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline">community</span>, for the
-              <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline"> community</span>, by the
-              <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500 lg:inline"> community</span>.
+              Start watching an anime without ads! For you from the <span className="py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500">community</span>, for the
+              <span className="py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500"> community</span>, by the
+              <span className="py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-orange-400 to-red-500"> community</span>.
             </p>
-            <div className="mb-4 space-x-2 md:space-x-2 md:mb-8">
+            <div className="mb-4 sm:space-x-2 md:space-x-2 md:mb-8">
               <Link href="#started" className="gap-2 hover:shadow-blue-300/30 duration-300 hover:shadow-lg inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-foreground bg-blue-400 rounded-2xl sm:w-auto sm:mb-0">
                 Get Started
                 <FaArrowRight />
