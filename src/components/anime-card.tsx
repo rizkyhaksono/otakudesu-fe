@@ -1,11 +1,17 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
-import AnimeCardProps from "@/types/anime"
-import Link from "next/link"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+import AnimeCardProps from "@/types/anime";
+import Link from "next/link";
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
   if (!anime) {
-    return <div>Anime not found!</div>
+    return <div>Anime not found!</div>;
   }
 
   return (
@@ -14,10 +20,16 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
         <CardTitle>{anime.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <Image className="rounded-lg" width={200} height={400} src={anime.poster} alt={anime.title} />
+        <Image
+          className="rounded-lg"
+          width={200}
+          height={400}
+          src={anime.poster}
+          alt={anime.title}
+        />
         <p>{anime.synopsis}</p>
         <div className="my-5">
-          <p className="font-semibold text-lg">Episode Lists:</p>
+          <p className="text-lg font-semibold">Episode Lists:</p>
           <ul className="mt-5">
             {anime.episode_lists.map((episode) => (
               <li key={episode.slug}>
@@ -33,7 +45,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
         <p>Rating: {anime.rating}</p>
       </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
-export default AnimeCard
+export default AnimeCard;

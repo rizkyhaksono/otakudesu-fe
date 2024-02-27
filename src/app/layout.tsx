@@ -11,10 +11,18 @@ export const metadata: Metadata = {
   description: "Build by rizkyhaksono",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+      <body
+        suppressHydrationWarning={true}
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.className,
+        )}
+      >
         <ProviderLayout>{children}</ProviderLayout>
       </body>
     </html>

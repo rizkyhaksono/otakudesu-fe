@@ -1,5 +1,5 @@
-import ErrorSegment from "@/components/error-segment"
+import ErrorSegment from "@/components/error-segment";
 
 export default function CompletedAnime() {
-  return <ErrorSegment />
+  return <ErrorSegment />;
 }

@@ -16,7 +16,7 @@ export default function GenrePage() {
           <div className="max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl sm:text-center">
             <h2 className="mb-6 font-sans text-3xl font-bold tracking-tight text-foreground sm:text-4xl sm:leading-none">
               Discover Your
-              <span className="text-transparent bg-clip-text leading-12 bg-gradient-to-r from-yellow-400 to-purple-500"> Anime Genres</span>
+              <span className="text-transparent bg-clip-text leading-12 bg-gradient-to-r from-lime-500 to-cyan-500"> Anime Genres</span>
             </h2>
             <p className="mb-6 text-base text-foreground md:text-lg">
               Explore the vast realm of anime genres, be it the excitement of action, the magical allure of fantasy, the heartwarming embrace of romance, or the delightful charm of slice-of-life. Your anime journey commences wherever your

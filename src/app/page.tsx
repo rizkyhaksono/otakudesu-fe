@@ -15,9 +15,7 @@ export default function Home() {
     <BaseLayout>
       <HeroSection />
 
-      <div className="mt-20" id="started">
-        <HomeCard />
-      </div>
+      <HomeCard />
     </BaseLayout>
   )
 }

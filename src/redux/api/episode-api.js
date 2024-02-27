@@ -1,4 +1,4 @@
-import { baseApi } from "../axios-base-query"
+import { baseApi } from "../axios-base-query";
 
 export const episodeApi = baseApi.enhanceEndpoints({}).injectEndpoints({
   endpoints(builder) {
@@ -8,8 +8,8 @@ export const episodeApi = baseApi.enhanceEndpoints({}).injectEndpoints({
           url: `/anime/${slug}/episodes/${episode}`,
         }),
       }),
-    }
+    };
   },
-})
+});
 
-export const { useGetEpisodeQuery } = episodeApi
+export const { useGetEpisodeQuery } = episodeApi;
