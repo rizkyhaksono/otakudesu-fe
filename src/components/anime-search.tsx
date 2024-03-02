@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
-import AnimeCard from "./anime-card";
+import AnimeCard from "./anime-search-card";
 
 export default function AnimeSearch() {
   const [search, setSearch] = useState("");

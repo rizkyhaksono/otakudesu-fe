@@ -8,7 +8,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 
-const AnimeDetails = () => {
+export default function AnimeDetails() {
   const router = useParams();
   const {
     data: dataAnime,
@@ -74,9 +74,9 @@ const AnimeDetails = () => {
             <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
             <div className="grid gap-3 max-[766px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {dataAnime.data.recommendations.map((rec: any, index: number) => (
-                <div
+                <Card
                   className="cursor-pointer object-cover transition duration-300 hover:scale-105"
-                  key={rec.title}
+                  key={index}
                 >
                   <Link href={`/anime/${rec.slug}`}>
                     <Image
@@ -86,9 +86,13 @@ const AnimeDetails = () => {
                       src={rec.poster}
                       alt={rec.title}
                     />
-                    <p className="text-lg font-semibold">{rec.title}</p>
+                    <CardContent>
+                      <p className="mt-5 text-center text-lg font-semibold">
+                        {rec.title}
+                      </p>
+                    </CardContent>
                   </Link>
-                </div>
+                </Card>
               ))}
             </div>
           </CardContent>
@@ -96,6 +100,4 @@ const AnimeDetails = () => {
       )}
     </div>
   );
-};
-
-export default AnimeDetails;
+}

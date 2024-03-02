@@ -1,9 +1,12 @@
 "use client";
 
 import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
+import { Card, CardHeader, CardTitle } from "./ui/card";
 import Skeleton from "./skeleton";
+import Link from "next/link";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -18,6 +21,14 @@ export default function GenreSlug() {
   const router = useParams<{ slug: string }>();
   const params = useSearchParams();
   const search = params.get("page");
+  const path = usePathname();
+  const pathSplit = path.split("/");
+  const genreName = pathSplit[2];
+
+  const pascalCaseGenreName = genreName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
   const {
     data: dataGenre,
@@ -35,43 +46,60 @@ export default function GenreSlug() {
 
   return (
     <>
-      <div className="container mx-auto my-10 grid grid-cols-4">
+      <p className="container mx-auto mt-10 text-center text-4xl font-semibold">
+        {pascalCaseGenreName}
+      </p>
+      <div className="container mx-auto my-10 grid gap-4 max-[766px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         {dataGenre &&
           dataGenre.data &&
           dataGenre.data.anime.map((anime: any) => (
-            <div key={anime.slug}>
-              <h2>{anime.title}</h2>
-              <Image
-                width={300}
-                height={300}
-                src={anime.poster}
-                alt={anime.title}
-              />
-            </div>
+            <Link key={anime.slug} href={`/anime/${anime.slug}`}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{anime.title}</CardTitle>
+                </CardHeader>
+                <Image
+                  className="w-full rounded-xl object-cover"
+                  width={300}
+                  height={300}
+                  src={anime.poster}
+                  alt={anime.title}
+                />
+              </Card>
+            </Link>
           ))}
       </div>
 
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            {dataGenre?.data &&
+              dataGenre.data.pagination.map((anime: any) => {
+                <PaginationPrevious
+                  href={`/${genreName}/${
+                    anime?.current_page > 1 ? anime?.current_page - 1 : null
+                  }`}
+                />;
+              })}
           </PaginationItem>
+          {dataGenre?.data &&
+            dataGenre.data.anime.map((anime: any) => (
+              <PaginationItem key={anime.slug}>
+                <PaginationLink href={`/${genreName}/${anime.page}`}>
+                  {anime.page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              href={`/${genreName}/${
+                dataGenre?.data &&
+                dataGenre?.pagination.current_page <
+                  dataGenre?.pagination.total_pages
+                  ? dataGenre?.pagination.current_page + 1
+                  : null
+              }`}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

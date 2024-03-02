@@ -48,7 +48,7 @@ export default function HomeCard() {
                       height={300}
                     />
                     <div className="flex-1 space-y-1">
-                      <p className="my-2 text-lg font-medium leading-none">
+                      <p className="my-2 text-xl font-semibold leading-none max-[766px]:text-lg">
                         {anime.title}
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -98,7 +98,7 @@ export default function HomeCard() {
                       height={300}
                     />
                     <div className="flex-1 space-y-1">
-                      <p className="my-2 text-lg font-medium leading-none">
+                      <p className="my-2 text-xl font-semibold leading-none max-[766px]:text-lg">
                         {anime.title}
                       </p>
                       <p className="text-sm text-muted-foreground">

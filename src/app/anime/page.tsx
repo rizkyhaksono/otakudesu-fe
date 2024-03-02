@@ -3,7 +3,7 @@ import AnimeSearch from "@/components/anime-search";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-  title: "Anime | Otakudesu",
+  title: "Search Anime | Otakudesu",
   description: "Anime Page Otakudesu. Build by Rizky Haksono",
 };
 

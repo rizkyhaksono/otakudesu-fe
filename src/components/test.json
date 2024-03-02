@@ -1,0 +1,12 @@
+{
+  "data": {
+    "pagination": {
+      "current_page": 1,
+      "last_visible_page": 36,
+      "has_next_page": true,
+      "next_page": 2,
+      "has_previous_page": false,
+      "previous_page": null
+    }
+  }
+}
