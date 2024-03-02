@@ -21,7 +21,7 @@ export default function HeroSection() {
             <span>&nbsp;like never before!</span>
           </h1>
           <p className="mb-8 px-0 text-lg font-medium text-foreground md:text-xl lg:px-24">
-            Start watching an anime without ads! For you from the{" "}
+            Start watching an anime without ads! For you from the&nbsp;
             <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 text-transparent">
               community
             </span>

@@ -29,29 +29,42 @@ const AnimeDetails = () => {
       {dataAnime && (
         <Card>
           <CardHeader>
-            <Image
-              className="rounded-xl"
-              width={400}
-              height={400}
-              src={dataAnime.data.poster}
-              alt={dataAnime.data.title}
-            />
+            <CardTitle className="text-3xl">{dataAnime.data.title}</CardTitle>
           </CardHeader>
           <CardContent>
-            <CardTitle>{dataAnime.data.title}</CardTitle>
-            <p className="my-5">{dataAnime.data.synopsis}</p>
-            <p>Rating: {dataAnime.data.rating}</p>
-            <p>Type: {dataAnime.data.type}</p>
-            <p>Status: {dataAnime.data.status}</p>
+            <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">
+              <Image
+                className="h-96 w-96 rounded-xl object-cover"
+                width={400}
+                height={400}
+                src={dataAnime.data.poster}
+                alt={dataAnime.data.title}
+              />
+              <div className="max-[766px]:my-5 min-[766px]:ml-10">
+                <p className="font-medium">{dataAnime.data.synopsis}</p>
+                <p className="mt-5">
+                  Rating:&nbsp;
+                  <span className="font-medium">{dataAnime.data.rating}</span>
+                </p>
+                <p>
+                  Type:&nbsp;
+                  <span className="font-medium">{dataAnime.data.type}</span>
+                </p>
+                <p>
+                  Status:&nbsp;
+                  <span className="font-medium">{dataAnime.data.status}</span>
+                </p>
+              </div>
+            </div>
             <ul className="mt-5">
               {dataAnime.data.episode_lists.map(
                 (episode: any, index: number) => (
                   <li
-                    className="mt-2 rounded-xl bg-gray-100 px-10 py-2 text-base font-normal dark:bg-black"
+                    className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-black hover:dark:bg-white/10"
                     key={episode.slug}
                   >
                     <Link href={`/anime/${router.slug}/episodes/${index + 1}`}>
-                      <p>{episode.episode}</p>
+                      <p className="font-medium">{episode.episode}</p>
                     </Link>
                   </li>
                 ),
@@ -59,18 +72,21 @@ const AnimeDetails = () => {
             </ul>
 
             <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
-            <div className="flex gap-3">
+            <div className="grid gap-3 max-[766px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {dataAnime.data.recommendations.map((rec: any, index: number) => (
-                <div key={rec.title}>
+                <div
+                  className="cursor-pointer object-cover transition duration-300 hover:scale-105"
+                  key={rec.title}
+                >
                   <Link href={`/anime/${rec.slug}`}>
                     <Image
-                      className="rounded-xl"
+                      className="h-96 w-96 rounded-xl object-cover"
                       width={400}
                       height={400}
                       src={rec.poster}
                       alt={rec.title}
                     />
-                    <p>{rec.title}</p>
+                    <p className="text-lg font-semibold">{rec.title}</p>
                   </Link>
                 </div>
               ))}
