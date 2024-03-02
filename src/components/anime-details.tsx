@@ -72,7 +72,7 @@ export default function AnimeDetails() {
             </ul>
 
             <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
-            <div className="grid gap-3 max-[766px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid gap-3 max-[766px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {dataAnime.data.recommendations.map((rec: any, index: number) => (
                 <Card
                   className="cursor-pointer object-cover transition duration-300 hover:scale-105"
@@ -80,7 +80,7 @@ export default function AnimeDetails() {
                 >
                   <Link href={`/anime/${rec.slug}`}>
                     <Image
-                      className="h-96 w-96 rounded-xl object-cover"
+                      className="h-auto w-96 rounded-xl object-cover"
                       width={400}
                       height={400}
                       src={rec.poster}

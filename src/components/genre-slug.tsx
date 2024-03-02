@@ -14,7 +14,23 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
 export default function GenreSlug() {
   const param = useParams<{ slug: string }>();
@@ -28,6 +44,12 @@ export default function GenreSlug() {
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const {
     data: dataGenre,
@@ -78,6 +100,24 @@ export default function GenreSlug() {
               />
             )}
           </PaginationItem>
+          <DropdownMenu
+            open={isDropdownOpen}
+            // onClose={() => setIsDropdownOpen(false)}
+          >
+            <DropdownMenuTrigger>
+              <button onClick={toggleDropdown}>Last Page</button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Link
+                  href={`/genres/${genreName}?page=${dataGenre?.data?.pagination?.last_visible_page}`}
+                >
+                  <p>{dataGenre?.data?.pagination?.last_visible_page}</p>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {Array.from(
             {
               length: dataGenre?.data?.pagination?.last_visible_page,
@@ -85,7 +125,7 @@ export default function GenreSlug() {
             (_, i) => (
               <PaginationItem key={i + 1}>
                 <PaginationLink
-                  className={`${dataGenre?.data?.pagination?.current_page === i + 1 ? "bg-gray-800 text-foreground" : ""}`}
+                  isActive={dataGenre?.data?.pagination?.current_page === i + 1}
                   href={`/genres/${genreName}?page=${i + 1}`}
                 >
                   {i + 1}
