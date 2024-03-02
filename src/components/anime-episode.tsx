@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useGetEpisodeQuery } from "@/redux/api/episode-api";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import Skeleton from "@/components/skeleton";
+import Skeleton from "@/components/skeleton-card";
 
 interface Resolution {
   resolution: string;

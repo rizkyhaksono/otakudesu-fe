@@ -6,35 +6,36 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { AnimeCardProps } from "@/types/anime-card";
 import Link from "next/link";
 
-export default function AnimeCard({ anime }: { anime: AnimeCardProps }) {
+export default function AnimeCard({ anime }: { anime: any }) {
   if (!anime) {
     return <div>Anime not found!</div>;
   }
 
   return (
-    <Card className="container mx-3">
+    <Card className="container mx-10">
       <CardHeader>
-        <CardTitle>{anime.data.title}</CardTitle>
+        <CardTitle>{anime.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <Image
           className="rounded-lg"
           width={200}
           height={400}
-          src={anime.data.poster}
-          alt={anime.data.title}
+          src={anime.poster}
+          alt={anime.title}
         />
-        <p>{anime.data.synopsis}</p>
+        <p className="mt-10">{anime.synopsis}</p>
         <div className="my-5">
           <p className="text-lg font-semibold">Episode Lists:</p>
           <ul className="mt-5">
-            {anime.data.episode_lists.map((episode) => (
+            {anime.episode_lists.map((episode: any) => (
               <li key={episode.slug}>
                 <Link href={`/anime/${episode.slug}`}>
-                  <a>{episode.episode}</a>
+                  <p className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-black hover:dark:bg-white/10">
+                    {episode.episode}
+                  </p>
                 </Link>
               </li>
             ))}
@@ -42,7 +43,7 @@ export default function AnimeCard({ anime }: { anime: AnimeCardProps }) {
         </div>
       </CardContent>
       <CardFooter>
-        <p>Rating: {anime.data.rating}</p>
+        <p>Rating: {anime.rating}</p>
       </CardFooter>
     </Card>
   );

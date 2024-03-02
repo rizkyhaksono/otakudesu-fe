@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { useGetHomeQuery } from "@/redux/api/home-api";
-import Skeleton from "./skeleton";
+import Skeleton from "./skeleton-card";
 import Link from "next/link";
 
 export default function HomeCard() {
@@ -12,14 +12,6 @@ export default function HomeCard() {
     error: errorHome,
     isLoading: loadingHome,
   } = useGetHomeQuery(arguments);
-
-  if (loadingHome) {
-    return (
-      <>
-        <Skeleton />
-      </>
-    );
-  }
 
   if (errorHome) {
     return <>Error fetching...</>;

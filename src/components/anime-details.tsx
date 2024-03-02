@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Skeleton from "@/components/skeleton";
+import Skeleton from "@/components/skeleton-card";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";

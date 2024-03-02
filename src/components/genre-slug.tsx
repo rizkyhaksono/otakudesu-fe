@@ -2,7 +2,7 @@
 
 import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
 import { Card, CardHeader, CardTitle } from "./ui/card";
-import Skeleton from "./skeleton";
+import Skeleton from "./skeleton-card";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
@@ -10,7 +10,6 @@ import { usePathname } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -18,7 +17,7 @@ import {
 } from "@/components/ui/pagination";
 
 export default function GenreSlug() {
-  const router = useParams<{ slug: string }>();
+  const param = useParams<{ slug: string }>();
   const params = useSearchParams();
   const search = params.get("page");
   const path = usePathname();
@@ -34,7 +33,7 @@ export default function GenreSlug() {
     data: dataGenre,
     isError: errorGenre,
     isLoading: loadingGenre,
-  } = useGetGenreSlugQuery({ slug: router.slug, page: search });
+  } = useGetGenreSlugQuery({ slug: param.slug, page: search });
 
   if (loadingGenre) {
     return <Skeleton />;
@@ -73,33 +72,33 @@ export default function GenreSlug() {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            {dataGenre?.data &&
-              dataGenre.data.pagination.map((anime: any) => {
-                <PaginationPrevious
-                  href={`/${genreName}/${
-                    anime?.current_page > 1 ? anime?.current_page - 1 : null
-                  }`}
-                />;
-              })}
+            {dataGenre?.data?.pagination?.has_previous_page && (
+              <PaginationPrevious
+                href={`/genres/${genreName}/?page=${dataGenre?.data?.pagination?.previous_page}`}
+              />
+            )}
           </PaginationItem>
-          {dataGenre?.data &&
-            dataGenre.data.anime.map((anime: any) => (
-              <PaginationItem key={anime.slug}>
-                <PaginationLink href={`/${genreName}/${anime.page}`}>
-                  {anime.page}
+          {Array.from(
+            {
+              length: dataGenre?.data?.pagination?.last_visible_page,
+            },
+            (_, i) => (
+              <PaginationItem key={i + 1}>
+                <PaginationLink
+                  className={`${dataGenre?.data?.pagination?.current_page === i + 1 ? "bg-gray-800 text-foreground" : ""}`}
+                  href={`/genres/${genreName}?page=${i + 1}`}
+                >
+                  {i + 1}
                 </PaginationLink>
               </PaginationItem>
-            ))}
+            ),
+          )}
           <PaginationItem>
-            <PaginationNext
-              href={`/${genreName}/${
-                dataGenre?.data &&
-                dataGenre?.pagination.current_page <
-                  dataGenre?.pagination.total_pages
-                  ? dataGenre?.pagination.current_page + 1
-                  : null
-              }`}
-            />
+            {dataGenre?.data?.pagination?.has_next_page && (
+              <PaginationNext
+                href={`/genres/${genreName}/?page=${dataGenre?.data?.pagination?.next_page}`}
+              />
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
