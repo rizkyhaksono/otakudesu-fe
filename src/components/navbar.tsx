@@ -49,7 +49,7 @@ export default function Navbar() {
           </nav>
         </div>
         <Sheet>
-          <SheetTrigger>
+          <SheetTrigger className="min-[770px]:hidden">
             <GiHamburgerMenu />
           </SheetTrigger>
           <SheetContent side={"left"}>
