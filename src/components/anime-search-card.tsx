@@ -14,7 +14,7 @@ export default function AnimeCard({ anime }: { anime: any }) {
   }
 
   return (
-    <Card className="container mx-10">
+    <Card className="container mx-10 mb-10">
       <CardHeader>
         <CardTitle>{anime.title}</CardTitle>
       </CardHeader>

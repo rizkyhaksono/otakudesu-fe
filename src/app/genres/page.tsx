@@ -20,7 +20,7 @@ export default function GenrePage() {
                 &nbsp;Anime Genres
               </span>
             </h2>
-            <p className="mb-6 text-base text-foreground md:text-lg">
+            <p className="text-base text-foreground md:text-lg">
               Explore the vast realm of anime genres, be it the excitement of
               action, the magical allure of fantasy, the heartwarming embrace of
               romance, or the delightful charm of slice-of-life. Your anime

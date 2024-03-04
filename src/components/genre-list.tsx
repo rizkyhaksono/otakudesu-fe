@@ -23,7 +23,7 @@ export default function GenresList() {
   return (
     <>
       {dataGenres && dataGenres.data && (
-        <div className="container mx-auto grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="container mx-auto grid gap-2 pb-10 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {dataGenres.data.map((genre: any) => (
             <>
               <Link href={`/genres/${genre.slug}?page=1`}>

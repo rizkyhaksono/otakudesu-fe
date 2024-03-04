@@ -35,7 +35,7 @@ export default function HeroSection() {
             </span>
             .
           </p>
-          <div className="mb-4 sm:space-x-2 md:mb-8 md:space-x-2">
+          <div className="mb-4 sm:space-x-2 md:mb-8 md:flex md:w-full md:justify-center md:space-x-2">
             <Link
               href="#started"
               className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-400 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-blue-300/30 sm:mb-0 sm:w-auto"
