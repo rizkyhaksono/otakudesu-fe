@@ -43,7 +43,7 @@ export default function AnimeEpisode() {
             />
           </div>
 
-          <div className="flex justify-between">
+          <div className="mt-4 flex justify-between">
             <div>
               {dataEpisode?.data?.has_previous_episode === true ? (
                 <HoverCard>
@@ -67,7 +67,7 @@ export default function AnimeEpisode() {
                     </button>
                   </HoverCardTrigger>
                   <HoverCardContent>
-                    Can not back to previous, because this is first episode.
+                    {`Can't back to previous, because this is first episode.`}
                   </HoverCardContent>
                 </HoverCard>
               )}
@@ -110,17 +110,14 @@ export default function AnimeEpisode() {
                   {dataEpisode?.data?.download_urls.mp4?.map(
                     (resolution: any, index: number) => (
                       <li key={index} className="mb-4 flex gap-2">
-                        <strong className="text-base md:text-base lg:text-lg xl:text-xl">
+                        <strong className="text-base md:text-base lg:text-base xl:text-lg">
                           {resolution.resolution}:
                         </strong>
                         <ul className="mb-2 flex flex-wrap gap-2">
                           {resolution.urls.map((url: any, urlIndex: number) => (
-                            <li
-                              key={urlIndex}
-                              className="text-sm md:text-base lg:text-lg xl:text-xl"
-                            >
+                            <li key={urlIndex}>
                               <Link target="_blank" href={url.url}>
-                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40">
+                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
                                   {url.provider}
                                 </button>
                               </Link>
@@ -141,17 +138,14 @@ export default function AnimeEpisode() {
                   {dataEpisode?.data?.download_urls.mkv?.map(
                     (resolution: any, index: number) => (
                       <li key={index} className="mb-4 flex gap-2">
-                        <strong className="text-base md:text-base lg:text-lg xl:text-xl">
+                        <strong className="text-base md:text-base lg:text-base xl:text-lg">
                           {resolution.resolution}:
                         </strong>
                         <ul className="mb-2 flex flex-wrap gap-2">
                           {resolution.urls.map((url: any, urlIndex: number) => (
-                            <li
-                              key={urlIndex}
-                              className="text-base md:text-base lg:text-lg xl:text-xl"
-                            >
+                            <li key={urlIndex}>
                               <Link target="_blank" href={url.url}>
-                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40">
+                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
                                   {url.provider}
                                 </button>
                               </Link>

@@ -19,18 +19,11 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 
 export default function GenreSlug() {
   const param = useParams<{ slug: string }>();
@@ -44,12 +37,6 @@ export default function GenreSlug() {
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   const {
     data: dataGenre,
@@ -100,39 +87,45 @@ export default function GenreSlug() {
               />
             )}
           </PaginationItem>
-          <DropdownMenu
-            open={isDropdownOpen}
-            // onClose={() => setIsDropdownOpen(false)}
-          >
-            <DropdownMenuTrigger>
-              <button onClick={toggleDropdown}>Last Page</button>
-            </DropdownMenuTrigger>
 
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Link
-                  href={`/genres/${genreName}?page=${dataGenre?.data?.pagination?.last_visible_page}`}
-                >
-                  <p>{dataGenre?.data?.pagination?.last_visible_page}</p>
-                </Link>
-              </DropdownMenuItem>
+          <PaginationLink
+            href={`/genres/${genreName}/?page=${dataGenre?.data?.pagination?.current_page}`}
+            isActive={true}
+          >
+            {dataGenre?.data?.pagination?.current_page}
+          </PaginationLink>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <PaginationEllipsis />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col">
+              <DropdownMenuLabel>All Episodes</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="m-3 grid grid-cols-5">
+                {[...Array(dataGenre?.data?.pagination?.last_visible_page)].map(
+                  (_, index) => (
+                    <Link
+                      key={index}
+                      href={`/genres/${genreName}/?page=${index + 1}`}
+                    >
+                      <DropdownMenuItem
+                        onClick={() => console.log(index + 1)}
+                        className={`mb-2 mr-2 flex cursor-pointer justify-center ${
+                          Number(search) === index + 1
+                            ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
+                            : ""
+                        }`}
+                      >
+                        {index + 1}
+                      </DropdownMenuItem>
+                    </Link>
+                  ),
+                )}
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
-          {Array.from(
-            {
-              length: dataGenre?.data?.pagination?.last_visible_page,
-            },
-            (_, i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  isActive={dataGenre?.data?.pagination?.current_page === i + 1}
-                  href={`/genres/${genreName}?page=${i + 1}`}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ),
-          )}
+
           <PaginationItem>
             {dataGenre?.data?.pagination?.has_next_page && (
               <PaginationNext
