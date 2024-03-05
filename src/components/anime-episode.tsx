@@ -2,28 +2,18 @@
 
 import { useParams } from "next/navigation";
 import { useGetEpisodeQuery } from "@/redux/api/episode-api";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import Skeleton from "@/components/skeleton-card";
-
-interface Resolution {
-  resolution: string;
-  urls: { provider: string; url: string }[];
-}
-
-interface DownloadUrls {
-  mp4?: Resolution[];
-}
-
-interface AnimeData {
-  episode: string;
-  stream_url: string;
-  anime: {
-    download_urls: DownloadUrls;
-  };
-}
+import Link from "next/link";
 
 export default function AnimeEpisode() {
   const router = useParams<{ slug: string; episodes: string }>();
+  const episodeNum = Number(router.episodes);
   const {
     data: dataEpisode,
     isError: errorEpisode,
@@ -44,26 +34,137 @@ export default function AnimeEpisode() {
         <CardHeader>
           <CardTitle>{dataEpisode?.data?.episode}</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col items-center">
-          <iframe
-            className="h-96 w-full rounded-xl max-[766px]:size-full"
-            src={dataEpisode?.data?.stream_url}
-            allowFullScreen
-          />
-          <p className="mt-10">
-            {dataEpisode?.data?.anime?.download_urls?.mp4?.map(
-              (resolution: Resolution) => (
-                <div key={resolution.resolution}>
-                  <p>{resolution.resolution}</p>
-                  {resolution.urls.map((url) => (
-                    <a href={url.url} key={url.provider}>
-                      {url.provider}
-                    </a>
-                  ))}
-                </div>
-              ),
-            ) || <p>No download URLs available.</p>}
-          </p>
+        <CardContent>
+          <div className="flex flex-col items-center">
+            <iframe
+              className="w-full rounded-xl max-[642px]:h-96 max-[642px]:w-fit sm:h-96 md:h-96 lg:h-96 lg:w-9/12 xl:h-96 xl:w-9/12"
+              src={dataEpisode?.data?.stream_url}
+              allowFullScreen
+            />
+          </div>
+
+          <div className="flex justify-between">
+            <div>
+              {dataEpisode?.data?.has_previous_episode === true ? (
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <Link href={`${episodeNum - 1}`}>
+                      <button className="rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20">
+                        Previous
+                      </button>
+                    </Link>
+                  </HoverCardTrigger>
+                  <HoverCardContent>Back to previous episode.</HoverCardContent>
+                </HoverCard>
+              ) : (
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <button
+                      className="cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200"
+                      disabled
+                    >
+                      Previous
+                    </button>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    Can not back to previous, because this is first episode.
+                  </HoverCardContent>
+                </HoverCard>
+              )}
+            </div>
+            <div>
+              {dataEpisode?.data?.has_next_episode === true ? (
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <Link href={`${episodeNum + 1}`}>
+                      <button className="rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20">
+                        Next
+                      </button>
+                    </Link>
+                  </HoverCardTrigger>
+                  <HoverCardContent>Go to next episode.</HoverCardContent>
+                </HoverCard>
+              ) : (
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <button
+                      className="cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200"
+                      disabled
+                    >
+                      Next
+                    </button>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    Latest episode end up here.
+                  </HoverCardContent>
+                </HoverCard>
+              )}
+            </div>
+          </div>
+
+          <div className="mx-auto">
+            {dataEpisode?.data?.download_urls && (
+              <div className="mt-10">
+                <p className="text-lg font-semibold">{`Download URL's .mp4`}</p>
+                <ul className="mt-5">
+                  {dataEpisode?.data?.download_urls.mp4?.map(
+                    (resolution: any, index: number) => (
+                      <li key={index} className="mb-4 flex gap-2">
+                        <strong className="text-base md:text-base lg:text-lg xl:text-xl">
+                          {resolution.resolution}:
+                        </strong>
+                        <ul className="mb-2 flex flex-wrap gap-2">
+                          {resolution.urls.map((url: any, urlIndex: number) => (
+                            <li
+                              key={urlIndex}
+                              className="text-sm md:text-base lg:text-lg xl:text-xl"
+                            >
+                              <Link target="_blank" href={url.url}>
+                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40">
+                                  {url.provider}
+                                </button>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {dataEpisode?.data?.download_urls && (
+              <div className="mt-10">
+                <p className="text-lg font-semibold">{`Download URL's .mkv`}</p>
+                <ul className="mt-5">
+                  {dataEpisode?.data?.download_urls.mkv?.map(
+                    (resolution: any, index: number) => (
+                      <li key={index} className="mb-4 flex gap-2">
+                        <strong className="text-base md:text-base lg:text-lg xl:text-xl">
+                          {resolution.resolution}:
+                        </strong>
+                        <ul className="mb-2 flex flex-wrap gap-2">
+                          {resolution.urls.map((url: any, urlIndex: number) => (
+                            <li
+                              key={urlIndex}
+                              className="text-base md:text-base lg:text-lg xl:text-xl"
+                            >
+                              <Link target="_blank" href={url.url}>
+                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40">
+                                  {url.provider}
+                                </button>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>
