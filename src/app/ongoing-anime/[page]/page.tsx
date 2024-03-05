@@ -1,5 +1,6 @@
 import BaseLayout from "@/components/base-layout";
 import { Metadata } from "next/types";
+import OngoingAnime from "@/components/ongoing-anime";
 
 export const metadata: Metadata = {
   title: "Ongoing Anime | Otakudesu",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function OngoingAnimeSlug() {
   return (
     <BaseLayout>
-      <div>Ongoing Anime [Page]</div>
+      <OngoingAnime />
     </BaseLayout>
   );
 }

@@ -1,3 +1,4 @@
+import BaseLayout from "@/components/base-layout";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -6,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function CompletedAnimeSlug() {
-  return <div>Completed Anime [Page]</div>;
+  return (
+    <BaseLayout>
+      <div>Hai</div>
+    </BaseLayout>
+  );
 }
