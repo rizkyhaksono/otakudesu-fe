@@ -100,7 +100,7 @@ export default function GenreSlug() {
               <PaginationEllipsis />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col">
-              <DropdownMenuLabel>All Episodes</DropdownMenuLabel>
+              <DropdownMenuLabel>All Pages</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="m-3 grid grid-cols-5">
                 {[...Array(dataGenre?.data?.pagination?.last_visible_page)].map(
