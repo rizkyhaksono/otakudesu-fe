@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Skeleton from "@/components/skeleton-card";
+import Skeleton from "@/components/layout/skeleton-card";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
@@ -43,15 +43,15 @@ export default function AnimeDetails() {
               <div className="max-[766px]:my-5 min-[766px]:ml-10">
                 <p className="font-medium">{dataAnime.data.synopsis}</p>
                 <p className="mt-5">
-                  Rating:&nbsp;
+                  Rating:&nbsp;{" "}
                   <span className="font-medium">{dataAnime.data.rating}</span>
                 </p>
                 <p>
-                  Type:&nbsp;
+                  Type:&nbsp;{" "}
                   <span className="font-medium">{dataAnime.data.type}</span>
                 </p>
                 <p>
-                  Status:&nbsp;
+                  Status:&nbsp;{" "}
                   <span className="font-medium">{dataAnime.data.status}</span>
                 </p>
               </div>
@@ -73,10 +73,10 @@ export default function AnimeDetails() {
 
             <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
             <div className="grid gap-3 max-[766px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {dataAnime.data.recommendations.map((rec: any, index: number) => (
+              {dataAnime.data.recommendations.map((rec: any) => (
                 <Card
                   className="cursor-pointer object-cover transition duration-300 hover:scale-105"
-                  key={index}
+                  key={rec.slug}
                 >
                   <Link href={`/anime/${rec.slug}`}>
                     <Image

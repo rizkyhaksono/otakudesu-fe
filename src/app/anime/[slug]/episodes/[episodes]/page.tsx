@@ -1,6 +1,6 @@
-import BaseLayout from "@/components/base-layout";
+import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next";
-import AnimeEpisode from "@/components/anime-episode";
+import AnimeEpisode from "@/components/layout/anime-episode";
 
 export const metadata: Metadata = {
   title: "Watch Anime | Otakudesu",
@@ -9,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function AnimeSlugEpisode() {
   return (
-    <>
-      <BaseLayout>
-        <AnimeEpisode />
-      </BaseLayout>
-    </>
+    <BaseLayout>
+      <AnimeEpisode />
+    </BaseLayout>
   );
 }

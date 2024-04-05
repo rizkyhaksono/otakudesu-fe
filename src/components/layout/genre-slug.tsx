@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
-import { Card, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 import Skeleton from "./skeleton-card";
 import Link from "next/link";
 import Image from "next/image";

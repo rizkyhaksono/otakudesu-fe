@@ -22,23 +22,18 @@ export default function GenresList() {
 
   return (
     <>
-      {dataGenres && dataGenres.data && (
+      {dataGenres?.data && (
         <div className="container mx-auto grid gap-2 pb-10 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {dataGenres.data.map((genre: any) => (
-            <>
-              <Link href={`/genres/${genre.slug}?page=1`}>
-                <Card
-                  key={genre.slug}
-                  className="text-center text-foreground transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black"
-                >
-                  <CardHeader>
-                    <CardTitle className="max-[640px]:text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl">
-                      {genre.name}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              </Link>
-            </>
+            <Link href={`/genres/${genre.slug}?page=1`} key={genre.slug}>
+              <Card className="text-center text-foreground transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
+                <CardHeader>
+                  <CardTitle className="max-[640px]:text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl">
+                    {genre.name}
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

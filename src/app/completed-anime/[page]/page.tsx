@@ -1,4 +1,4 @@
-import BaseLayout from "@/components/base-layout";
+import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {

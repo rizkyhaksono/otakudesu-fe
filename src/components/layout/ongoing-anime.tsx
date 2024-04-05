@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -17,7 +17,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "./ui/pagination";
+} from "../ui/pagination";
 import Link from "next/link";
 import Image from "next/image";
 

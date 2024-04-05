@@ -1,6 +1,6 @@
-import BaseLayout from "@/components/base-layout";
+import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next/types";
-import GenreSlug from "@/components/genre-slug";
+import GenreSlug from "@/components/layout/genre-slug";
 
 export const metadata: Metadata = {
   title: "Genre Anime | Otakudesu",

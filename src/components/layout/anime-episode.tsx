@@ -8,7 +8,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import Skeleton from "@/components/skeleton-card";
+import Skeleton from "@/components/layout/skeleton-card";
 import Link from "next/link";
 
 export default function AnimeEpisode() {

@@ -1,6 +1,6 @@
-import BaseLayout from "@/components/base-layout";
+import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next/types";
-import OngoingAnime from "@/components/ongoing-anime";
+import OngoingAnime from "@/components/layout/ongoing-anime";
 
 export const metadata: Metadata = {
   title: "Ongoing Anime | Otakudesu",

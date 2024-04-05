@@ -14,7 +14,7 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";

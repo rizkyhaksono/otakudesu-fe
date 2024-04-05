@@ -1,5 +1,5 @@
-import BaseLayout from "@/components/base-layout";
-import AnimeSearch from "@/components/anime-search";
+import BaseLayout from "@/components/layout/base-layout";
+import AnimeSearch from "@/components/layout/anime-search";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -9,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function AnimePage() {
   return (
-    <>
-      <BaseLayout>
-        <AnimeSearch />
-      </BaseLayout>
-    </>
+    <BaseLayout>
+      <AnimeSearch />
+    </BaseLayout>
   );
 }
