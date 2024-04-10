@@ -6,11 +6,7 @@ import { useGetHomeQuery } from "@/redux/api/home-api";
 import Link from "next/link";
 
 export default function HomeCard() {
-  const {
-    data: dataHome,
-    error: errorHome,
-    isLoading: loadingHome,
-  } = useGetHomeQuery(arguments);
+  const { data: dataHome, error: errorHome } = useGetHomeQuery(arguments);
 
   if (errorHome) {
     return <>Error fetching...</>;
@@ -22,23 +18,23 @@ export default function HomeCard() {
         <CardHeader className="text-center text-2xl font-bold">
           Ongoing Anime
         </CardHeader>
-        {dataHome && dataHome.data.ongoing_anime && (
-          <div className="mx-2 grid gap-2 max-[640px]:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+        {dataHome?.data?.ongoing_anime && (
+          <div className="mx-2 grid gap-2 max-[640px]:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             {dataHome.data.ongoing_anime.map((anime: any) => (
               <Link href={`/anime/${anime.slug}`} key={anime.slug}>
                 <div
                   key={anime.slug}
-                  className="flex flex-wrap items-center space-x-4 rounded-md border p-4 transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black"
+                  className="items-center rounded-md border p-4 transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black"
                 >
                   <Image
                     src={anime.poster}
                     alt={anime.title}
-                    className="rounded object-cover max-[640px]:h-32 max-[640px]:w-32 sm:h-36 sm:w-36 md:h-56 md:w-56 lg:h-72 lg:w-72 xl:h-72 xl:w-72"
+                    className="rounded object-cover max-[640px]:h-96 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
                     width={300}
                     height={300}
                   />
-                  <div className="flex-1 space-y-1">
-                    <p className="my-2 text-xl font-semibold leading-none max-[766px]:text-lg">
+                  <div className="mt-4 flex-1 space-y-1">
+                    <p className="my-2 text-xl font-bold leading-none max-[766px]:text-lg">
                       {anime.title}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -70,23 +66,23 @@ export default function HomeCard() {
         <CardHeader className="text-center text-2xl font-bold">
           Completed Anime
         </CardHeader>
-        {dataHome && dataHome.data.complete_anime && (
-          <div className="mx-2 grid gap-2 max-[640px]:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+        {dataHome?.data?.complete_anime && (
+          <div className="mx-2 grid gap-2 max-[640px]:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             {dataHome.data.complete_anime.map((anime: any) => (
               <Link href={`/anime/${anime.slug}`} key={anime.slug}>
                 <div
                   key={anime.slug}
-                  className="flex flex-wrap items-center space-x-4 rounded-md border p-4 transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black"
+                  className="items-center rounded-md border p-4 transition duration-300 hover:translate-y-2 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black"
                 >
                   <Image
                     src={anime.poster}
                     alt={anime.title}
-                    className="rounded object-cover max-[640px]:h-32 max-[640px]:w-32 sm:h-36 sm:w-36 md:h-56 md:w-56 lg:h-72 lg:w-72 xl:h-72 xl:w-72"
+                    className="rounded object-cover max-[640px]:h-96 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
                     width={300}
                     height={300}
                   />
-                  <div className="flex-1 space-y-1">
-                    <p className="my-2 text-xl font-semibold leading-none max-[766px]:text-lg">
+                  <div className="mt-4 flex-1 space-y-1">
+                    <p className="my-2 text-xl font-bold leading-none max-[766px]:text-lg">
                       {anime.title}
                     </p>
                     <p className="text-sm text-muted-foreground">
