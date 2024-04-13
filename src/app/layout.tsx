@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import ProviderLayout from "./provider";
-
-const inter = Inter({ subsets: ["latin"] });
+import { fontPoppins } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: "Otakudesu",
@@ -20,7 +18,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter.className,
+          fontPoppins.className,
         )}
       >
         <ProviderLayout>{children}</ProviderLayout>

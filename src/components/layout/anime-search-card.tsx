@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export default function AnimeCard({ anime }: { anime: any }) {
+export default function AnimeSearchCard({ anime }: any) {
   if (!anime) {
     return <div>Anime not found!</div>;
   }

@@ -6,11 +6,11 @@ import { FaSearch } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
 import { useTheme } from "next-themes";
 
-export default function HeroSection() {
+export default function GreetingLayout() {
   const { theme } = useTheme();
 
   return (
-    <section className="bg-white pt-24 dark:bg-[#0c0c0d]">
+    <section className="bg-white pt-24 dark:bg-[#18191b]">
       <div className="mx-auto max-w-7xl px-12">
         <div className="mx-auto w-full text-left md:w-11/12 md:text-center xl:w-9/12">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">
@@ -21,19 +21,19 @@ export default function HeroSection() {
             <span>like never before!</span>
           </h1>
           <p className="mb-8 px-0 text-lg font-medium text-foreground md:text-xl lg:px-24">
-            Start watching an anime without ads! From the&nbsp;
+            Start watching an anime without ads! From the{" "}
             <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
               community
             </span>
-            , for the&nbsp;
+            , for the{" "}
             <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
               community
             </span>
-            , by the&nbsp;
+            , by the{" "}
             <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
               community
             </span>
-            .
+            {""}.
           </p>
           <div className="mb-4 sm:space-x-2 md:mb-8 md:flex md:w-full md:justify-center md:space-x-2">
             <Link

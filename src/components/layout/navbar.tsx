@@ -1,6 +1,5 @@
-import { FaBolt } from "react-icons/fa6";
+import { FaBolt, FaXTwitter } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSunny } from "react-icons/io5";
 import { FiMoon } from "react-icons/fi";
@@ -11,10 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetFooter,
-  SheetClose,
 } from "@/components/ui/sheet";
-import { Button } from "../ui/button";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";

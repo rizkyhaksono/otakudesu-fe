@@ -1,7 +1,7 @@
 import * as React from "react";
 import BaseLayout from "@/components/layout/base-layout";
-import HomeCard from "@/components/layout/home-card";
-import HeroSection from "@/components/layout/hero-section";
+import HomeLayout from "@/components/layout/home-layout";
+import GreetingLayout from "@/components/layout/greeting-layout";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -12,9 +12,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <BaseLayout>
-      <HeroSection />
-
-      <HomeCard />
+      <GreetingLayout />
+      <HomeLayout />
     </BaseLayout>
   );
 }

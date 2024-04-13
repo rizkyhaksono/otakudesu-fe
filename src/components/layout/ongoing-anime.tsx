@@ -20,6 +20,7 @@ import {
 } from "../ui/pagination";
 import Link from "next/link";
 import Image from "next/image";
+import SkeletonCard from "./skeleton-card";
 
 export default function OngoingAnime() {
   const {
@@ -28,11 +29,14 @@ export default function OngoingAnime() {
     isLoading: onGoingAnimeLoading,
   } = useGetOnGoingAnimeQuery({ page: 1 });
 
+  if (onGoingAnimeLoading) return <SkeletonCard />;
+  if (onGoingAnimeError) return <div>Error fetching data...</div>;
+
   return (
     <div className="container mx-auto my-10">
       <p className="text-center text-3xl font-semibold">On Going Anime</p>
       <div className="mt-5">
-        {onGoingAnimeData && onGoingAnimeData?.data && (
+        {onGoingAnimeData?.data && (
           <div
             className="grid gap-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
             key={onGoingAnimeData?.data?.paginationData?.current_page}

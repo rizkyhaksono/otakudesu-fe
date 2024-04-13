@@ -60,7 +60,7 @@ export default function AnimeDetails() {
               {dataAnime.data.episode_lists.map(
                 (episode: any, index: number) => (
                   <li
-                    className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-black hover:dark:bg-white/10"
+                    className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-[#1f2022] hover:dark:bg-white/10"
                     key={episode.slug}
                   >
                     <Link href={`/anime/${router.slug}/episodes/${index + 1}`}>
@@ -80,14 +80,14 @@ export default function AnimeDetails() {
                 >
                   <Link href={`/anime/${rec.slug}`}>
                     <Image
-                      className="h-auto w-96 rounded-xl object-cover"
+                      className="h-auto w-96 rounded-sm object-cover"
                       width={400}
                       height={400}
                       src={rec.poster}
                       alt={rec.title}
                     />
                     <CardContent>
-                      <p className="mt-5 text-center text-lg font-semibold">
+                      <p className="text-md mt-5 text-center font-semibold">
                         {rec.title}
                       </p>
                     </CardContent>

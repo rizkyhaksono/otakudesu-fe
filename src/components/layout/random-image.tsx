@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo } from "react";
 import { generateRandomNumber } from "@/lib/random-number";
 import RandomImageProps from "@/types/random-image";
 
-export default function RandomImage({ pageName }: RandomImageProps) {
-  const [randomNumber] = useState(generateRandomNumber);
+export default function RandomImage({ pageName }: Readonly<RandomImageProps>) {
+  const randomNumber = useMemo(() => generateRandomNumber, []);
 
   return (
     <div className="relative">
