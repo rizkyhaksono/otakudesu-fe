@@ -28,6 +28,7 @@ export default function AnimeSearchCard({ anime }: any) {
         />
         <p className="mt-10">{anime.synopsis}</p>
         <div className="my-5">
+          <p>Rating: {anime.rating}</p>
           <p className="text-lg font-semibold">Episode Lists:</p>
           <ul className="mt-5">
             {anime.episode_lists.map((episode: any) => (

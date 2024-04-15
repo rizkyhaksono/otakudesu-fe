@@ -1,4 +1,4 @@
-export interface Anime {
+export interface OnGoingAnimeProps {
   title: string;
   slug: string;
   poster: string;
@@ -8,4 +8,11 @@ export interface Anime {
   otakudesu_url?: string;
   rating?: string;
   last_release_date?: string;
+  genres: AnimeGenres[];
+}
+
+interface AnimeGenres {
+  name: string;
+  slug: string;
+  otakudesu_url: string;
 }

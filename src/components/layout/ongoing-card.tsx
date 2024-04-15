@@ -1,26 +1,40 @@
-import { Anime } from "@/types/anime";
+import { OnGoingAnimeProps } from "@/types/ongoing-anime";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import SkeletonCard from "./skeleton-card";
 
-export default function AnimeCard({
+export default function OngoingCard({
   animeHeader,
   animeData,
   seeAllLink,
 }: Readonly<{
-  animeData: Anime[];
-  seeAllLink: string;
+  animeData: OnGoingAnimeProps[];
+  seeAllLink: string | null | undefined;
   animeHeader: string | null | undefined;
 }>) {
+  if (!animeData) {
+    return (
+      <Card>
+        <CardHeader className="text-center text-2xl font-bold">
+          {animeHeader}
+        </CardHeader>
+        <CardContent>
+          <SkeletonCard />
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader className="text-center text-2xl font-bold">
         {animeHeader}
       </CardHeader>
-      <CardContent className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-        {animeData?.map((anime: Anime) => (
+      <CardContent className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+        {animeData?.map((anime: OnGoingAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
-            <div className="items-center rounded-md border p-4 transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
+            <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
               <Image
                 src={anime.poster}
                 alt={anime.title}
@@ -28,7 +42,7 @@ export default function AnimeCard({
                 width={300}
                 height={300}
               />
-              <div className="mt-4 flex-1 space-y-1">
+              <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
                 <p className="text-xl font-bold leading-none max-[766px]:text-lg">
                   {anime.title}
                 </p>
@@ -47,14 +61,16 @@ export default function AnimeCard({
         ))}
       </CardContent>
 
-      <CardFooter className="mt-2 flex justify-end">
-        <Link
-          className="text-base duration-300 hover:scale-105 hover:underline"
-          href={`/${seeAllLink}/1`}
-        >
-          See all
-        </Link>
-      </CardFooter>
+      {seeAllLink && (
+        <CardFooter className="mt-2 flex justify-end">
+          <Link
+            className="text-base duration-300 hover:scale-105 hover:underline"
+            href={`/${seeAllLink}/1`}
+          >
+            See all
+          </Link>
+        </CardFooter>
+      )}
     </Card>
   );
 }
