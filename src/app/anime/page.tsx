@@ -1,5 +1,5 @@
 import BaseLayout from "@/components/layout/base-layout";
-import AnimeSearch from "@/components/layout/anime-search";
+import AnimeSearch from "@/app/anime/components/anime-search";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {

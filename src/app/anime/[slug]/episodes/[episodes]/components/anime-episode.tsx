@@ -37,7 +37,8 @@ export default function AnimeEpisode() {
         <CardContent>
           <div className="flex flex-col items-center">
             <iframe
-              className="w-full rounded-xl max-[642px]:h-96 max-[642px]:w-fit sm:h-96 md:h-96 lg:h-96 lg:w-9/12 xl:h-96 xl:w-9/12"
+              title="anime-episode"
+              className="lg:h-70 w-full rounded-xl max-[642px]:h-60 max-[642px]:w-7/12 sm:h-72 sm:w-8/12 md:h-80 md:w-8/12 lg:w-7/12 xl:h-96 xl:w-7/12"
               src={dataEpisode?.data?.stream_url}
               allowFullScreen
             />
@@ -108,14 +109,17 @@ export default function AnimeEpisode() {
                 <p className="text-lg font-semibold">{`Download URL's .mp4`}</p>
                 <ul className="mt-5">
                   {dataEpisode?.data?.download_urls.mp4?.map(
-                    (resolution: any, index: number) => (
-                      <li key={index} className="mb-4 flex gap-2">
+                    (resolution: any) => (
+                      <li
+                        key={resolution.resolution}
+                        className="mb-4 flex gap-2"
+                      >
                         <strong className="text-base md:text-base lg:text-base xl:text-lg">
                           {resolution.resolution}:
                         </strong>
                         <ul className="mb-2 flex flex-wrap gap-2">
-                          {resolution.urls.map((url: any, urlIndex: number) => (
-                            <li key={urlIndex}>
+                          {resolution.urls.map((url: any) => (
+                            <li key={url.provider}>
                               <Link target="_blank" href={url.url}>
                                 <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
                                   {url.provider}
@@ -136,14 +140,17 @@ export default function AnimeEpisode() {
                 <p className="text-lg font-semibold">{`Download URL's .mkv`}</p>
                 <ul className="mt-5">
                   {dataEpisode?.data?.download_urls.mkv?.map(
-                    (resolution: any, index: number) => (
-                      <li key={index} className="mb-4 flex gap-2">
+                    (resolution: any) => (
+                      <li
+                        key={resolution.resolution}
+                        className="mb-4 flex gap-2"
+                      >
                         <strong className="text-base md:text-base lg:text-base xl:text-lg">
                           {resolution.resolution}:
                         </strong>
                         <ul className="mb-2 flex flex-wrap gap-2">
-                          {resolution.urls.map((url: any, urlIndex: number) => (
-                            <li key={urlIndex}>
+                          {resolution.urls.map((url: any) => (
+                            <li key={url.provider}>
                               <Link target="_blank" href={url.url}>
                                 <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
                                   {url.provider}

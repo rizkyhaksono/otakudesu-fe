@@ -1,6 +1,6 @@
 import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next";
-import AnimeDetails from "@/components/layout/anime-details";
+import AnimeDetails from "@/app/anime/[slug]/components/anime-details";
 
 export const metadata: Metadata = {
   title: "Anime Detail | Otakudesu",

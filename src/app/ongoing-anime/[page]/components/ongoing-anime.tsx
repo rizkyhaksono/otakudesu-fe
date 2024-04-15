@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../../../../components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -17,10 +17,10 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
+} from "../../../../components/ui/pagination";
 import Link from "next/link";
 import Image from "next/image";
-import SkeletonCard from "./skeleton-card";
+import SkeletonCard from "../../../../components/layout/skeleton-card";
 
 export default function OngoingAnime() {
   const {

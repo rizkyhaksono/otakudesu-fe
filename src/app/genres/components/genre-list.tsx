@@ -2,7 +2,7 @@
 
 import { useGetGenresQuery } from "@/redux/api/genre-api";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import Skeleton from "./skeleton-card";
+import Skeleton from "../../../components/layout/skeleton-card";
 import Link from "next/link";
 
 export default function GenresList() {

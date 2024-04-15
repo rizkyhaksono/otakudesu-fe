@@ -1,5 +1,5 @@
 import BaseLayout from "@/components/layout/base-layout";
-import GenresList from "@/components/layout/genre-list";
+import GenresList from "@/app/genres/components/genre-list";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
