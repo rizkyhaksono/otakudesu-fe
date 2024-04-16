@@ -45,7 +45,10 @@ export default function Navbar() {
           </nav>
         </div>
         <Sheet>
-          <SheetTrigger className="min-[770px]:hidden">
+          <SheetTrigger
+            className="min-[770px]:hidden"
+            aria-label="Hamburger Button"
+          >
             <GiHamburgerMenu />
           </SheetTrigger>
           <SheetContent side={"left"}>
@@ -88,6 +91,7 @@ export default function Navbar() {
               </div>
             </Link>
             <button
+              aria-label="Toggle Theme"
               className="inline-flex h-9 w-9 items-center justify-center whitespace-nowrap rounded-md px-0 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
               onClick={toggleTheme}
             >
