@@ -13,7 +13,7 @@ export default function AnimeSearchPage() {
   return (
     <>
       <div className="container mx-auto">
-        <div className="mx-auto mt-10 px-4 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 lg:py-20">
+        <div className="mx-auto px-4 py-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
           <div className="max-w-2xl sm:mx-auto sm:max-w-xl sm:text-center md:max-w-2xl">
             <h2 className="mb-6 font-sans text-3xl font-bold tracking-tight text-foreground sm:text-4xl sm:leading-none">
               Discover Your{" "}
@@ -22,10 +22,9 @@ export default function AnimeSearchPage() {
               </span>
             </h2>
             <p className="mb-6 text-base text-foreground md:text-lg">
-              Uncover anime wonders in your favorite genres, whether its the
-              thrill of action, the enchantment of fantasy, the warmth of
-              romance, or the charm of slice-of-life. Your anime adventure
-              starts where your heart desires!
+              {`Start your anime search in action, fantasy, romance, and
+              slice-of-life genres, exploring excitement, enchantment, warmth,
+              and charm from your heart's choice!`}
             </p>
             <div className="mt-10 flex gap-2 max-[640px]:flex-wrap">
               <Input

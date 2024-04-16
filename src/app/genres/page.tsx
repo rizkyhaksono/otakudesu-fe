@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetGenresQuery } from "@/redux/api/genre-api";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import Link from "next/link";
 
@@ -31,10 +31,9 @@ export default function GenrePage() {
             </span>
           </h2>
           <p className="text-base text-foreground md:text-lg">
-            Explore the vast realm of anime genres, be it the excitement of
-            action, the magical allure of fantasy, the heartwarming embrace of
-            romance, or the delightful charm of slice-of-life. Your anime
-            journey commences wherever your passions lead!
+            Embark on an anime journey through action, fantasy, romance, and
+            slice-of-life genres, exploring excitement, magic, heartwarming
+            moments, and delightful charm along the way.
           </p>
         </div>
       </div>
@@ -43,10 +42,8 @@ export default function GenrePage() {
         {dataGenres?.data.map((genre: any) => (
           <Link href={`/genres/${genre.slug}?page=1`} key={genre.slug}>
             <Card className="text-center text-foreground transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
-              <CardHeader>
-                <CardTitle className="max-[640px]:text-base sm:text-lg md:text-lg lg:text-xl xl:text-xl">
-                  {genre.name}
-                </CardTitle>
+              <CardHeader className="font-semibold max-[640px]:text-sm sm:text-sm md:text-base lg:text-base xl:text-lg">
+                {genre.name}
               </CardHeader>
             </Card>
           </Link>

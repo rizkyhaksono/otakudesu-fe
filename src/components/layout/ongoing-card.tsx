@@ -1,5 +1,6 @@
 import { OnGoingAnimeProps } from "@/types/ongoing-anime";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { title, subtitle } from "./primitives";
 import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "./skeleton-card";
@@ -43,16 +44,17 @@ export default function OngoingCard({
                 height={300}
               />
               <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
-                <p className="text-xl font-bold leading-none max-[766px]:text-lg">
-                  {anime.title}
+                <p className={title()}>{anime.title}</p>
+                <p
+                  className={subtitle({
+                    className:
+                      "pt-3 underline decoration-solid underline-offset-4",
+                  })}
+                >
+                  Total {anime.current_episode}
                 </p>
-                <p className="pt-5 text-sm text-muted-foreground">
-                  Current Episode: {anime.current_episode}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Release Day: {anime.release_day}
-                </p>
-                <p className="text-sm text-muted-foreground">
+                <p className={subtitle()}>Release Day: {anime.release_day}</p>
+                <p className={subtitle()}>
                   Release Date: {anime.newest_release_date}
                 </p>
               </div>

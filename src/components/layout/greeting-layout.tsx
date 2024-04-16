@@ -10,7 +10,7 @@ export default function GreetingLayout() {
   const { theme } = useTheme();
 
   return (
-    <section className="bg-white pt-24 dark:bg-[#18191b]">
+    <section className="bg-white pt-10 dark:bg-[#18191b]">
       <div className="mx-auto max-w-7xl px-12">
         <div className="mx-auto w-full text-left md:w-11/12 md:text-center xl:w-9/12">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">
@@ -38,14 +38,14 @@ export default function GreetingLayout() {
           <div className="mb-4 sm:space-x-2 md:mb-8 md:flex md:w-full md:justify-center md:space-x-2">
             <Link
               href="#started"
-              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-400 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-blue-300/30 sm:mb-0 sm:w-auto"
+              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-400/50 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-blue-300/50 dark:bg-blue-400/20 hover:dark:shadow-blue-300/10 sm:mb-0 sm:w-auto"
             >
               Get Started
               <FaArrowRight />
             </Link>
             <Link
               href="/anime"
-              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gray-100 px-6 py-3 text-lg font-medium text-foreground dark:bg-gray-600 dark:text-white sm:mb-0 sm:w-auto"
+              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gray-100 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-gray-300/50 dark:bg-gray-600/30 dark:text-white hover:dark:shadow-white/10 sm:mb-0 sm:w-auto"
             >
               Search Anime
               <FaSearch />
@@ -67,6 +67,7 @@ export default function GreetingLayout() {
                 height={300}
                 src={theme === "dark" ? "/dark-home.png" : "/light-home.png"}
                 alt={"Hero"}
+                loading="lazy"
               />
             </div>
           </div>

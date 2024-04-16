@@ -32,6 +32,7 @@
     "redux-persist": "^6.0.0",
     "shadcn-ui": "^0.8.0",
     "tailwind-merge": "^2.2.1",
+    "tailwind-variants": "^0.2.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.8.9"
   },
