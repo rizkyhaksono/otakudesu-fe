@@ -10,20 +10,10 @@ export interface GenresAnimeProps {
   otakudesu_url: string;
   synopsis: string;
   genres: GenreAnime[];
-  pagination: Pagination;
 }
 
 interface GenreAnime {
   name: string;
   slug: string;
   otakudesu_url: string;
-}
-
-interface Pagination {
-  current_page: number;
-  last_visible_page: number;
-  has_next_page: boolean;
-  next_page: number;
-  has_previous_page: boolean;
-  previous_page: boolean;
 }

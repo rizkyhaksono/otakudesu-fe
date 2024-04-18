@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "./skeleton-card";
 
-export default function CompletedAnime({
+export default function CompletedCard({
   animeHeader,
   animeData,
   seeAllLink,

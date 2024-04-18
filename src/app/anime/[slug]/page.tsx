@@ -31,7 +31,7 @@ export default function AnimeSlugPage() {
     <div className="container mx-auto mt-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl">{dataAnime?.data?.title}</CardTitle>
+          <CardTitle>{dataAnime?.data?.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">

@@ -2,7 +2,7 @@
 
 import { useGetHomeQuery } from "@/redux/api/home-api";
 import OngoingCard from "./ongoing-card";
-import CompletedAnime from "./completed-card";
+import CompletedCard from "./completed-card";
 
 export default function HomeCard() {
   const { data: dataHome, error: errorHome } = useGetHomeQuery(arguments);
@@ -17,7 +17,7 @@ export default function HomeCard() {
         seeAllLink="ongoing-anime"
       />
 
-      <CompletedAnime
+      <CompletedCard
         animeData={dataHome?.data?.complete_anime}
         animeHeader="Completed Anime"
         seeAllLink="completed-anime"

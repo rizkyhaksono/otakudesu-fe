@@ -2,11 +2,11 @@ import BaseLayout from "@/components/layout/base-layout";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-  title: "On Going Anime | Otakudesu",
-  description: "Ongoing Anime Page Otakudesu. Build by Rizky Haksono",
+  title: "Completed Anime | Otakudesu",
+  description: "Completed Anime Page Otakudesu. Build by Rizky Haksono",
 };
 
-export default function OngoingAnimeLayout({
+export default function CompletedAnimeLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return <BaseLayout>{children}</BaseLayout>;

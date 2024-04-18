@@ -45,9 +45,8 @@ export default function AnimeSearchPage() {
           </div>
         </div>
       </div>
-      <div className="mt-10 flex w-full justify-center">
-        {dataAnime && <AnimeSearchCard anime={dataAnime.data} />}
-      </div>
+
+      <AnimeSearchCard anime={dataAnime?.data} />
     </>
   );
 }
