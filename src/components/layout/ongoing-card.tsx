@@ -39,7 +39,7 @@ export default function OngoingCard({
               <Image
                 src={anime.poster}
                 alt={anime.title}
-                className="rounded object-cover max-[640px]:h-52 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                className="rounded-t-lg object-cover max-[640px]:h-52 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
                 width={300}
                 height={300}
               />

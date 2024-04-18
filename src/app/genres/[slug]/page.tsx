@@ -1,10 +1,8 @@
 "use client";
 
 import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import Link from "next/link";
-import Image from "next/image";
 import { useParams, useSearchParams, usePathname } from "next/navigation";
 import {
   Pagination,
@@ -23,6 +21,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDynamicTitle } from "@/helpers/dynamic-title";
+import GenresCard from "./components/genres-card";
 
 export default function GenreSlugPage() {
   const param = useParams<{ slug: string }>();
@@ -43,6 +43,8 @@ export default function GenreSlugPage() {
     isLoading: loadingGenre,
   } = useGetGenreSlugQuery({ slug: param.slug, page: search });
 
+  useDynamicTitle(loadingGenre, pascalCaseGenreName + " Anime");
+
   if (loadingGenre) {
     return <SkeletonCard />;
   }
@@ -53,29 +55,12 @@ export default function GenreSlugPage() {
 
   return (
     <>
-      <p className="container mx-auto mt-10 text-center text-4xl font-semibold">
-        {pascalCaseGenreName}
-      </p>
-      <div className="container mx-auto my-10 grid gap-4 max-[766px]:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-        {dataGenre?.data?.anime.map((anime: any) => (
-          <Link key={anime.slug} href={`/anime/${anime.slug}`}>
-            <Card>
-              <CardHeader>
-                <CardTitle>{anime.title}</CardTitle>
-              </CardHeader>
-              <Image
-                className="w-full rounded-xl object-cover"
-                width={300}
-                height={300}
-                src={anime.poster}
-                alt={anime.title}
-              />
-            </Card>
-          </Link>
-        ))}
-      </div>
+      <GenresCard
+        animeHeader={pascalCaseGenreName + " Anime"}
+        animeData={dataGenre?.data?.anime}
+      />
 
-      <Pagination>
+      <Pagination className="mt-5">
         <PaginationContent>
           <PaginationItem>
             {dataGenre?.data?.pagination?.has_previous_page && (

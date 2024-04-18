@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/hover-card";
 import Skeleton from "@/components/layout/skeleton-card";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useDynamicTitle } from "@/helpers/dynamic-title";
+import { title, subtitle } from "@/components/layout/primitives";
 
 export default function AnimeEpisodesPage() {
   const router = useParams<{ slug: string; episodes: string }>();
@@ -21,9 +22,7 @@ export default function AnimeEpisodesPage() {
     isLoading: loadingEpisode,
   } = useGetEpisodeQuery({ slug: router.slug, episode: router.episodes });
 
-  useEffect(() => {
-    document.title = `${dataEpisode?.data?.episode} | Otakudesu`;
-  }, [dataEpisode?.data?.episode]);
+  useDynamicTitle(loadingEpisode, dataEpisode?.data?.episode);
 
   if (loadingEpisode) {
     return <Skeleton />;
@@ -43,7 +42,7 @@ export default function AnimeEpisodesPage() {
           <div className="flex flex-col items-center">
             <iframe
               title="anime-episode"
-              className="lg:h-70 w-full rounded-xl max-[642px]:h-60 max-[642px]:w-7/12 sm:h-72 sm:w-8/12 md:h-80 md:w-8/12 lg:w-7/12 xl:h-96 xl:w-7/12"
+              className="lg:h-70 w-full rounded-xl max-[642px]:h-60 max-[642px]:w-7/12 sm:h-72 sm:w-8/12 md:h-80 md:w-8/12 lg:w-7/12 xl:h-96 xl:w-6/12"
               src={dataEpisode?.data?.stream_url}
               allowFullScreen
             />
@@ -55,7 +54,12 @@ export default function AnimeEpisodesPage() {
                 <HoverCard>
                   <HoverCardTrigger>
                     <Link href={`${episodeNum - 1}`}>
-                      <button className="rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20">
+                      <button
+                        className={subtitle({
+                          className:
+                            "rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
+                        })}
+                      >
                         Previous
                       </button>
                     </Link>
@@ -66,7 +70,10 @@ export default function AnimeEpisodesPage() {
                 <HoverCard>
                   <HoverCardTrigger>
                     <button
-                      className="cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200"
+                      className={subtitle({
+                        className:
+                          "cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200",
+                      })}
                       disabled
                     >
                       Previous
@@ -83,7 +90,12 @@ export default function AnimeEpisodesPage() {
                 <HoverCard>
                   <HoverCardTrigger>
                     <Link href={`${episodeNum + 1}`}>
-                      <button className="rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20">
+                      <button
+                        className={subtitle({
+                          className:
+                            "rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
+                        })}
+                      >
                         Next
                       </button>
                     </Link>
@@ -94,7 +106,10 @@ export default function AnimeEpisodesPage() {
                 <HoverCard>
                   <HoverCardTrigger>
                     <button
-                      className="cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200"
+                      className={subtitle({
+                        className:
+                          "cursor-not-allowed rounded-lg border border-gray-600 px-5 py-2 text-foreground opacity-50 dark:border-gray-200",
+                      })}
                       disabled
                     >
                       Next
@@ -108,68 +123,68 @@ export default function AnimeEpisodesPage() {
             </div>
           </div>
 
-          <div className="mx-auto">
-            {dataEpisode?.data?.download_urls && (
-              <div className="mt-10">
-                <p className="text-lg font-semibold">{`Download URL's .mp4`}</p>
-                <ul className="mt-5">
-                  {dataEpisode?.data?.download_urls.mp4?.map(
-                    (resolution: any) => (
-                      <li
-                        key={resolution.resolution}
-                        className="mb-4 flex gap-2"
-                      >
-                        <strong className="text-base md:text-base lg:text-base xl:text-lg">
-                          {resolution.resolution}:
-                        </strong>
-                        <ul className="mb-2 flex flex-wrap gap-2">
-                          {resolution.urls.map((url: any) => (
-                            <li key={url.provider}>
-                              <Link target="_blank" href={url.url}>
-                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
-                                  {url.provider}
-                                </button>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
-            )}
+          <div className="mx-auto grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
+            <div className="mt-5 rounded-md bg-gray-100/50 p-4 dark:bg-gray-950/20">
+              <p className="text-lg font-semibold">{`Download URL's .mp4`}</p>
+              <ul className="mt-5">
+                {dataEpisode?.data?.download_urls.mp4?.map(
+                  (resolution: any) => (
+                    <li key={resolution.resolution} className="mb-4 flex gap-2">
+                      <p className={title({ size: "sm" })}>
+                        {resolution.resolution}:
+                      </p>
+                      <ul className="mb-2 flex flex-wrap gap-2">
+                        {resolution.urls.map((url: any) => (
+                          <li key={url.provider}>
+                            <Link target="_blank" href={url.url}>
+                              <button
+                                className={subtitle({
+                                  className:
+                                    "rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base",
+                                })}
+                              >
+                                {url.provider}
+                              </button>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
 
-            {dataEpisode?.data?.download_urls && (
-              <div className="mt-10">
-                <p className="text-lg font-semibold">{`Download URL's .mkv`}</p>
-                <ul className="mt-5">
-                  {dataEpisode?.data?.download_urls.mkv?.map(
-                    (resolution: any) => (
-                      <li
-                        key={resolution.resolution}
-                        className="mb-4 flex gap-2"
-                      >
-                        <strong className="text-base md:text-base lg:text-base xl:text-lg">
-                          {resolution.resolution}:
-                        </strong>
-                        <ul className="mb-2 flex flex-wrap gap-2">
-                          {resolution.urls.map((url: any) => (
-                            <li key={url.provider}>
-                              <Link target="_blank" href={url.url}>
-                                <button className="rounded-xl bg-gray-200/50 px-5 py-2 text-base duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base">
-                                  {url.provider}
-                                </button>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
-            )}
+            <div className="mt-5 rounded-md bg-gray-100/50 p-4 dark:bg-gray-950/20 max-[768px]:mt-0">
+              <p className="text-lg font-semibold">{`Download URL's .mkv`}</p>
+              <ul className="mt-5">
+                {dataEpisode?.data?.download_urls.mkv?.map(
+                  (resolution: any) => (
+                    <li key={resolution.resolution} className="mb-4 flex gap-2">
+                      <p className={title({ size: "sm" })}>
+                        {resolution.resolution}:
+                      </p>
+                      <ul className="mb-2 flex flex-wrap items-center gap-2">
+                        {resolution.urls.map((url: any) => (
+                          <li key={url.provider}>
+                            <Link target="_blank" href={url.url}>
+                              <button
+                                className={subtitle({
+                                  className:
+                                    "rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base",
+                                })}
+                              >
+                                {url.provider}
+                              </button>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>

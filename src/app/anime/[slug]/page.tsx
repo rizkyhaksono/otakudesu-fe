@@ -7,6 +7,7 @@ import Skeleton from "@/components/layout/skeleton-card";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { useDynamicTitle } from "@/helpers/dynamic-title";
 
 export default function AnimeSlugPage() {
   const router = useParams();
@@ -15,6 +16,8 @@ export default function AnimeSlugPage() {
     error: errorAnime,
     isLoading: loadingAnime,
   } = useGetAnimeQuery(router.slug);
+
+  useDynamicTitle(loadingAnime, dataAnime?.data?.title);
 
   if (loadingAnime) {
     return <Skeleton />;
