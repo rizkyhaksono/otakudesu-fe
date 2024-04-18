@@ -31,9 +31,9 @@ export default function GenrePage() {
             </span>
           </h2>
           <p className="text-base text-foreground md:text-lg">
-            Embark on an anime journey through action, fantasy, romance, and
-            slice-of-life genres, exploring excitement, magic, heartwarming
-            moments, and delightful charm along the way.
+            {
+              "Discover anime's action, fantasy, romance, and slice-of-life charm."
+            }
           </p>
         </div>
       </div>
