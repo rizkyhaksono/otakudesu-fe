@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
@@ -22,12 +22,11 @@
     "embla-carousel-react": "^8.0.0-rc20",
     "input": "^1.0.1",
     "lucide-react": "^0.315.0",
-    "next": "14.1.0",
+    "next": "^14.2.2",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
-    "react-jw-player": "^1.19.1",
     "react-redux": "^9.1.0",
     "redux-persist": "^6.0.0",
     "shadcn-ui": "^0.8.0",
