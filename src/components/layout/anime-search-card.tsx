@@ -1,14 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { subtitle, title } from "./primitives";
 
-export default function AnimeSearchCard({ anime }: any) {
-  if (!anime) {
+export default function AnimeSearchCard({ anime }: Readonly<{ anime: any }>) {
+  console.log(anime?.recommendations);
+
+  if (!anime || anime === undefined) {
     return <div className="text-center">Anime not found!</div>;
   }
 
   return (
-    <Card className="container mx-auto mb-10">
+    <Card className="container mb-10" key={anime.slug}>
       <CardHeader>
         <CardTitle>{anime.title}</CardTitle>
       </CardHeader>
@@ -45,32 +48,44 @@ export default function AnimeSearchCard({ anime }: any) {
                 ))}
               </ul>
             </div>
-            <p>Batch: {anime.batch}</p>
-          </div>
-        </div>
-        <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
-        <div className="grid gap-3 max-[766px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {anime.recommendations.map((rec: any) => (
-            <Card
-              className="cursor-pointer object-cover transition duration-300 hover:scale-105"
-              key={rec.slug}
+
+            <Link
+              href={anime.batch.otakudesu_url}
+              key={anime.batch.slug}
+              className={title({ className: "underline underline-offset-4" })}
+              target="_blank"
             >
-              <Link href={`/anime/${rec.slug}`}>
-                <Image
-                  className="h-auto w-full rounded-sm object-cover"
-                  width={400}
-                  height={400}
-                  src={rec.poster}
-                  alt={rec.title}
-                />
-                <CardContent>
-                  <p className="text-md mt-5 text-center font-semibold">
-                    {rec.title}
-                  </p>
-                </CardContent>
-              </Link>
-            </Card>
-          ))}
+              Download Batch Right Here
+              <p className={subtitle()}>Uploaded: {anime.batch.uploaded_at}</p>
+            </Link>
+
+            <div className="my-5">
+              <p className={title({ size: "lg" })}>Recommendations</p>
+              <div className="grid grid-cols-5 gap-4">
+                {anime?.recommendations?.map((recommendation: any) => (
+                  <Card key={recommendation.slug}>
+                    <Link href={`/anime/${recommendation.slug}`}>
+                      <Image
+                        className="rounded-t-lg object-cover"
+                        src={recommendation.poster}
+                        width={200}
+                        height={100}
+                        alt={recommendation.slug}
+                      />
+                      <p
+                        className={title({
+                          size: "sm",
+                          className: "my-4 ml-4",
+                        })}
+                      >
+                        {recommendation.title}
+                      </p>
+                    </Link>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -8,6 +8,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
+import AnimeRecommendations from "@/components/layout/anime-recommendations";
 
 export default function AnimeSlugPage() {
   const router = useParams();
@@ -88,30 +89,13 @@ export default function AnimeSlugPage() {
             )}
           </ul>
 
-          <p className="mb-2 mt-10 text-2xl font-semibold">Recommendations</p>
-          <div className="grid gap-3 max-[766px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {dataAnime?.data?.recommendations.map((rec: any) => (
-              <Card
-                className="cursor-pointer object-cover transition duration-300 hover:scale-105"
-                key={rec.slug}
-              >
-                <Link href={`/anime/${rec.slug}`}>
-                  <Image
-                    className="h-auto w-96 rounded-sm object-cover"
-                    width={400}
-                    height={400}
-                    src={rec.poster}
-                    alt={rec.title}
-                  />
-                  <CardContent>
-                    <p className="text-md mt-5 text-center font-semibold">
-                      {rec.title}
-                    </p>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
-          </div>
+          {dataAnime?.data?.recommendations && (
+            <div className="mt-10">
+              <AnimeRecommendations
+                recommendations={dataAnime?.data?.recommendations}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
