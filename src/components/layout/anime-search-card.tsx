@@ -61,7 +61,7 @@ export default function AnimeSearchCard({ anime }: Readonly<{ anime: any }>) {
 
             <div className="my-5">
               <p className={title({ size: "lg" })}>Recommendations</p>
-              <div className="grid grid-cols-5 gap-4">
+              <div className="mt-2 grid gap-4 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
                 {anime?.recommendations?.map((recommendation: any) => (
                   <Card key={recommendation.slug}>
                     <Link href={`/anime/${recommendation.slug}`}>

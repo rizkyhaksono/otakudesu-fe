@@ -30,7 +30,7 @@ export default function GenresCard({
       <CardHeader className="text-center text-2xl font-bold">
         {animeHeader}
       </CardHeader>
-      <CardContent className="grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+      <CardContent className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData.map((anime: GenresAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
             <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
@@ -41,7 +41,7 @@ export default function GenresCard({
                 width={300}
                 height={300}
               />
-              <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
+              <div className="mt-4 space-y-1 px-4 pb-4">
                 <p className={title()}>{anime.title}</p>
                 <p
                   className={subtitle({
@@ -56,23 +56,20 @@ export default function GenresCard({
                 </p>
                 <p className={subtitle()}>Studio: {anime.studio}</p>
                 <p className={subtitle()}>Season: {anime.season}</p>
-                <div className="flex items-start gap-2">
+                <div className="flex flex-wrap gap-1">
                   <p className={subtitle()}>Genres:</p>
-                  <ul className="flex flex-wrap items-start">
-                    {anime.genres.map((genre) => (
-                      <li key={genre.slug} className="mb-2 mr-1">
-                        <Link
-                          href={`/genres/${genre.slug}?page=1`}
-                          className={subtitle({
-                            className:
-                              "rounded-lg bg-gray-200/50 px-2 py-0.5 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
-                          })}
-                        >
-                          {genre.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {anime.genres.map((genre) => (
+                    <Link
+                      key={genre.slug}
+                      href={`/genres/${genre.slug}?page=1`}
+                      className={subtitle({
+                        className:
+                          "rounded-lg bg-gray-200/50 px-2 py-0.5 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
+                      })}
+                    >
+                      {genre.name}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
