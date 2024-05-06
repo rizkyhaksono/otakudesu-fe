@@ -4,8 +4,6 @@ import Link from "next/link";
 import { subtitle, title } from "./primitives";
 
 export default function AnimeSearchCard({ anime }: Readonly<{ anime: any }>) {
-  console.log(anime?.recommendations);
-
   if (!anime || anime === undefined) {
     return <div className="text-center">Anime not found!</div>;
   }
@@ -37,9 +35,9 @@ export default function AnimeSearchCard({ anime }: Readonly<{ anime: any }>) {
               <p>Release Date: {anime.release_date}</p>
               <p>Studio: {anime.studio}</p>
               <ul className="mt-5">
-                {anime?.episode_lists.map((episode: any) => (
+                {anime?.episode_lists.map((episode: any, index: number) => (
                   <li key={episode.slug}>
-                    <Link href={`/anime/${episode.slug}`}>
+                    <Link href={`/anime/${anime.slug}/episodes/${index + 1}`}>
                       <p className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-[#1f2022] hover:dark:bg-white/10">
                         {episode.episode}
                       </p>
@@ -50,13 +48,15 @@ export default function AnimeSearchCard({ anime }: Readonly<{ anime: any }>) {
             </div>
 
             <Link
-              href={anime.batch.otakudesu_url}
-              key={anime.batch.slug}
+              href={anime?.batch?.otakudesu_url || "#"}
+              key={anime?.batch?.slug}
               className={title({ className: "underline underline-offset-4" })}
               target="_blank"
             >
               Download Batch Right Here
-              <p className={subtitle()}>Uploaded: {anime.batch.uploaded_at}</p>
+              <p className={subtitle()}>
+                Uploaded: {anime?.batch?.uploaded_at}
+              </p>
             </Link>
 
             <div className="my-5">

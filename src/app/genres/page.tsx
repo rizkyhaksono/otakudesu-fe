@@ -41,7 +41,7 @@ export default function GenrePage() {
       <div className="container mx-auto grid gap-2 pb-10 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {dataGenres?.data.map((genre: any) => (
           <Link href={`/genres/${genre.slug}?page=1`} key={genre.slug}>
-            <Card className="text-center text-foreground transition duration-300 hover:scale-105 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
+            <Card className="text-center text-foreground transition duration-300 hover:shadow-xl dark:hover:bg-[#1f2022] dark:hover:shadow-[#1f2022]">
               <CardHeader className="font-semibold max-[640px]:text-sm sm:text-sm md:text-base lg:text-base xl:text-lg">
                 {genre.name}
               </CardHeader>

@@ -33,11 +33,7 @@ export default function AnimeSearchPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button
-              className="max-[640px]:w-full"
-              type="submit"
-              onClick={() => console.log("Searching for:", search)}
-            >
+            <Button className="max-[640px]:w-full" type="submit">
               Search
             </Button>
           </div>

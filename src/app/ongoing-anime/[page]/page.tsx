@@ -14,8 +14,6 @@ export default function OngoingAnimePage() {
     page: pageCurrent,
   });
 
-  console.log(dataOngoing);
-
   if (errorOngoing) {
     return <>Error fetching data...</>;
   }

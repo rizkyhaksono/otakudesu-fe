@@ -62,7 +62,6 @@ export default function CompletedPagination({
               {[...Array(completedData?.last_visible_page)].map((_, index) => (
                 <Link key={completedData?.current_page} href={`${index + 1}`}>
                   <DropdownMenuItem
-                    onClick={() => console.log(index + 1)}
                     className={`mb-2 mr-2 flex cursor-pointer justify-center ${
                       Number(completedData?.current_page) === index + 1
                         ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
