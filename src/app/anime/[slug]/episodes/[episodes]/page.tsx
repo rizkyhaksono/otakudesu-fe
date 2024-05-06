@@ -42,7 +42,7 @@ export default function AnimeEpisodesPage() {
           <div className="flex flex-col items-center">
             <iframe
               title="anime-episode"
-              className="lg:h-70 w-full rounded-xl max-[642px]:h-60 max-[642px]:w-7/12 sm:h-72 sm:w-8/12 md:h-80 md:w-8/12 lg:w-7/12 xl:h-96 xl:w-6/12"
+              className="h-[200px] w-full rounded-xl sm:h-[300px] sm:w-full md:h-[400px] md:w-full lg:h-[500px] lg:w-full xl:h-[600px] xl:w-full"
               src={dataEpisode?.data?.stream_url}
               allowFullScreen
             />
