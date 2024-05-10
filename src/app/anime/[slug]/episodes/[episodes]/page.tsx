@@ -12,6 +12,7 @@ import Skeleton from "@/components/layout/skeleton-card";
 import Link from "next/link";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
 import { title, subtitle } from "@/components/layout/primitives";
+import { updateEpisode } from "@/helpers/storage-episode";
 
 export default function AnimeEpisodesPage() {
   const router = useParams<{ slug: string; episodes: string }>();
@@ -59,6 +60,12 @@ export default function AnimeEpisodesPage() {
                           className:
                             "rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
                         })}
+                        onClick={() =>
+                          updateEpisode(
+                            `/anime/${router.slug}/episodes/${episodeNum - 1}`,
+                            router.slug,
+                          )
+                        }
                       >
                         Previous
                       </button>
@@ -95,6 +102,12 @@ export default function AnimeEpisodesPage() {
                           className:
                             "rounded-lg bg-gray-200/50 px-5 py-2 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
                         })}
+                        onClick={() =>
+                          updateEpisode(
+                            `/anime/${router.slug}/episodes/${episodeNum + 1}`,
+                            router.slug,
+                          )
+                        }
                       >
                         Next
                       </button>

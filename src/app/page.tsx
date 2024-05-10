@@ -1,4 +1,3 @@
-import * as React from "react";
 import BaseLayout from "@/components/layout/base-layout";
 import HomeLayout from "@/components/layout/home-layout";
 import GreetingLayout from "@/components/layout/greeting-layout";

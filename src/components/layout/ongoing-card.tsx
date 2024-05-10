@@ -16,7 +16,7 @@ export default function OngoingCard({
 }>) {
   if (!animeData) {
     return (
-      <Card>
+      <Card className="my-5">
         <CardHeader className="text-center text-2xl font-bold">
           {animeHeader}
         </CardHeader>
@@ -28,7 +28,7 @@ export default function OngoingCard({
   }
 
   return (
-    <Card>
+    <Card className="my-5">
       <CardHeader className="text-center text-2xl font-bold">
         {animeHeader}
       </CardHeader>

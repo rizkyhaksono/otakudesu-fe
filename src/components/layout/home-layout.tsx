@@ -3,6 +3,7 @@
 import { useGetHomeQuery } from "@/redux/api/home-api";
 import OngoingCard from "./ongoing-card";
 import CompletedCard from "./completed-card";
+import LastWatched from "./last-watched";
 
 export default function HomeCard() {
   const { data: dataHome, error: errorHome } = useGetHomeQuery(arguments);
@@ -11,6 +12,8 @@ export default function HomeCard() {
 
   return (
     <div className="container mx-auto mt-20" id="started">
+      <LastWatched />
+
       <OngoingCard
         animeData={dataHome?.data?.ongoing_anime}
         animeHeader="On Going Anime"

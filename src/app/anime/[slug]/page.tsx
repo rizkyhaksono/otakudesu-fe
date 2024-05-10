@@ -9,6 +9,7 @@ import React from "react";
 import Link from "next/link";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
 import AnimeRecommendations from "@/components/layout/anime-recommendations";
+import { saveEpisode } from "@/helpers/storage-episode";
 
 export default function AnimeSlugPage() {
   const router = useParams();
@@ -81,7 +82,17 @@ export default function AnimeSlugPage() {
                   className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-[#1f2022] hover:dark:bg-white/10"
                   key={episode.slug}
                 >
-                  <Link href={`/anime/${router.slug}/episodes/${index + 1}`}>
+                  <Link
+                    href={`/anime/${router.slug}/episodes/${index + 1}`}
+                    onClick={() =>
+                      saveEpisode({
+                        title: dataAnime?.data?.title,
+                        poster: dataAnime?.data?.poster,
+                        router: router.slug,
+                        episode: `/anime/${router.slug}/episodes/${index + 1}`,
+                      })
+                    }
+                  >
                     <p className="font-medium">{episode.episode}</p>
                   </Link>
                 </li>
