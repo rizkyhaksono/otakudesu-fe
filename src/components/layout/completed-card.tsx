@@ -29,7 +29,9 @@ export default function CompletedCard({
 
   return (
     <Card className="my-5">
-      <CardHeader className="text-center text-2xl font-bold">
+      <CardHeader
+        className={title({ className: "text-center font-bold", size: "xl" })}
+      >
         {animeHeader}
       </CardHeader>
       <CardContent className="mx-2 grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">

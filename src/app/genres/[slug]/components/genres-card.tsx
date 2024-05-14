@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { GenresAnimeProps } from "@/types/genres-anime";
+import { Badge } from "@/components/ui/badge";
 
 export default function GenresCard({
   animeHeader,
@@ -62,12 +63,9 @@ export default function GenresCard({
                     <Link
                       key={genre.slug}
                       href={`/genres/${genre.slug}?page=1`}
-                      className={subtitle({
-                        className:
-                          "rounded-lg bg-gray-200/50 px-2 py-0.5 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/20",
-                      })}
+                      className={subtitle()}
                     >
-                      {genre.name}
+                      <Badge variant="secondary">{genre.name}</Badge>
                     </Link>
                   ))}
                 </div>

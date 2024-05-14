@@ -31,11 +31,8 @@ export const updateEpisode = (fullEpisode: any, router: string) => {
   return episodeList;
 };
 
-export const deleteEpisode = (episode: any) => {
-  const episodeList = JSON.parse(localStorage.getItem("last_watched") ?? "[]");
-  const newEpisodeList = episodeList.filter((e: any) => e.id !== episode.id);
-  localStorage.setItem("last_watched", JSON.stringify(newEpisodeList));
-  return newEpisodeList;
+export const deleteAllEpisode = () => {
+  localStorage.removeItem("last_watched");
 };
 
 export const getSavedEpisode = () => {

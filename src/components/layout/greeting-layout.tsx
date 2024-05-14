@@ -11,7 +11,7 @@ export default function GreetingLayout() {
   const { theme } = useTheme();
 
   return (
-    <section className="bg-white pt-10 dark:bg-[#18191b]">
+    <section className="pt-10">
       <div className="mx-auto max-w-7xl px-12">
         <div className="mx-auto w-full text-left md:w-11/12 md:text-center xl:w-9/12">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">

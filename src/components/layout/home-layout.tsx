@@ -3,7 +3,8 @@
 import { useGetHomeQuery } from "@/redux/api/home-api";
 import OngoingCard from "./ongoing-card";
 import CompletedCard from "./completed-card";
-import LastWatched from "./last-watched";
+import dynamic from "next/dynamic";
+const LastWatched = dynamic(() => import("./last-watched"));
 
 export default function HomeCard() {
   const { data: dataHome, error: errorHome } = useGetHomeQuery(arguments);
