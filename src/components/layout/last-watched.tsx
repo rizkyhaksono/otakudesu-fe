@@ -4,7 +4,7 @@ import { getSavedEpisode, deleteAllEpisode } from "@/helpers/storage-episode";
 import { Card, CardDescription, CardHeader } from "../ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { title } from "./primitives";
+import { subtitle, title } from "./primitives";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -57,11 +57,12 @@ export default function LastWatched() {
                 <Image
                   src={episode.poster}
                   className="rounded-lg object-cover"
-                  width={300}
-                  height={300}
+                  width={200}
+                  height={100}
+                  loading="lazy"
                   alt="Poster Last Watched"
                 />
-                <CardDescription className={title({ className: "mt-3" })}>
+                <CardDescription className={subtitle({ className: "mt-3" })}>
                   {episode.title}
                 </CardDescription>
               </Link>

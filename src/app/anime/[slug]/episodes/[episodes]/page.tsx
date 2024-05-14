@@ -56,15 +56,15 @@ export default function AnimeEpisodesPage() {
               allowFullScreen
             />
           </div>
-          <div className="mt-4 flex flex-wrap items-center justify-between">
+          <div className="mt-4 flex flex-row items-center justify-between gap-2 max-[644px]:flex max-[644px]:flex-col sm:flex sm:flex-row sm:items-center sm:justify-between sm:gap-0 md:flex md:flex-row md:items-center md:justify-between lg:flex lg:flex-row lg:items-center lg:justify-between xl:flex xl:flex-row xl:items-center xl:justify-between">
             {dataEpisode?.data?.has_previous_episode === true ? (
               <HoverCard>
-                <HoverCardTrigger>
+                <HoverCardTrigger className="max-[644px]:w-full">
                   <Link href={`${episodeNum - 1}`}>
                     <Button
                       variant={"secondary"}
                       className={subtitle({
-                        className: "rounded-lg px-5 py-2 duration-300",
+                        className: "rounded-lg duration-300",
                       })}
                       onClick={() =>
                         updateEpisode(
@@ -81,12 +81,12 @@ export default function AnimeEpisodesPage() {
               </HoverCard>
             ) : (
               <HoverCard>
-                <HoverCardTrigger>
+                <HoverCardTrigger className="max-[644px]:w-full">
                   <Button
                     variant={"outline"}
                     className={subtitle({
                       className:
-                        "cursor-not-allowed rounded-lg px-5 py-2 text-foreground opacity-50",
+                        "cursor-not-allowed rounded-lg text-foreground opacity-50 max-[644px]:w-full",
                     })}
                     disabled
                   >
@@ -99,7 +99,7 @@ export default function AnimeEpisodesPage() {
               </HoverCard>
             )}
             <Select onValueChange={(value: string) => setProvider(value)}>
-              <SelectTrigger className="w-[300px]">
+              <SelectTrigger className="w-[300px] max-[644px]:my-2 max-[644px]:w-full">
                 <SelectValue placeholder="Select a media provider" />
               </SelectTrigger>
               <SelectContent>
@@ -132,12 +132,12 @@ export default function AnimeEpisodesPage() {
             </Select>
             {dataEpisode?.data?.has_next_episode === true ? (
               <HoverCard>
-                <HoverCardTrigger>
+                <HoverCardTrigger className="max-[644px]:w-full">
                   <Link href={`${episodeNum + 1}`}>
                     <Button
                       variant={"secondary"}
                       className={subtitle({
-                        className: "rounded-lg px-5 py-2 duration-300",
+                        className: "rounded-lg duration-300 max-[644px]:w-full",
                       })}
                       onClick={() =>
                         updateEpisode(
@@ -154,12 +154,12 @@ export default function AnimeEpisodesPage() {
               </HoverCard>
             ) : (
               <HoverCard>
-                <HoverCardTrigger>
+                <HoverCardTrigger className="max-[644px]:w-full">
                   <Button
                     variant={"outline"}
                     className={subtitle({
                       className:
-                        "cursor-not-allowed rounded-lg border px-5 py-2 text-foreground opacity-50",
+                        "cursor-not-allowed rounded-lg border text-foreground opacity-50 max-[644px]:w-full",
                     })}
                     disabled
                   >
