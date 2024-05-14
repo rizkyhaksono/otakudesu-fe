@@ -64,7 +64,7 @@ export default function AnimeEpisodesPage() {
                     <Button
                       variant={"secondary"}
                       className={subtitle({
-                        className: "rounded-lg duration-300",
+                        className: "rounded-lg duration-300 max-[644px]:w-full",
                       })}
                       onClick={() =>
                         updateEpisode(
@@ -123,7 +123,22 @@ export default function AnimeEpisodesPage() {
                             >
                               {resolution.resolution + " - " + url.provider}
                             </SelectItem>
-                          ) : null}
+                          ) : (
+                            <SelectItem
+                              value={url.url}
+                              key={
+                                resolution.resolution +
+                                " - " +
+                                url.provider +
+                                url.url
+                              }
+                            >
+                              {resolution.resolution +
+                                " - " +
+                                url.provider +
+                                "⚠️"}
+                            </SelectItem>
+                          )}
                         </>
                       )),
                   )}
