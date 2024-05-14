@@ -38,7 +38,6 @@ export default function AnimeEpisodesPage() {
 
   if (loadingEpisode) return <Skeleton />;
   if (errorEpisode) return <>Error fetching data...</>;
-  console.log("Provider :", provider);
 
   return (
     <div className="container mx-auto mt-10">
@@ -99,7 +98,7 @@ export default function AnimeEpisodesPage() {
                 </HoverCardContent>
               </HoverCard>
             )}
-            <Select onValueChange={() => console.log(provider)}>
+            <Select onValueChange={(value: string) => setProvider(value)}>
               <SelectTrigger className="w-[300px]">
                 <SelectValue placeholder="Select a media provider" />
               </SelectTrigger>
@@ -109,13 +108,23 @@ export default function AnimeEpisodesPage() {
                   {dataEpisode?.data?.download_urls.mp4?.map(
                     (resolution: any) =>
                       resolution.urls.map((url: any) => (
-                        <SelectItem
-                          value={resolution.resolution + " - " + url.provider}
-                          key={resolution.resolution + " - " + url.provider}
-                          onClick={() => setProvider(url.provider)}
-                        >
-                          {resolution.resolution + " - " + url.provider}
-                        </SelectItem>
+                        <>
+                          {url.provider === "Acefile" ||
+                          url.provider === "KFiles" ||
+                          url.provider === "Pdrain" ? (
+                            <SelectItem
+                              value={url.url}
+                              key={
+                                resolution.resolution +
+                                " - " +
+                                url.provider +
+                                url.url
+                              }
+                            >
+                              {resolution.resolution + " - " + url.provider}
+                            </SelectItem>
+                          ) : null}
+                        </>
                       )),
                   )}
                 </SelectGroup>
