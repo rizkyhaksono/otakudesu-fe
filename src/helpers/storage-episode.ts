@@ -45,7 +45,6 @@ export const getSavedEpisode = () => {
     );
     return episodeList;
   } catch (error) {
-    console.error("Error retrieving saved episodes:", error);
     return [];
   }
 };

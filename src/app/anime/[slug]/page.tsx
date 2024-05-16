@@ -3,6 +3,9 @@
 import { useParams } from "next/navigation";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import Skeleton from "@/components/layout/skeleton-card";
 import Image from "next/image";
 import React from "react";
@@ -10,6 +13,7 @@ import Link from "next/link";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
 import AnimeRecommendations from "@/components/layout/anime-recommendations";
 import { saveEpisode } from "@/helpers/storage-episode";
+import { subtitle } from "@/components/layout/primitives";
 
 export default function AnimeSlugPage() {
   const router = useParams();
@@ -45,30 +49,40 @@ export default function AnimeSlugPage() {
               alt={dataAnime?.data?.title}
             />
             <div className="max-[766px]:my-5 min-[766px]:ml-10">
-              <p className="font-normal">{dataAnime?.data?.synopsis}</p>
-              <p className="mt-5">
+              <p className="font-normal">
+                {dataAnime?.data?.synopsis ?? "Sinopsis belum ada."}
+              </p>
+              <Separator className="my-2" />
+              <p>
                 Rating:{" "}
-                <span className="font-medium">{dataAnime?.data?.rating}</span>
+                <Badge className="font-medium" variant={"secondary"}>
+                  {dataAnime?.data?.rating}
+                </Badge>
               </p>
-              <p>
+              <p className="mt-1">
                 Type:{" "}
-                <span className="font-medium">{dataAnime?.data?.type}</span>
+                <Badge className="font-medium" variant={"secondary"}>
+                  {dataAnime?.data?.type}
+                </Badge>
               </p>
-              <p>
+              <p className="mt-1">
                 Status:{" "}
-                <span className="font-medium">{dataAnime?.data?.status}</span>
+                <Badge className="font-medium" variant={"secondary"}>
+                  {dataAnime?.data?.status}
+                </Badge>
               </p>
-              <p>
+              <p className="mt-1">
                 Genres:{" "}
                 <span className="font-semibold">
-                  {dataAnime?.data?.genres.map((genre: any, index: number) => (
+                  {dataAnime?.data?.genres.map((genre: any) => (
                     <Link
                       key={genre.name}
                       href={`/genres/${genre.slug}?page=1`}
-                      className="duration-300 hover:text-gray-400"
+                      className="duration-300"
                     >
-                      {genre.name}
-                      {index < dataAnime?.data?.genres.length - 1 && ", "}
+                      <Badge className="mr-1" variant={"secondary"}>
+                        {genre.name}
+                      </Badge>
                     </Link>
                   ))}
                 </span>
@@ -78,8 +92,12 @@ export default function AnimeSlugPage() {
           <ul className="mt-5">
             {dataAnime?.data?.episode_lists.map(
               (episode: any, index: number) => (
-                <li
-                  className="mt-2 w-full rounded-xl bg-gray-100 px-5 py-3 text-base font-normal duration-300 hover:bg-gray-200 dark:bg-[#1f2022] hover:dark:bg-white/10"
+                <Button
+                  variant={"outline"}
+                  className={subtitle({
+                    className:
+                      "mt-2 flex w-full justify-start rounded-xl px-5 py-3 text-base font-normal duration-300",
+                  })}
                   key={episode.slug}
                 >
                   <Link
@@ -95,7 +113,7 @@ export default function AnimeSlugPage() {
                   >
                     <p className="font-medium">{episode.episode}</p>
                   </Link>
-                </li>
+                </Button>
               ),
             )}
           </ul>

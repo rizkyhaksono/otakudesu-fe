@@ -1,7 +1,8 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetEpisodeQuery } from "@/redux/api/episode-api";
+import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   HoverCard,
@@ -27,6 +28,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AnimeEpisodesPage() {
   const router = useParams<{ slug: string; episodes: string }>();
+  const link = useRouter();
   const episodeNum = Number(router.episodes);
   const [provider, setProvider] = useState<string>("");
   const {
@@ -34,10 +36,20 @@ export default function AnimeEpisodesPage() {
     isError: errorEpisode,
     isLoading: loadingEpisode,
   } = useGetEpisodeQuery({ slug: router.slug, episode: router.episodes });
+  const {
+    data: dataAnime,
+    error: errorAnime,
+    isLoading: loadingAnime,
+  } = useGetAnimeQuery(router.slug);
   useDynamicTitle(loadingEpisode, dataEpisode?.data?.episode);
 
-  if (loadingEpisode) return <Skeleton />;
-  if (errorEpisode) return <>Error fetching data...</>;
+  if (loadingEpisode || loadingAnime) return <Skeleton />;
+  if (errorEpisode || errorAnime) return <>Error fetching data...</>;
+
+  const handleAnimeEpisode = (episode: number) => {
+    console.log(episode);
+    link.push(`/anime/${router.slug}/episodes/${episode}`);
+  };
 
   return (
     <div className="container mx-auto mt-10">
@@ -56,7 +68,7 @@ export default function AnimeEpisodesPage() {
               allowFullScreen
             />
           </div>
-          <div className="mt-4 flex flex-row items-center justify-between gap-2 max-[644px]:flex max-[644px]:flex-col sm:flex sm:flex-row sm:items-center sm:justify-between sm:gap-0 md:flex md:flex-row md:items-center md:justify-between lg:flex lg:flex-row lg:items-center lg:justify-between xl:flex xl:flex-row xl:items-center xl:justify-between">
+          <div className="mt-4 flex flex-row items-center justify-between gap-2 max-[644px]:flex max-[644px]:flex-col sm:flex sm:flex-row sm:items-center sm:justify-between sm:gap-2 md:flex md:flex-row md:items-center md:justify-between md:gap-2 lg:flex lg:flex-row lg:items-center lg:justify-between xl:flex xl:flex-row xl:items-center xl:justify-between">
             {dataEpisode?.data?.has_previous_episode === true ? (
               <HoverCard>
                 <HoverCardTrigger className="max-[644px]:w-full">
@@ -98,8 +110,34 @@ export default function AnimeEpisodesPage() {
                 </HoverCardContent>
               </HoverCard>
             )}
+            <Select
+              onValueChange={(value: string) =>
+                handleAnimeEpisode(Number(value))
+              }
+            >
+              <SelectTrigger className="w-full max-[644px]:my-2 max-[644px]:w-full">
+                <SelectValue placeholder="Select an episode" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>All episodes</SelectLabel>
+                  {dataAnime?.data?.episode_lists.map(
+                    (episode: any, index: number) => (
+                      <Link
+                        href={`/anime/${router.slug}/episodes/${index + 1}`}
+                        key={episode.slug}
+                      >
+                        <SelectItem value={`${index + 1}`}>
+                          {`Episode ${index + 1}`}
+                        </SelectItem>
+                      </Link>
+                    ),
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <Select onValueChange={(value: string) => setProvider(value)}>
-              <SelectTrigger className="w-[300px] max-[644px]:my-2 max-[644px]:w-full">
+              <SelectTrigger className="w-full max-[644px]:my-2 max-[644px]:w-full">
                 <SelectValue placeholder="Select a media provider" />
               </SelectTrigger>
               <SelectContent>

@@ -37,7 +37,7 @@ export default function CompletedCard({
       <CardContent className="mx-2 grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData?.map((anime: CompletedAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
-            <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
+            <div className="items-center rounded-md border transition duration-300 hover:bg-muted/40">
               <Image
                 src={anime.poster}
                 alt={anime.title}

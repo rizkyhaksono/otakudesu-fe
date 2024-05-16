@@ -1,7 +1,7 @@
 "use client";
 
 import { getSavedEpisode, deleteAllEpisode } from "@/helpers/storage-episode";
-import { Card, CardDescription, CardHeader } from "../ui/card";
+import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { subtitle, title } from "./primitives";
@@ -45,27 +45,35 @@ export default function LastWatched() {
       </CardHeader>
       <ScrollArea className="w-full whitespace-nowrap rounded-md border">
         <div
-          className={`${lastWatched.length > 0 ? "flex w-max space-x-4 p-4" : "py-4 text-center"}`}
+          className={`${lastWatched.length > 0 ? "flex w-max space-x-4" : "py-4 text-center"}`}
         >
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (
-              <Link
+              <Card
                 key={episode.router}
-                href={episode.episode}
-                className="flex flex-col items-center"
+                className="w-60 items-center hover:bg-muted/40"
               >
-                <Image
-                  src={episode.poster}
-                  className="rounded-lg object-cover"
-                  width={200}
-                  height={100}
-                  loading="lazy"
-                  alt="Poster Last Watched"
-                />
-                <CardDescription className={subtitle({ className: "mt-3" })}>
-                  {episode.title}
+                <Link href={episode.episode} className="flex flex-col">
+                  <Image
+                    src={episode.poster}
+                    className="h-80 w-60 rounded-lg object-cover"
+                    width={200}
+                    height={100}
+                    loading="lazy"
+                    alt="Poster Last Watched"
+                  />
+                </Link>
+                <CardDescription
+                  className={subtitle({
+                    className: "my-3 text-center",
+                  })}
+                >
+                  <ScrollArea>
+                    <p className="w-60 p-2">{episode.title}</p>
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
                 </CardDescription>
-              </Link>
+              </Card>
             ))
           ) : (
             <>No episode watched yet</>
@@ -74,7 +82,7 @@ export default function LastWatched() {
         <ScrollBar orientation="horizontal" />
         <AlertDialog>
           <AlertDialogTrigger className="mx-2 my-4 flex justify-end">
-            <Button variant="outline">Clear Last Watch</Button>
+            <Button variant="secondary">Clear Last Watch</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
