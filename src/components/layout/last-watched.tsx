@@ -51,7 +51,7 @@ export default function LastWatched() {
             lastWatched.map((episode: any) => (
               <Card
                 key={episode.router}
-                className="w-60 items-center hover:bg-muted/40"
+                className="w-60 items-center duration-300 hover:bg-muted/40"
               >
                 <Link href={episode.episode} className="flex flex-col">
                   <Image

@@ -50,7 +50,7 @@ export default function AnimeSlugPage() {
             />
             <div className="max-[766px]:my-5 min-[766px]:ml-10">
               <p className="font-normal">
-                {dataAnime?.data?.synopsis ?? "Sinopsis belum ada."}
+                {dataAnime?.data?.synopsis || "Sinopsis belum ada."}
               </p>
               <Separator className="my-2" />
               <p>
@@ -118,12 +118,12 @@ export default function AnimeSlugPage() {
             )}
           </ul>
 
+          <Separator className="my-5" />
+
           {dataAnime?.data?.recommendations && (
-            <div className="mt-10">
-              <AnimeRecommendations
-                recommendations={dataAnime?.data?.recommendations}
-              />
-            </div>
+            <AnimeRecommendations
+              recommendations={dataAnime?.data?.recommendations}
+            />
           )}
         </CardContent>
       </Card>

@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import DisqusComments from "./components/disqus";
 
 export default function AnimeEpisodesPage() {
   const router = useParams<{ slug: string; episodes: string }>();
@@ -149,6 +150,8 @@ export default function AnimeEpisodesPage() {
                         <>
                           {url.provider === "Acefile" ||
                           url.provider === "KFiles" ||
+                          url.provider === "PDrain" ||
+                          url.provider === "Kraken" ||
                           url.provider === "Pdrain" ? (
                             <SelectItem
                               value={url.url}
@@ -289,6 +292,14 @@ export default function AnimeEpisodesPage() {
           </div>
         </CardContent>
       </Card>
+
+      <DisqusComments
+        post={{
+          slug: router.slug,
+          episodes: router.episodes,
+          title: dataEpisode?.data?.episode,
+        }}
+      />
     </div>
   );
 }
