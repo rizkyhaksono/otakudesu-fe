@@ -82,7 +82,9 @@ export default function LastWatched() {
         <ScrollBar orientation="horizontal" />
         <AlertDialog>
           <AlertDialogTrigger className="mx-2 my-4 flex justify-end">
-            <Button variant="secondary">Clear Last Watch</Button>
+            {lastWatched.length > 0 ? (
+              <Button variant="secondary">Clear Last Watch</Button>
+            ) : null}
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

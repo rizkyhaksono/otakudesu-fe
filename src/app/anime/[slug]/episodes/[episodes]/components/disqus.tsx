@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  DiscussionEmbed,
-  CommentCount,
-  CommentEmbed,
-  Recommendations,
-} from "disqus-react";
-import { useEffect } from "react";
-import { useTheme } from "next-themes";
+import { DiscussionEmbed } from "disqus-react";
 
 const DisqusComments = ({ post }: { post: any }) => {
   const disqusShortname = "otakudesu-4";
@@ -29,40 +22,10 @@ const DisqusComments = ({ post }: { post: any }) => {
     },
   };
 
-  const { theme } = useTheme();
-
-  // reload the disqus script when the component is mounted
-  useEffect(() => {
-    if (theme === "dark") {
-      const disqusThread = document.getElementById("disqus_thread");
-      const body = document.getElementsByClassName("contenteditable");
-      if (disqusThread) {
-        disqusThread.style.setProperty(
-          "background-color",
-          "#1a1a1a",
-          "important",
-        );
-        disqusThread.style.setProperty("color", "#fff", "important");
-      }
-    }
-  });
-
   return (
     <div className="mt-10">
-      <p>Comments Section</p>
-      <CommentCount shortname={disqusShortname} config={disqusConfig} />
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 bg-white text-muted/20 dark:bg-muted/20 dark:text-muted/80">
         <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-        <div className="flex h-full w-full">
-          <CommentEmbed
-            showMedia={true}
-            showParentComment={true}
-            width={400}
-            height={320}
-            commentId={post.title}
-          />
-          <Recommendations shortname={disqusShortname} config={disqusConfig} />
-        </div>
       </div>
     </div>
   );

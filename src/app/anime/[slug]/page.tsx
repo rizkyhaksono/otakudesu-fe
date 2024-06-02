@@ -96,7 +96,7 @@ export default function AnimeSlugPage() {
                   variant={"outline"}
                   className={subtitle({
                     className:
-                      "mt-2 flex w-full justify-start rounded-xl px-5 py-3 text-base font-normal duration-300",
+                      "mt-2 flex w-full justify-start whitespace-normal rounded-xl px-5 py-3 text-start text-base font-normal duration-300",
                   })}
                   key={episode.slug}
                 >
