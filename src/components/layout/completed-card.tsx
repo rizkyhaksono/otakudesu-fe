@@ -1,5 +1,6 @@
 import { CompletedAnimeProps } from "@/types/completed-anime";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { Card, CardFooter, CardHeader } from "../ui/card";
+import { Button } from "../ui/button";
 import { title, subtitle } from "./primitives";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,32 +17,30 @@ export default function CompletedCard({
 }>) {
   if (!animeData) {
     return (
-      <Card className="my-5">
+      <>
         <CardHeader className="text-center text-2xl font-bold">
           {animeHeader}
         </CardHeader>
-        <CardContent>
-          <SkeletonCard />
-        </CardContent>
-      </Card>
+        <SkeletonCard />
+      </>
     );
   }
 
   return (
-    <Card className="my-5">
+    <>
       <CardHeader
         className={title({ className: "text-center font-bold", size: "xl" })}
       >
         {animeHeader}
       </CardHeader>
-      <CardContent className="mx-2 grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+      <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData?.map((anime: CompletedAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
-            <div className="items-center rounded-md border transition duration-300 hover:bg-muted/40">
+            <Card className="items-center rounded-md border transition duration-300 hover:bg-muted/40">
               <Image
                 src={anime.poster}
                 alt={anime.title}
-                className="rounded-t-lg object-cover max-[640px]:h-52 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                className="rounded-t-lg object-cover max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
                 width={300}
                 height={300}
               />
@@ -60,21 +59,22 @@ export default function CompletedCard({
                   Last Release Date: {anime.last_release_date}
                 </p>
               </div>
-            </div>
+            </Card>
           </Link>
         ))}
-      </CardContent>
+      </div>
 
       {seeAllLink && (
         <CardFooter className="mt-2 flex justify-end">
-          <Link
-            className="text-base duration-300 hover:scale-105 hover:underline"
-            href={`/${seeAllLink}/1`}
-          >
-            See all
-          </Link>
+          <Button variant={"secondary"}>
+            <Link
+              href={`/${seeAllLink}/1`}
+            >
+              See all
+            </Link>
+          </Button>
         </CardFooter>
       )}
-    </Card>
+    </>
   );
 }

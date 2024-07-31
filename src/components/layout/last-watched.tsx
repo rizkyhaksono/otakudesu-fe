@@ -39,24 +39,22 @@ export default function LastWatched() {
   };
 
   return (
-    <Card>
+    <>
       <CardHeader className={title({ className: "text-center", size: "xl" })}>
         Last Watched
       </CardHeader>
       <ScrollArea className="w-full whitespace-nowrap rounded-md border">
-        <div
-          className={`${lastWatched.length > 0 ? "flex w-max space-x-4" : "py-4 text-center"}`}
-        >
+        <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (
               <Card
                 key={episode.router}
-                className="w-60 items-center duration-300 hover:bg-muted/40"
+                className="items-center duration-300 hover:bg-muted/40"
               >
-                <Link href={episode.episode} className="flex flex-col">
+                <Link href={episode.episode}>
                   <Image
                     src={episode.poster}
-                    className="h-80 w-60 rounded-lg object-cover"
+                    className="rounded-t-lg object-cover max-[640px]:h-52 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-64 lg:h-72 lg:w-72 xl:h-96 xl:w-full"
                     width={200}
                     height={100}
                     loading="lazy"
@@ -103,6 +101,6 @@ export default function LastWatched() {
           </AlertDialogContent>
         </AlertDialog>
       </ScrollArea>
-    </Card>
+    </>
   );
 }
