@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useGetAnimeQuery } from "@/redux/api/anime-api";
+import { useGetSearchQuery } from "@/redux/api/search-api";
 import AnimeSearchCard from "@/components/layout/anime-search-card";
 
 export default function AnimeSearchPage() {
   const [search, setSearch] = useState("");
-  const { data: dataAnime } = useGetAnimeQuery(search);
+  const { data: dataAnime } = useGetSearchQuery(search);
 
   return (
     <div className="container mx-auto">

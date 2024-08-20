@@ -31,7 +31,7 @@ export default function GenresCard({
       <CardHeader className="text-center text-2xl font-bold">
         {animeHeader}
       </CardHeader>
-      <CardContent className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+      <CardContent className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData.map((anime: GenresAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
             <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
