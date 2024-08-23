@@ -21,9 +21,7 @@ export default function AnimeSearchPage() {
             </span>
           </h2>
           <p className="mb-6 text-base text-foreground md:text-lg">
-            {`Start your anime search in action, fantasy, romance, and
-              slice-of-life genres, exploring excitement, enchantment, warmth,
-              and charm from your heart's choice!`}
+            {`Start your anime search from your heart's choice!`}
           </p>
           <div className="mt-10 flex gap-2 max-[640px]:flex-wrap">
             <Input

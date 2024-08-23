@@ -15,11 +15,10 @@ export default function GreetingLayout() {
       <div className="mx-auto max-w-7xl px-12">
         <div className="mx-auto w-full text-left md:w-11/12 md:text-center xl:w-9/12">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">
-            <span>Embark on a&nbsp;</span>
+            <span>Begin an exciting journey&nbsp;</span>
             <span className="leading-12 block w-full bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text py-2 text-transparent lg:inline">
-              journey into the anime realm&nbsp;
+              into the world of anime!
             </span>
-            <span>like never before!</span>
           </h1>
           <p className="mb-8 px-0 text-lg font-medium text-foreground md:text-xl lg:px-24">
             Start watching an anime without ads! From the{" "}

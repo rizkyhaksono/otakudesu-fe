@@ -16,6 +16,10 @@ export const siteConfig = {
       label: "Genres",
       href: "/genres"
     },
+    {
+      label: "Schedules",
+      href: "/schedules"
+    },
   ],
   navMenuItems: [
     {
@@ -29,6 +33,10 @@ export const siteConfig = {
     {
       label: "Genres",
       href: "/genres"
+    },
+    {
+      label: "Schedules",
+      href: "/schedules"
     },
   ]
 }
