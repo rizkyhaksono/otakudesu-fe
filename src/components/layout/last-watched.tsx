@@ -43,7 +43,7 @@ export default function LastWatched() {
       <CardHeader className={title({ className: "text-center", size: "xl" })}>
         Last Watched
       </CardHeader>
-      <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+      <ScrollArea className="w-full whitespace-nowrap rounded-md">
         <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (

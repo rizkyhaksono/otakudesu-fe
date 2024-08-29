@@ -27,14 +27,14 @@ export default function GenresCard({
   }
 
   return (
-    <Card className="container mx-auto mt-5">
+    <div className="container mx-auto mt-5">
       <CardHeader className="text-center text-2xl font-bold">
         {animeHeader}
       </CardHeader>
       <CardContent className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData.map((anime: GenresAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
-            <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
+            <div className="items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black h-full">
               <Image
                 src={anime.poster}
                 alt={anime.title}
@@ -74,6 +74,6 @@ export default function GenresCard({
           </Link>
         ))}
       </CardContent>
-    </Card>
+    </div>
   );
 }
