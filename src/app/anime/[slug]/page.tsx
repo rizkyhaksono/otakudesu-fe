@@ -101,13 +101,13 @@ export default function AnimeSlugPage() {
                   key={episode.slug}
                 >
                   <Link
-                    href={`/anime/${router.slug}/episodes/${index + 1}`}
+                    href={`/anime/${router.slug}/episodes/${episode.episode_number}`}
                     onClick={() =>
                       saveEpisode({
                         title: dataAnime?.data?.title,
                         poster: dataAnime?.data?.poster,
                         router: router.slug,
-                        episode: `/anime/${router.slug}/episodes/${index + 1}`,
+                        episode: `/anime/${router.slug}/episodes/${episode.episode_number}`,
                       })
                     }
                   >
