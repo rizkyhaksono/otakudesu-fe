@@ -4,6 +4,10 @@
 
 An Otakudesu Frontend. Data from [Otakudesu API](https://github.com/rizkyhaksono/otakudesu-be)
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=rizkyhaksono/otakudesu-fe&type=Date)](https://star-history.com/#rizkyhaksono/otakudesu-fe&Date)
+
 ## Page Speed Insight
 
 - Mobile: [PageSpeed Insights](https://pagespeed.web.dev/analysis/https-otakudesu-natee-my-id/yauysij5um?form_factor=mobile)
