@@ -12,8 +12,6 @@ export default function AnimeSearchCard({
     return <div className="text-center">Anime not found!</div>;
   }
 
-  console.log(anime?.map((data: any) => data))
-
   return (
     <div className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
       {anime?.map((data: any) => (

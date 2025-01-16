@@ -49,29 +49,29 @@ export default function AnimeSlugPage() {
               alt={dataAnime?.data?.title}
             />
             <div className="max-[766px]:my-5 min-[766px]:ml-10">
-              <p className="font-normal">
+              <div className="font-normal">
                 {dataAnime?.data?.synopsis || "Sinopsis belum ada."}
-              </p>
+              </div>
               <Separator className="my-2" />
-              <p>
+              <div>
                 Rating:{" "}
                 <Badge className="font-medium" variant={"secondary"}>
                   {dataAnime?.data?.rating}
                 </Badge>
-              </p>
-              <p className="mt-1">
+              </div>
+              <div className="mt-1">
                 Type:{" "}
                 <Badge className="font-medium" variant={"secondary"}>
                   {dataAnime?.data?.type}
                 </Badge>
-              </p>
-              <p className="mt-1">
+              </div>
+              <div className="mt-1">
                 Status:{" "}
                 <Badge className="font-medium" variant={"secondary"}>
                   {dataAnime?.data?.status}
                 </Badge>
-              </p>
-              <p className="mt-1">
+              </div>
+              <div className="mt-1">
                 Genres:{" "}
                 <span className="font-semibold">
                   {dataAnime?.data?.genres.map((genre: any) => (
@@ -86,7 +86,7 @@ export default function AnimeSlugPage() {
                     </Link>
                   ))}
                 </span>
-              </p>
+              </div>
             </div>
           </div>
           <ul className="mt-5">
@@ -101,7 +101,7 @@ export default function AnimeSlugPage() {
                   key={episode.slug}
                 >
                   <Link
-                    href={`/anime/${router.slug}/episodes/${episode.episode_number}`}
+                    href={dataAnime?.data?.type === "TV" ? `/anime/${router.slug}/episodes/${episode.episode_number}` : `/anime/${router.slug}/episodes/${episode.slug}`}
                     onClick={() =>
                       saveEpisode({
                         title: dataAnime?.data?.title,
@@ -117,9 +117,7 @@ export default function AnimeSlugPage() {
               ),
             )}
           </ul>
-
           <Separator className="my-5" />
-
           {dataAnime?.data?.recommendations && (
             <AnimeRecommendations
               recommendations={dataAnime?.data?.recommendations}
