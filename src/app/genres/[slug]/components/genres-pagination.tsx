@@ -60,19 +60,23 @@ export default function GenresPagination({
             <DropdownMenuLabel>All Pages</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <div className="m-3 grid grid-cols-5">
-              {[...Array(animeData?.last_visible_page)].map((_, index) => (
-                <Link key={_} href={`/genres/${genreName}/?page=${index + 1}`}>
-                  <DropdownMenuItem
-                    className={`mb-2 mr-2 flex cursor-pointer justify-center ${
-                      Number(animeData?.current_page) === index + 1
-                        ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
-                        : ""
-                    }`}
-                  >
-                    {index + 1}
-                  </DropdownMenuItem>
-                </Link>
-              ))}
+              {Array.from({ length: animeData.last_visible_page }, (_, index) => {
+                const pageNumber = index + 1;
+                const isCurrentPage = animeData.current_page === pageNumber;
+
+                return (
+                  <Link key={pageNumber} href={`/genres/${genreName}/?page=${pageNumber}`}>
+                    <DropdownMenuItem
+                      className={`mb-2 mr-2 flex cursor-pointer justify-center ${isCurrentPage
+                          ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
+                          : ""
+                        }`}
+                    >
+                      {pageNumber}
+                    </DropdownMenuItem>
+                  </Link>
+                );
+              })}
             </div>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -2,7 +2,7 @@
 
 import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
 import SkeletonCard from "@/components/layout/skeleton-card";
-import { useParams, useSearchParams, usePathname } from "next/navigation";
+import { useParams, useSearchParams, usePathname, notFound } from "next/navigation";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
 import GenresCard from "./components/genres-card";
 import GenresPagination from "./components/genres-pagination";
@@ -35,6 +35,8 @@ export default function GenreSlugPage() {
   if (errorGenre) {
     return <>Error fetching data...</>;
   }
+
+  if (!dataGenre?.data?.anime || dataGenre.data.anime.length === 0) return notFound();
 
   return (
     <>

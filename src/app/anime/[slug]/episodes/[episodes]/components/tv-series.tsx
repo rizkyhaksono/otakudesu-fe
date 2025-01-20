@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { notFound } from "next/navigation";
 
 export default function TVSeries({
   dataAnime,
@@ -39,6 +40,8 @@ export default function TVSeries({
   title: any
   updateEpisode: any
 }>) {
+  if (dataEpisode?.data === undefined) return notFound();
+
   return (
     <div className="container mx-auto mt-10">
       <Card>
