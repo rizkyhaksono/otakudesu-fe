@@ -20,6 +20,14 @@ export const siteConfig = {
       label: "Schedules",
       href: "/schedules"
     },
+    {
+      label: "Comics [Nateegami]",
+      href: "/comics"
+    },
+    {
+      label: "Movies [Nateeflix]",
+      href: "/movies"
+    },
   ],
   navMenuItems: [
     {
@@ -37,6 +45,14 @@ export const siteConfig = {
     {
       label: "Schedules",
       href: "/schedules"
+    },
+    {
+      label: "Comics [Nateegami]",
+      href: "/comics"
+    },
+    {
+      label: "Movies [Nateeflix]",
+      href: "/movies"
     },
   ]
 }

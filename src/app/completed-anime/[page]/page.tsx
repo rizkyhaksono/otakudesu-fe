@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetCompleteAnimeQuery } from "@/redux/api/completeanime-api";
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import CompletedCard from "@/components/layout/completed-card";
 import CompletedPagination from "./components/complete-pagination";
 
@@ -16,6 +16,8 @@ export default function CompletedAnimeSlug() {
   if (errorComplete) {
     return <>Error fetching data...</>;
   }
+
+  if (dataComplete?.data?.completeAnimeData.length === 0) return notFound();
 
   return (
     <div className="container mx-auto">

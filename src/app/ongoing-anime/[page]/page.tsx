@@ -3,7 +3,7 @@
 import OngoingCard from "@/components/layout/ongoing-card";
 import OngoingPagination from "./components/ongoing-pagination";
 import { useGetOnGoingAnimeQuery } from "@/redux/api/ongoinganime-api";
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 
 export default function OngoingAnimePage() {
   const path = usePathname();
@@ -17,6 +17,8 @@ export default function OngoingAnimePage() {
   if (errorOngoing) {
     return <>Error fetching data...</>;
   }
+
+  if (dataOngoing?.data?.ongoingAnimeData.length === 0) return notFound();
 
   return (
     <div className="container mx-auto">
