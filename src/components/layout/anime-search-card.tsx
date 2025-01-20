@@ -47,7 +47,7 @@ export default function AnimeSearchCard({
                   <p className={subtitle()}>Genres: </p>
                   {data?.genres?.map((genre: any) => (
                     <div key={genre?.slug}>
-                      <p className={subtitle()}>
+                      <p className={subtitle({ className: "mb-2" })}>
                         <span className="bg-muted px-2 py-1 rounded-lg">{genre?.name}</span>
                       </p>
                     </div>

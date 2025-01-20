@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useGetEpisodeQuery } from "@/redux/api/episode-api";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { useGetMovieQuery } from "@/redux/api/movie-api";
@@ -39,6 +39,9 @@ export default function AnimeEpisodesPage() {
 
   if (loadingEpisode || loadingAnime) return <Skeleton />;
   if (errorEpisode || errorAnime) return <>Error fetching data...</>;
+
+  // if (dataAnime?.batch === null) return notFound();
+  console.log(dataAnime)
 
   const handleAnimeEpisode = (episode: number) => {
     link.push(`/anime/${router.slug}/episodes/${episode}`);

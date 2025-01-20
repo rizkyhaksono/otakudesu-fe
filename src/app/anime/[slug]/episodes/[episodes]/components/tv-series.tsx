@@ -56,26 +56,26 @@ export default function TVSeries({
           </div>
 
           {/* Episode navigation */}
-          <div className="mt-4 flex flex-row items-center justify-between gap-2">
+          <div className="mt-4 flex flex-row max-[640px]:flex-wrap items-center justify-between gap-2">
             {dataEpisode?.data?.has_previous_episode === true ? (
               <HoverCard>
                 <HoverCardTrigger className="max-[644px]:w-full">
-                  <Link href={`${episodeNum! - 1}`}>
-                    <Button
-                      variant={"secondary"}
-                      className={subtitle({
-                        className: "rounded-lg duration-300 max-[644px]:w-full",
-                      })}
-                      onClick={() =>
-                        updateEpisode(
-                          `/anime/${router.slug}/episodes/${episodeNum! - 1}`,
-                          router.slug,
-                        )
-                      }
-                    >
+                  <Button
+                    variant={"secondary"}
+                    className={subtitle({
+                      className: "rounded-lg duration-300 max-[644px]:w-full",
+                    })}
+                    onClick={() =>
+                      updateEpisode(
+                        `/anime/${router.slug}/episodes/${episodeNum! - 1}`,
+                        router.slug,
+                      )
+                    }
+                  >
+                    <Link href={`${episodeNum! - 1}`}>
                       Previous
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>Back to previous episode.</HoverCardContent>
               </HoverCard>
@@ -152,22 +152,22 @@ export default function TVSeries({
             {dataEpisode?.data?.has_next_episode === true ? (
               <HoverCard>
                 <HoverCardTrigger className="max-[644px]:w-full">
-                  <Link href={`${episodeNum! + 1}`}>
-                    <Button
-                      variant={"secondary"}
-                      className={subtitle({
-                        className: "rounded-lg duration-300 max-[644px]:w-full",
-                      })}
-                      onClick={() =>
-                        updateEpisode(
-                          `/anime/${router.slug}/episodes/${episodeNum! + 1}`,
-                          router.slug,
-                        )
-                      }
-                    >
+                  <Button
+                    variant={"secondary"}
+                    className={subtitle({
+                      className: "rounded-lg duration-300 max-[644px]:w-full",
+                    })}
+                    onClick={() =>
+                      updateEpisode(
+                        `/anime/${router.slug}/episodes/${episodeNum! + 1}`,
+                        router.slug,
+                      )
+                    }
+                  >
+                    <Link href={`${episodeNum! + 1}`}>
                       Next
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </HoverCardTrigger>
                 <HoverCardContent>Go to next episode.</HoverCardContent>
               </HoverCard>

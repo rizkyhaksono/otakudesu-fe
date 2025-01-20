@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import { useGetAnimeQuery } from "@/redux/api/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import { subtitle } from "@/components/layout/primitives";
 
 export default function AnimeSlugPage() {
   const router = useParams();
+
   const {
     data: dataAnime,
     error: errorAnime,
@@ -32,6 +33,8 @@ export default function AnimeSlugPage() {
   if (errorAnime) {
     return <>Error fetching data...</>;
   }
+
+  if (dataAnime?.data === undefined) return notFound();
 
   return (
     <div className="container mx-auto mt-10">
@@ -73,7 +76,7 @@ export default function AnimeSlugPage() {
               </div>
               <div className="mt-1">
                 Genres:{" "}
-                <span className="font-semibold">
+                <span className="font-semibold mt-1">
                   {dataAnime?.data?.genres.map((genre: any) => (
                     <Link
                       key={genre.name}
