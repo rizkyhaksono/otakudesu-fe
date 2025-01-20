@@ -1,9 +1,9 @@
 {
   "name": "otakudesu-fe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev --turbopack -p 3001",
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint"
@@ -29,10 +29,10 @@
     "embla-carousel-react": "^8.0.0-rc20",
     "input": "^1.0.1",
     "lucide-react": "^0.315.0",
-    "next": "^14.2.22",
+    "next": "15.1.5",
     "next-themes": "^0.3.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",
     "redux-persist": "^6.0.0",
@@ -45,16 +45,20 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
     "@types/scheduler": "^0.23.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "15.1.5",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3"
   }
 }
