@@ -104,7 +104,7 @@ export default function AnimeSlugPage() {
                   key={episode.slug}
                 >
                   <Link
-                    href={dataAnime?.data?.type === "TV" ? `/anime/${router.slug}/episodes/${episode.episode_number}` : `/anime/${router.slug}/episodes/${episode.slug}`}
+                    href={(dataAnime?.data?.type === "TV" || dataAnime?.data?.type === "BD") ? `/anime/${router.slug}/episodes/${episode.episode_number}` : `/anime/${router.slug}/episodes/${episode.slug}`}
                     onClick={() =>
                       saveEpisode({
                         title: dataAnime?.data?.title,
