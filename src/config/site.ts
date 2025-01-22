@@ -22,11 +22,11 @@ export const siteConfig = {
     },
     {
       label: "Comics [Nateegami]",
-      href: "/comics"
+      href: "/comic"
     },
     {
-      label: "Movies [Nateeflix]",
-      href: "/movies"
+      label: "Movie [Nateeflix]",
+      href: "/movie"
     },
   ],
   navMenuItems: [
@@ -47,12 +47,12 @@ export const siteConfig = {
       href: "/schedules"
     },
     {
-      label: "Comics [Nateegami]",
-      href: "/comics"
+      label: "Comic [Nateegami]",
+      href: "/comic"
     },
     {
-      label: "Movies [Nateeflix]",
-      href: "/movies"
+      label: "Movie [Nateeflix]",
+      href: "/movie"
     },
   ]
 }

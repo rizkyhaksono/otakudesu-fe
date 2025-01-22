@@ -18,7 +18,7 @@ export default function OngoingCard({
   if (!animeData) {
     return (
       <>
-        <CardHeader className="text-center text-2xl font-bold">
+        <CardHeader className={title({ className: "text-center font-bold", size: "xl" })}>
           {animeHeader}
         </CardHeader>
         <SkeletonCard />

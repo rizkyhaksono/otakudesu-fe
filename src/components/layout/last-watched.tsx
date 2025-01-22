@@ -1,7 +1,7 @@
 "use client";
 
 import { getSavedEpisode, deleteAllEpisode } from "@/helpers/storage-episode";
-import { Card, CardDescription, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { subtitle, title } from "./primitives";
@@ -30,23 +30,20 @@ export default function LastWatched() {
       new Promise<void>((resolve) => {
         deleteAllEpisode();
         resolve();
-      }),
-      {
-        loading: "Deleting...",
-        success: "Episodes have been deleted",
-        error: "Failed to delete episodes",
-        finally: () => router.refresh(),
-      }
-    )
+      }), {
+      loading: "Deleting...",
+      success: "Episodes have been deleted",
+      error: "Failed to delete episodes",
+      finally: () => router.refresh(),
+    })
   };
 
-
   return (
-    <>
+    <Card className="border-none">
       <CardHeader className={title({ className: "text-center", size: "xl" })}>
         Last Watched
       </CardHeader>
-      <ScrollArea className="w-full whitespace-nowrap rounded-md">
+      <ScrollArea>
         <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (
@@ -57,54 +54,54 @@ export default function LastWatched() {
                 <Link href={episode.episode}>
                   <Image
                     src={episode.poster}
-                    className="rounded-t-lg object-cover max-[640px]:h-40 max-[640px]:w-52 sm:h-80 sm:w-full md:h-72 md:w-64 lg:h-72 lg:w-72 xl:h-96 xl:w-full"
+                    className="rounded-t-lg object-cover max-[640px]:h-40 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-64 lg:h-72 lg:w-72 xl:h-96 xl:w-full"
                     width={200}
                     height={100}
                     loading="lazy"
                     alt="Poster Last Watched"
                   />
                 </Link>
-                <CardDescription
-                  className={subtitle({
-                    className: "my-3 text-center",
-                  })}
-                >
-                  <ScrollArea>
-                    <p className="w-60 p-2">{episode.title}</p>
+                <div className={subtitle({
+                  className: "my-3 text-center",
+                })}>
+                  <ScrollArea className="w-60">
+                    <div className="p-2">{episode.title}</div>
                     <ScrollBar orientation="horizontal" />
                   </ScrollArea>
-                </CardDescription>
+                </div>
               </Card>
             ))
           ) : (
-            <p>No episode watched yet</p>
+            <div>No episode watched yet</div>
           )}
         </div>
         <ScrollBar orientation="horizontal" />
-        <AlertDialog>
-          <AlertDialogTrigger className="mx-2 my-4 flex justify-end">
-            {lastWatched.length > 0 ? (
-              <Button variant={"destructive"}>
-                Delete All
-              </Button>
-            ) : null}
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will delete all episodes you have watched.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteAllEpisode}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="mx-2 my-4 flex justify-start">
+          {lastWatched.length > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">
+                  Delete All
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will delete all episodes you have watched.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteAllEpisode}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
       </ScrollArea>
-    </>
+    </Card>
   );
 }

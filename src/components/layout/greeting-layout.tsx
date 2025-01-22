@@ -1,15 +1,9 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
-import { useTheme } from "next-themes";
 import { title } from "./primitives";
 
 export default function GreetingLayout() {
-  const { theme } = useTheme();
-
   return (
     <section className="pt-10">
       <div className="mx-auto max-w-7xl px-12">
@@ -50,26 +44,6 @@ export default function GreetingLayout() {
               <span className={title()}>Search Anime</span>
               <FaSearch />
             </Link>
-          </div>
-        </div>
-        <div className="mx-auto mt-20 w-full text-center md:w-10/12">
-          <div className="relative z-0 mt-8 w-full">
-            <div className="relative overflow-hidden shadow-2xl shadow-gray-400 dark:shadow-blue-400/25">
-              <div className="flex h-11 flex-none items-center rounded-xl rounded-b-none bg-blue-400 px-4">
-                <div className="flex space-x-1.5">
-                  <div className="h-3 w-3 rounded-full border-2 border-white"></div>
-                  <div className="h-3 w-3 rounded-full border-2 border-white"></div>
-                  <div className="h-3 w-3 rounded-full border-2 border-white"></div>
-                </div>
-              </div>
-              <Image
-                width={1000}
-                height={300}
-                src={theme === "dark" ? "/dark-home.png" : "/light-home.png"}
-                alt={"Hero"}
-                loading="lazy"
-              />
-            </div>
           </div>
         </div>
       </div>
