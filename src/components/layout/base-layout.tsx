@@ -1,17 +1,21 @@
-"use client";
-
-import React from "react";
 import Navbar from "./navbar";
 import Footer from "./footer";
 
-export default function BaseLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+import { AppSidebar } from "./app-sidebar"
+import {
+  SidebarProvider,
+  SidebarInset
+} from "@/components/ui/sidebar"
+
+export default function BaseLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>
-      <Navbar />
-      {children}
-      <Footer />
-    </>
+    <SidebarProvider defaultOpen={false}>
+      <AppSidebar />
+      <SidebarInset>
+        <Navbar />
+        {children}
+        <Footer />
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

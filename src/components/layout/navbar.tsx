@@ -18,21 +18,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { AppSidebar } from "./app-sidebar"
-// import {
-//   Breadcrumb,
-//   BreadcrumbItem,
-//   BreadcrumbLink,
-//   BreadcrumbList,
-//   BreadcrumbPage,
-//   BreadcrumbSeparator,
-// } from "@/components/ui/breadcrumb"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
 
 const ListItem = React.forwardRef<React.ComponentRef<"a">, React.ComponentPropsWithoutRef<"a">>(
   ({ className, title, children, ...props }, ref) => {
@@ -58,7 +45,6 @@ const ListItem = React.forwardRef<React.ComponentRef<"a">, React.ComponentPropsW
 ListItem.displayName = "ListItem";
 
 export default function Navbar() {
-  const [open, setOpen] = React.useState(false)
   const { setTheme, theme } = useTheme()
 
   const toggleTheme = () => {
@@ -66,8 +52,8 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
+    <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
+      <div className="container flex w-full max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link className="mr-6 flex items-center space-x-2" href="/">
             <FaBolt />
@@ -78,7 +64,7 @@ export default function Navbar() {
                 <Link href="/" legacyBehavior passHref>
                   <NavigationMenuLink
                     className={navigationMenuTriggerStyle({
-                      className: "bg-transparent",
+                      className: "bg-transparent mr-4",
                     })}
                   >
                     Home
@@ -116,7 +102,7 @@ export default function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent">Comics</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="bg-transparent">Comic</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
@@ -140,7 +126,7 @@ export default function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent">Movies</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="bg-transparent">Movie</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
@@ -166,35 +152,20 @@ export default function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        {/* <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-              <div className="flex items-center gap-2 px-3">
-                <SidebarTrigger />
-                <Separator orientation="vertical" className="mr-2 h-4" />
-
-              </div>
-            </header>
-            <div className="flex flex-1 flex-col gap-4 p-4">
-              <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-              </div>
-              <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-            </div>
-          </SidebarInset>
-        </SidebarProvider> */}
-        <div className="flex flex-1 items-center justify-between space-x-2 max-[640px]:justify-end sm:justify-end md:justify-end lg:justify-end xl:justify-end">
-          <div className="flex items-center">
-            <Link target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono/otakudesu-fe">
-              <div className="inline-flex h-9 w-9 items-center justify-center whitespace-nowrap rounded-md px-0 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-                <FaGithub />
-              </div>
+        <div className="flex flex-1 items-center justify-between space-x-2 max-[640px]:justify-between sm:justify-between md:justify-end lg:justify-end xl:justify-end">
+          <div className="flex items-center space-x-2 sm:hidden">
+            <SidebarTrigger />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Link className="flex items-center space-x-2" href="/">
+              <FaBolt />
             </Link>
-            <Button className="size-9" onClick={toggleTheme} variant="ghost">
-              <div className="h-[1.2rem] w-[1.2rem]">{theme === "light" ? <IoSunny /> : <FiMoon />}</div>
+          </div>
+          <div className="flex items-center max-[640px]:justify-end sm:justify-end space-x-2">
+            <Link target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono/otakudesu-fe">
+              <FaGithub />
+            </Link>
+            <Button onClick={toggleTheme} variant="ghost">
+              {theme === "light" ? <IoSunny /> : <FiMoon />}
             </Button>
           </div>
         </div>

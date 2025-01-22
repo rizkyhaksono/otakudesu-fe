@@ -9,7 +9,7 @@ const LastWatched = dynamic(() => import("./last-watched"), {
 });
 
 export default function HomeCard() {
-  const { data: dataHome, error: errorHome } = useGetHomeQuery(arguments);
+  const { data: dataHome, error: errorHome } = useGetHomeQuery({});
 
   if (errorHome) return <>Error fetching...</>;
 
