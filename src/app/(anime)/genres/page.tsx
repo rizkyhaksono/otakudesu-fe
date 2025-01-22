@@ -10,7 +10,7 @@ export default function GenrePage() {
     data: dataGenres,
     error: errorGenres,
     isLoading: loadingGenres,
-  } = useGetGenresQuery(arguments);
+  } = useGetGenresQuery({});
 
   if (loadingGenres) {
     return <SkeletonCard />;

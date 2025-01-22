@@ -10,7 +10,7 @@ export default function SchedulesPage() {
     data: dataSchedules,
     error: errorSchedules,
     isLoading: loadingSchedules,
-  } = useGetSchedulesQuery(arguments);
+  } = useGetSchedulesQuery({});
 
   if (loadingSchedules) {
     return <SkeletonCard />;
