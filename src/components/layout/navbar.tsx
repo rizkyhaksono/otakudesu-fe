@@ -52,7 +52,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
+    <header className="flex sticky top-0 z-50 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
       <div className="container flex w-full max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link className="mr-6 flex items-center space-x-2" href="/">
