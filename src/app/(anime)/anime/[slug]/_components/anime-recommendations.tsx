@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Card, CardContent } from "../ui/card";
-import Typography from "../ui/typography";
+import { Card, CardContent } from "@/components/ui/card";
+import Typography from "@/components/ui/typography";
 
 interface RecommendationsProps {
   title: string;

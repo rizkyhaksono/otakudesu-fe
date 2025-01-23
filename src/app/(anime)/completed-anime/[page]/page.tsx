@@ -2,7 +2,7 @@
 
 import { useGetCompleteAnimeQuery } from "@/redux/api/anime/anime-completed-api";
 import { notFound, usePathname } from "next/navigation";
-import CompletedCard from "@/components/layout/completed-card";
+import CompletedCard from "../../_components/completed-card";
 import CompletedPagination from "./components/complete-pagination";
 
 export default function CompletedAnimeSlug() {

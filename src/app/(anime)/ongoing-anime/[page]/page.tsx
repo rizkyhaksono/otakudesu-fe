@@ -1,6 +1,6 @@
 "use client";
 
-import OngoingCard from "@/components/layout/ongoing-card";
+import OngoingCard from "../../_components/ongoing-card";
 import OngoingPagination from "./components/ongoing-pagination";
 import { useGetOnGoingAnimeQuery } from "@/redux/api/anime/anime-ongoing-api";
 import { notFound, usePathname } from "next/navigation";
