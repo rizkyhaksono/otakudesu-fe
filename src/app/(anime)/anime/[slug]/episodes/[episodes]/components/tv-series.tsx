@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
+import Typography from "@/components/ui/typography";
 
 export default function TVSeries({
   dataAnime,
@@ -25,8 +26,6 @@ export default function TVSeries({
   provider,
   router,
   setProvider,
-  subtitle,
-  title,
   updateEpisode,
 }: Readonly<{
   dataAnime: any
@@ -36,8 +35,6 @@ export default function TVSeries({
   provider: string
   router: any
   setProvider: any
-  subtitle: any
-  title: any
   updateEpisode: any
 }>) {
   if (dataEpisode?.data === undefined) return notFound();
@@ -64,9 +61,7 @@ export default function TVSeries({
               <HoverCardTrigger className="max-[644px]:w-full">
                 <Button
                   variant={"secondary"}
-                  className={subtitle({
-                    className: "rounded-lg duration-300 max-[644px]:w-full",
-                  })}
+                  className="rounded-lg duration-300 max-[644px]:w-full"
                   onClick={() =>
                     updateEpisode(
                       `/anime/${router.slug}/episodes/${episodeNum! - 1}`,
@@ -86,10 +81,7 @@ export default function TVSeries({
               <HoverCardTrigger className="max-[644px]:w-full">
                 <Button
                   variant={"outline"}
-                  className={subtitle({
-                    className:
-                      "cursor-not-allowed rounded-lg text-foreground opacity-50 max-[644px]:w-full",
-                  })}
+                  className="cursor-not-allowed rounded-lg text-foreground opacity-50 max-[644px]:w-full"
                   disabled
                 >
                   Previous
@@ -156,9 +148,7 @@ export default function TVSeries({
               <HoverCardTrigger className="max-[644px]:w-full">
                 <Button
                   variant={"secondary"}
-                  className={subtitle({
-                    className: "rounded-lg duration-300 max-[644px]:w-full",
-                  })}
+                  className="rounded-lg duration-300 max-[644px]:w-full"
                   onClick={() =>
                     updateEpisode(
                       `/anime/${router.slug}/episodes/${episodeNum! + 1}`,
@@ -178,10 +168,7 @@ export default function TVSeries({
               <HoverCardTrigger className="max-[644px]:w-full">
                 <Button
                   variant={"outline"}
-                  className={subtitle({
-                    className:
-                      "cursor-not-allowed rounded-lg border text-foreground opacity-50 max-[644px]:w-full",
-                  })}
+                  className="cursor-not-allowed rounded-lg border text-foreground opacity-50 max-[644px]:w-full"
                   disabled
                 >
                   Next
@@ -200,21 +187,18 @@ export default function TVSeries({
             <ul className="mt-5">
               {dataEpisode?.data?.download_urls.mp4?.map((resolution: any) => (
                 <li key={resolution.resolution} className="mb-4 flex gap-2">
-                  <p className={title({ size: "sm" })}>
+                  <Typography.P>
                     {resolution.resolution}:
-                  </p>
+                  </Typography.P>
                   <ul className="mb-2 flex flex-wrap gap-2">
                     {resolution.urls.map((url: any) => (
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
-                          <button
-                            className={subtitle({
-                              className:
-                                "rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base",
-                            })}
+                          <Button
+                            className="rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base"
                           >
                             {url.provider}
-                          </button>
+                          </Button>
                         </Link>
                       </li>
                     ))}
@@ -230,21 +214,18 @@ export default function TVSeries({
             <ul className="mt-5">
               {dataEpisode?.data?.download_urls.mkv?.map((resolution: any) => (
                 <li key={resolution.resolution} className="mb-4 flex gap-2">
-                  <p className={title({ size: "sm" })}>
+                  <Typography.P>
                     {resolution.resolution}:
-                  </p>
+                  </Typography.P>
                   <ul className="mb-2 flex flex-wrap items-center gap-2">
                     {resolution.urls.map((url: any) => (
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
-                          <button
-                            className={subtitle({
-                              className:
-                                "rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base",
-                            })}
+                          <Button
+                            className="rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base"
                           >
                             {url.provider}
-                          </button>
+                          </Button>
                         </Link>
                       </li>
                     ))}

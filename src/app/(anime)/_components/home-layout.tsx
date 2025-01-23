@@ -1,16 +1,12 @@
 "use client";
 
-import { useGetHomeQuery } from "@/redux/api/home-api";
+import { useGetHomeQuery } from "@/redux/api/anime/home-api";
 import OngoingCard from "./ongoing-card";
 import CompletedCard from "./completed-card";
-import dynamic from "next/dynamic";
-const LastWatched = dynamic(() => import("./last-watched"), {
-  ssr: false,
-});
+import LastWatched from "./last-watched";
 
 export default function HomeCard() {
   const { data: dataHome, error: errorHome } = useGetHomeQuery({});
-
   if (errorHome) return <>Error fetching...</>;
 
   return (

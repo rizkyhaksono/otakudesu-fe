@@ -38,7 +38,7 @@ export default function GenresPagination({
   const prevPageEnabled = has_previous_page === true && current_page > 1;
 
   return (
-    <Pagination className="mt-5">
+    <Pagination>
       <PaginationContent>
         <PaginationItem>
           {prevPageEnabled && (
@@ -68,8 +68,8 @@ export default function GenresPagination({
                   <Link key={pageNumber} href={`/genres/${genreName}/?page=${pageNumber}`}>
                     <DropdownMenuItem
                       className={`mb-2 mr-2 flex cursor-pointer justify-center ${isCurrentPage
-                          ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
-                          : ""
+                        ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
+                        : ""
                         }`}
                     >
                       {pageNumber}

@@ -4,7 +4,6 @@ import { getSavedEpisode, deleteAllEpisode } from "@/helpers/storage-episode";
 import { Card, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { subtitle, title } from "./primitives";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -20,6 +19,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import Typography from "@/components/ui/typography";
 
 export default function LastWatched() {
   const lastWatched = getSavedEpisode();
@@ -40,10 +40,10 @@ export default function LastWatched() {
 
   return (
     <Card className="border-none">
-      <CardHeader className={title({ className: "text-center", size: "xl" })}>
+      <CardHeader className="text-center text-xl font-bold">
         Last Watched
       </CardHeader>
-      <ScrollArea>
+      <ScrollArea className="max-[465px]:w-[350px] max-[565px]:w-[400px] max-[665px]:w-[500px] max-[765px]:w-[600px] max-[865px]:w-[700px] max-[970px]:w-[800px] max-[1060px]:w-[900px] max-[1160px]:w-[1000px] max-[1300px]:w-[1100px] whitespace-nowrap">
         <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (
@@ -61,18 +61,14 @@ export default function LastWatched() {
                     alt="Poster Last Watched"
                   />
                 </Link>
-                <div className={subtitle({
-                  className: "my-3 text-center",
-                })}>
-                  <ScrollArea className="w-60">
-                    <div className="p-2">{episode.title}</div>
-                    <ScrollBar orientation="horizontal" />
-                  </ScrollArea>
-                </div>
+                <ScrollArea className="w-60 p-2">
+                  <Typography.P className="text-center">{episode.title}</Typography.P>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
               </Card>
             ))
           ) : (
-            <div>No episode watched yet</div>
+            <Typography.P>No episode watched yet</Typography.P>
           )}
         </div>
         <ScrollBar orientation="horizontal" />

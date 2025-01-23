@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetGenresQuery } from "@/redux/api/genre-api";
+import { useGetGenresQuery } from "@/redux/api/anime/genre-api";
 import { Card, CardHeader } from "@/components/ui/card";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import Link from "next/link";

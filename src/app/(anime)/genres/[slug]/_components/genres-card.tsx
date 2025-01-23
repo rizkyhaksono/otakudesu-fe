@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { title, subtitle } from "@/components/layout/primitives";
 import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { GenresAnimeProps } from "@/types/genres-anime";
 import { Badge } from "@/components/ui/badge";
+import Typography from "@/components/ui/typography";
 
 export default function GenresCard({
   animeHeader,
@@ -43,27 +43,17 @@ export default function GenresCard({
                 height={300}
               />
               <div className="mt-4 space-y-1 px-4 pb-4">
-                <p className={title()}>{anime.title}</p>
-                <p
-                  className={subtitle({
-                    className:
-                      "pt-3 underline decoration-solid underline-offset-4",
-                  })}
-                >
-                  Total Episode {anime.episode_count}
-                </p>
-                <p className={subtitle()}>
-                  Rating: {anime.rating === "" ? "-" : anime.rating}
-                </p>
-                <p className={subtitle()}>Studio: {anime.studio}</p>
-                <p className={subtitle()}>Season: {anime.season}</p>
+                <Typography.P className="text-lg font-bold">{anime.title}</Typography.P>
+                <Typography.P className="pt-3 text-sm underline decoration-solid underline-offset-4">Total Episode {anime.episode_count}</Typography.P>
+                <Typography.P className="text-sm">Rating: {anime.rating === "" ? "-" : anime.rating}</Typography.P>
+                <Typography.P className="text-sm">Studio: {anime.studio}</Typography.P>
+                <Typography.P className="text-sm">Season: {anime.season}</Typography.P>
                 <div className="flex flex-wrap gap-1">
-                  <p className={subtitle()}>Genres:</p>
+                  <Typography.P>Genres:</Typography.P>
                   {anime.genres.map((genre) => (
                     <Link
                       key={genre.slug}
                       href={`/genres/${genre.slug}?page=1`}
-                      className={subtitle()}
                     >
                       <Badge variant="secondary">{genre.name}</Badge>
                     </Link>

@@ -1,10 +1,10 @@
 import { OnGoingAnimeProps } from "@/types/ongoing-anime";
-import { Card, CardFooter, CardHeader } from "../ui/card";
-import { Button } from "../ui/button";
-import { title, subtitle } from "./primitives";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import SkeletonCard from "./skeleton-card";
+import SkeletonCard from "@/components/layout/skeleton-card";
+import Typography from "@/components/ui/typography";
 
 export default function OngoingCard({
   animeHeader,
@@ -18,7 +18,7 @@ export default function OngoingCard({
   if (!animeData) {
     return (
       <>
-        <CardHeader className={title({ className: "text-center font-bold", size: "xl" })}>
+        <CardHeader className="text-center font-bold">
           {animeHeader}
         </CardHeader>
         <SkeletonCard />
@@ -28,9 +28,7 @@ export default function OngoingCard({
 
   return (
     <>
-      <CardHeader
-        className={title({ className: "text-center font-bold", size: "xl" })}
-      >
+      <CardHeader className="text-center font-bold text-xl">
         {animeHeader}
       </CardHeader>
       <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
@@ -45,19 +43,10 @@ export default function OngoingCard({
                 height={300}
               />
               <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
-                <p className={title()}>{anime.title}</p>
-                <p
-                  className={subtitle({
-                    className:
-                      "pt-3 underline decoration-solid underline-offset-4",
-                  })}
-                >
-                  Total {anime.current_episode}
-                </p>
-                <p className={subtitle()}>Release Day: {anime.release_day}</p>
-                <p className={subtitle()}>
-                  Release Date: {anime.newest_release_date}
-                </p>
+                <Typography.P>{anime.title}</Typography.P>
+                <Typography.P className="pt-3 underline decoration-solid underline-offset-4">Total {anime.current_episode}</Typography.P>
+                <Typography.P>Release Day: {anime.release_day}</Typography.P>
+                <Typography.P>Release Date: {anime.newest_release_date}</Typography.P>
               </div>
             </Card>
           </Link>

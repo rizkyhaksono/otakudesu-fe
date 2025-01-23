@@ -1,10 +1,10 @@
 import { CompletedAnimeProps } from "@/types/completed-anime";
-import { Card, CardFooter, CardHeader } from "../ui/card";
-import { Button } from "../ui/button";
-import { title, subtitle } from "./primitives";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import SkeletonCard from "./skeleton-card";
+import SkeletonCard from "@/components/layout/skeleton-card";
+import Typography from "@/components/ui/typography";
 
 export default function CompletedCard({
   animeHeader,
@@ -28,9 +28,7 @@ export default function CompletedCard({
 
   return (
     <>
-      <CardHeader
-        className={title({ className: "text-center font-bold", size: "xl" })}
-      >
+      <CardHeader className="text-center font-bold text-xl">
         {animeHeader}
       </CardHeader>
       <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
@@ -45,19 +43,14 @@ export default function CompletedCard({
                 height={300}
               />
               <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
-                <p className={title()}>{anime.title}</p>
-                <p
-                  className={subtitle({
-                    className:
-                      "pt-3 underline decoration-solid underline-offset-4",
-                  })}
-                >
+                <Typography.P>{anime.title}</Typography.P>
+                <Typography.P className="pt-3 underline decoration-solid underline-offset-4">
                   Total Episode {anime.episode_count}
-                </p>
-                <p className={subtitle()}>Rating: {anime.rating}</p>
-                <p className={subtitle()}>
+                </Typography.P>
+                <Typography.P>Rating: {anime.rating}</Typography.P>
+                <Typography.P>
                   Last Release Date: {anime.last_release_date}
-                </p>
+                </Typography.P>
               </div>
             </Card>
           </Link>

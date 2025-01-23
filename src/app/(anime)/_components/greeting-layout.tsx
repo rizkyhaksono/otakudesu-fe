@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
-import { title } from "./primitives";
 
 export default function GreetingLayout() {
   return (
@@ -34,14 +33,14 @@ export default function GreetingLayout() {
               href="#started"
               className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-400/50 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-blue-300/50 dark:bg-blue-400/20 hover:dark:shadow-blue-300/10 sm:mb-0 sm:w-auto"
             >
-              <span className={title()}>Get Started</span>
+              <span>Get Started</span>
               <FaArrowRight />
             </Link>
             <Link
               href="/anime"
               className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gray-100 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-gray-300/50 dark:bg-gray-600/30 dark:text-white hover:dark:shadow-white/10 sm:mb-0 sm:w-auto"
             >
-              <span className={title()}>Search Anime</span>
+              <span>Search Anime</span>
               <FaSearch />
             </Link>
           </div>

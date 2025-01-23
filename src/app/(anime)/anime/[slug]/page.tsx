@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, notFound } from "next/navigation";
-import { useGetAnimeQuery } from "@/redux/api/anime-api";
+import { useGetAnimeQuery } from "@/redux/api/anime/anime-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,9 +11,9 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
-import AnimeRecommendations from "@/components/layout/anime-recommendations";
+import AnimeRecommendations from "./_components/anime-recommendations";
 import { saveEpisode } from "@/helpers/storage-episode";
-import { subtitle } from "@/components/layout/primitives";
+import Typography from "@/components/ui/typography";
 
 export default function AnimeSlugPage() {
   const router = useParams();
@@ -97,10 +97,7 @@ export default function AnimeSlugPage() {
               (episode: any, index: number) => (
                 <Button
                   variant={"outline"}
-                  className={subtitle({
-                    className:
-                      "mt-2 flex w-full justify-start whitespace-normal rounded-xl px-5 py-3 text-start text-base font-normal duration-300",
-                  })}
+                  className="mt-2 flex w-full justify-start whitespace-normal rounded-xl px-5 py-3 text-start text-base font-normal duration-300"
                   key={episode.slug}
                 >
                   <Link
@@ -114,7 +111,7 @@ export default function AnimeSlugPage() {
                       })
                     }
                   >
-                    <p className="font-medium">{episode.episode}</p>
+                    <Typography.P className="font-medium">{episode.episode}</Typography.P>
                   </Link>
                 </Button>
               ),
@@ -128,6 +125,6 @@ export default function AnimeSlugPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </div >
   );
 }

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useGetSearchQuery } from "@/redux/api/search-api";
-import AnimeSearchCard from "@/components/layout/anime-search-card";
+import { useGetSearchQuery } from "@/redux/api/anime/search-api";
+import AnimeSearchCard from "@/app/(anime)/anime/_components/anime-search-card";
 
 export default function AnimeSearchPage() {
   const [search, setSearch] = useState("");

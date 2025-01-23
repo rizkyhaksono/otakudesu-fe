@@ -1,4 +1,4 @@
-import { baseApi } from "../axios-base-query";
+import { baseApi } from "../../axios-base-query";
 
 export const episodeApi = baseApi.enhanceEndpoints({}).injectEndpoints({
   endpoints(builder) {

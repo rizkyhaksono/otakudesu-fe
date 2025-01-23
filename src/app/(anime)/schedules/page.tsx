@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetSchedulesQuery } from "@/redux/api/schedules-api";
+import { useGetSchedulesQuery } from "@/redux/api/anime/schedules-api";
 import { Card, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import SkeletonCard from "@/components/layout/skeleton-card";

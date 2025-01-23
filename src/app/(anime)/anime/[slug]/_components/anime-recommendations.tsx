@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "../ui/card";
-import { title } from "./primitives";
+import Typography from "../ui/typography";
 
 interface RecommendationsProps {
   title: string;
@@ -15,9 +15,9 @@ export default function AnimeRecommendations({
 }: Readonly<{ recommendations: RecommendationsProps[] }>) {
   return (
     <>
-      <p className={title({ className: "text-start", size: "xl" })}>
+      <Typography.P className="text-start">
         Recommendations
-      </p>
+      </Typography.P>
       <div className="mt-2 grid gap-4 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
         {recommendations.map((recommendation) => (
           <Card key={recommendation.slug}>
@@ -31,9 +31,9 @@ export default function AnimeRecommendations({
                 height={400}
               />
               <CardContent>
-                <p className={title({ className: "mt-4" })}>
+                <Typography.P className="mt-4">
                   {recommendation.title}
-                </p>
+                </Typography.P>
               </CardContent>
             </Link>
           </Card>

@@ -1,12 +1,11 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useGetEpisodeQuery } from "@/redux/api/episode-api";
-import { useGetAnimeQuery } from "@/redux/api/anime-api";
-import { useGetMovieQuery } from "@/redux/api/movie-api";
+import { useGetEpisodeQuery } from "@/redux/api/anime/episode-api";
+import { useGetAnimeQuery } from "@/redux/api/anime/anime-api";
+import { useGetMovieQuery } from "@/redux/api/anime/movie-api";
 import Skeleton from "@/components/layout/skeleton-card";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
-import { title, subtitle } from "@/components/layout/primitives";
 import { updateEpisode } from "@/helpers/storage-episode";
 import { useState } from "react";
 import DisqusComments from "./components/disqus";
@@ -61,8 +60,6 @@ export default function AnimeEpisodesPage() {
           provider={provider}
           router={link}
           setProvider={setProvider}
-          subtitle={subtitle}
-          title={title}
           updateEpisode={updateEpisode}
         />
       )}

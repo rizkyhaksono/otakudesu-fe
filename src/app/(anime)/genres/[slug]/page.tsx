@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetGenreSlugQuery } from "@/redux/api/genre-api";
+import { useGetGenreSlugQuery } from "@/redux/api/anime/genre-api";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { useParams, useSearchParams, usePathname, notFound } from "next/navigation";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
-import GenresCard from "./components/genres-card";
-import GenresPagination from "./components/genres-pagination";
+import GenresCard from "./_components/genres-card";
+import GenresPagination from "./_components/genres-pagination";
 
 export default function GenreSlugPage() {
   const param = useParams<{ slug: string }>();
@@ -39,7 +39,7 @@ export default function GenreSlugPage() {
   if (!dataGenre?.data?.anime || dataGenre.data.anime.length === 0) return notFound();
 
   return (
-    <>
+    <div className="mb-2">
       <GenresCard
         animeHeader={pascalCaseGenreName + " Anime"}
         animeData={dataGenre?.data?.anime}
@@ -49,6 +49,6 @@ export default function GenreSlugPage() {
         animeData={dataGenre?.data?.pagination}
         genreName={genreName}
       />
-    </>
+    </div>
   );
 }
