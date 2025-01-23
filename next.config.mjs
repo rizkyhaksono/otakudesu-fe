@@ -12,6 +12,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "tv1.idlix.my",
+      },
+      {
+        protocol: "https",
         hostname: "c4.wallpaperflare.com",
       },
       {
