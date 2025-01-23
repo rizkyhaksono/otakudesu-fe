@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetHomeQuery } from "@/redux/api/anime/home-api";
+import { useGetHomeQuery } from "@/redux/api/anime/anime-home-api";
 import OngoingCard from "./ongoing-card";
 import CompletedCard from "./completed-card";
 import LastWatched from "./last-watched";

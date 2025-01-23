@@ -1,6 +1,6 @@
-import { baseApi } from "../../axios-base-query";
+import { baseAnimeApi } from "@/redux/axios-base-query";
 
-export const schedulesApi = baseApi.enhanceEndpoints({}).injectEndpoints({
+export const schedulesApi = baseAnimeApi.enhanceEndpoints({}).injectEndpoints({
   endpoints(builder) {
     return {
       getSchedules: builder.query({

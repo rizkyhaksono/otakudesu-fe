@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import { baseApi } from "./axios-base-query";
+import { baseAnimeApi, baseComicApi, baseMovieApi } from "./axios-base-query";
 
 export const createNoopStorage = () => ({
   getItem() {
@@ -27,7 +27,9 @@ export const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  [baseApi.reducerPath]: baseApi.reducer,
+  [baseAnimeApi.reducerPath]: baseAnimeApi.reducer,
+  [baseComicApi.reducerPath]: baseComicApi.reducer,
+  [baseMovieApi.reducerPath]: baseMovieApi.reducer,
 });
 
 export default rootReducer;

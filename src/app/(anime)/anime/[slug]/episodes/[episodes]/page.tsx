@@ -1,9 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useGetEpisodeQuery } from "@/redux/api/anime/episode-api";
+import { useGetEpisodeQuery } from "@/redux/api/anime/anime-episode-api";
 import { useGetAnimeQuery } from "@/redux/api/anime/anime-api";
-import { useGetMovieQuery } from "@/redux/api/anime/movie-api";
+import { useGetMovieQuery } from "@/redux/api/anime/anime-movie-api";
 import Skeleton from "@/components/layout/skeleton-card";
 import { useDynamicTitle } from "@/helpers/dynamic-title";
 import { updateEpisode } from "@/helpers/storage-episode";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetGenreSlugQuery } from "@/redux/api/anime/genre-api";
+import { useGetGenreSlugQuery } from "@/redux/api/anime/anime-genre-api";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { useParams, useSearchParams, usePathname, notFound } from "next/navigation";
 import { useDynamicTitle } from "@/helpers/dynamic-title";

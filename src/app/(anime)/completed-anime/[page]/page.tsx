@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetCompleteAnimeQuery } from "@/redux/api/anime/completeanime-api";
+import { useGetCompleteAnimeQuery } from "@/redux/api/anime/anime-completed-api";
 import { notFound, usePathname } from "next/navigation";
 import CompletedCard from "@/components/layout/completed-card";
 import CompletedPagination from "./components/complete-pagination";

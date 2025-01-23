@@ -2,7 +2,7 @@
 
 import OngoingCard from "@/components/layout/ongoing-card";
 import OngoingPagination from "./components/ongoing-pagination";
-import { useGetOnGoingAnimeQuery } from "@/redux/api/anime/ongoinganime-api";
+import { useGetOnGoingAnimeQuery } from "@/redux/api/anime/anime-ongoing-api";
 import { notFound, usePathname } from "next/navigation";
 
 export default function OngoingAnimePage() {

@@ -8,6 +8,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "shinigami09.com",
+      },
+      {
+        protocol: "https",
         hostname: "c4.wallpaperflare.com",
       },
       {

@@ -1,6 +1,6 @@
-import { baseApi } from "../../axios-base-query"
+import { baseAnimeApi } from "@/redux/axios-base-query";
 
-export const completeAnimeApi = baseApi.enhanceEndpoints({}).injectEndpoints({
+export const completeAnimeApi = baseAnimeApi.enhanceEndpoints({}).injectEndpoints({
   endpoints(builder) {
     return {
       getCompleteAnime: builder.query({

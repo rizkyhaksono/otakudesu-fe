@@ -5,7 +5,7 @@ import {
 } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
 import rootReducer, { rootPersistConfig } from "./root-reducer";
-import { baseApi } from "./axios-base-query";
+import { baseAnimeApi, baseComicApi, baseMovieApi } from "./axios-base-query";
 
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, rootReducer),
@@ -13,7 +13,11 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
       immutableCheck: false,
-    }).concat(baseApi.middleware),
+    }).concat(
+      baseAnimeApi.middleware,
+      baseComicApi.middleware,
+      baseMovieApi.middleware
+    ),
 });
 
 const persistor = persistStore(store);
