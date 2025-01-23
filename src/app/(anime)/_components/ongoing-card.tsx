@@ -43,10 +43,10 @@ export default function OngoingCard({
                 height={300}
               />
               <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
-                <Typography.P>{anime.title}</Typography.P>
-                <Typography.P className="pt-3 underline decoration-solid underline-offset-4">Total {anime.current_episode}</Typography.P>
-                <Typography.P>Release Day: {anime.release_day}</Typography.P>
-                <Typography.P>Release Date: {anime.newest_release_date}</Typography.P>
+                <Typography.P className="text-lg font-bold">{anime.title}</Typography.P>
+                <Typography.P className="pt-3 text-sm underline decoration-solid underline-offset-4">Total {anime.current_episode}</Typography.P>
+                <Typography.P className="text-sm">Release Day: {anime.release_day}</Typography.P>
+                <Typography.P className="text-sm">Release Date: {anime.newest_release_date}</Typography.P>
               </div>
             </Card>
           </Link>

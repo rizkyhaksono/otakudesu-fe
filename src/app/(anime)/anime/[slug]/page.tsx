@@ -46,8 +46,8 @@ export default function AnimeSlugPage() {
           <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">
             <Image
               className="h-96 w-96 rounded-xl object-cover"
-              width={400}
-              height={400}
+              width={1000}
+              height={1000}
               src={dataAnime?.data?.poster}
               alt={dataAnime?.data?.title}
             />
@@ -92,7 +92,7 @@ export default function AnimeSlugPage() {
               </div>
             </div>
           </div>
-          <ul className="mt-5">
+          <div className="mt-5">
             {dataAnime?.data?.episode_lists.map(
               (episode: any, index: number) => (
                 <Button
@@ -111,12 +111,12 @@ export default function AnimeSlugPage() {
                       })
                     }
                   >
-                    <Typography.P className="font-medium">{episode.episode}</Typography.P>
+                    <Typography.P className="font-sans text-sm">{episode.episode}</Typography.P>
                   </Link>
                 </Button>
               ),
             )}
-          </ul>
+          </div>
           <Separator className="my-5" />
           {dataAnime?.data?.recommendations && (
             <AnimeRecommendations

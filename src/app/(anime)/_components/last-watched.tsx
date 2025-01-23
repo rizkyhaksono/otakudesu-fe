@@ -43,7 +43,7 @@ export default function LastWatched() {
       <CardHeader className="text-center text-xl font-bold">
         Last Watched
       </CardHeader>
-      <ScrollArea className="max-[465px]:w-[350px] max-[565px]:w-[400px] max-[665px]:w-[500px] max-[765px]:w-[600px] max-[865px]:w-[700px] max-[970px]:w-[800px] max-[1060px]:w-[900px] max-[1160px]:w-[1000px] max-[1300px]:w-[1100px] whitespace-nowrap">
+      <ScrollArea className="max-[465px]:w-[330px] max-[565px]:w-[400px] max-[665px]:w-[500px] max-[765px]:w-[600px] max-[865px]:w-[700px] max-[970px]:w-[800px] max-[1060px]:w-[900px] max-[1160px]:w-[1000px] max-[1300px]:w-[1100px] whitespace-nowrap">
         <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
           {lastWatched.length > 0 ? (
             lastWatched.map((episode: any) => (

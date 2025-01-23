@@ -195,7 +195,7 @@ export default function TVSeries({
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
                           <Button
-                            className="rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base"
+                            className="md:text-base lg:text-base xl:text-base"
                           >
                             {url.provider}
                           </Button>
@@ -222,7 +222,7 @@ export default function TVSeries({
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
                           <Button
-                            className="rounded-xl bg-gray-200/50 px-4 py-1 duration-300 hover:bg-gray-200/80 dark:bg-gray-200/10 hover:dark:bg-gray-200/40 md:text-base lg:text-base xl:text-base"
+                            className="md:text-base lg:text-base xl:text-base"
                           >
                             {url.provider}
                           </Button>
