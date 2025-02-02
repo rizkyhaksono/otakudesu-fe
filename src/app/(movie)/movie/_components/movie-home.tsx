@@ -25,9 +25,6 @@ export default function MovieHome() {
       <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
         {movieData?.data?.movies.map((movie: any) => (
           <Card key={movie.title} className="shadow-lg hover:shadow-xl transition-shadow text-start">
-            <CardHeader>
-              <CardTitle>{movie.title}</CardTitle>
-            </CardHeader>
             <CardContent>
               <Image
                 src={movie.image}
@@ -38,6 +35,7 @@ export default function MovieHome() {
                 loading="lazy"
               />
               <div className="mt-4">
+                <Typography.H4>{movie.title}</Typography.H4>
                 <Typography.P>Quality: {movie.quality}</Typography.P>
                 <Typography.P>Rating: {movie.rating}</Typography.P>
                 <Typography.P>Year Release: {movie.year}</Typography.P>
