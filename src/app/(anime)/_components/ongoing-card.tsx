@@ -39,8 +39,8 @@ export default function OngoingCard({
                 src={anime.poster}
                 alt={anime.title}
                 className="rounded-t-lg object-cover max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
-                width={300}
-                height={300}
+                width={1000}
+                height={1000}
               />
               <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
                 <Typography.P className="text-lg font-bold">{anime.title}</Typography.P>

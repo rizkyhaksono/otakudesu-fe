@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "shinigami09.com",
+        hostname: "d40b35e2.delivery.rocketcdn.me",
       },
       {
         protocol: "https",
