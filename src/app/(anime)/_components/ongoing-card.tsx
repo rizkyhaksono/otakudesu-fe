@@ -34,7 +34,7 @@ export default function OngoingCard({
       <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {animeData?.map((anime: OnGoingAnimeProps) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug}>
-            <Card className="items-center rounded-md transition duration-300 hover:bg-muted/40 h-full">
+            <Card className="items-center rounded-md transition duration-300 hover:bg-muted/40 h-full shadow-lg hover:shadow-xl text-start">
               <Image
                 src={anime.poster}
                 alt={anime.title}

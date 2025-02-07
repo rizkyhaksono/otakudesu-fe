@@ -12,6 +12,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cdn.uqni.net",
+      },
+      {
+        protocol: "https",
         hostname: "tv1.idlix.my",
       },
       {
