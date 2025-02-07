@@ -16,16 +16,16 @@ export default function ComicChapterDetail() {
   if (chapterData?.data === undefined) return notFound()
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
-      <div className="flex flex-col gap-4">
+    <div className="">
+      <div className="flex flex-col">
         {chapterData.data.image.map((imgSrc: string, index: number) => (
           <Image
             key={imgSrc + index}
             src={imgSrc}
             alt={`Page ${index + 1}`}
-            width={1000}
-            height={1400}
-            className="w-full h-auto object-cover rounded-lg"
+            width={2000}
+            height={2000}
+            className="w-full h-auto object-cover"
             loading="lazy"
           />
         ))}

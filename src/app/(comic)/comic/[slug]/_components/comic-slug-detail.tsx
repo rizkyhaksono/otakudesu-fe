@@ -89,9 +89,7 @@ export default function ComicSlugDetail() {
             {comicData?.data?.chapters.map((chapter: any) => (
               <Link key={chapter.slug} href={`/comic/chapter/${chapter.slug}`} target="_blank">
                 <Button variant={"outline"} className="w-full justify-start">
-                  <Typography.P className="text-sm">
-                    {chapter.number} - <span className="text-muted-foreground/60">{chapter.date}</span>
-                  </Typography.P>
+                  <Typography.P className="text-sm">{chapter.number}</Typography.P>
                 </Button>
               </Link>
             ))}
