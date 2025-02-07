@@ -1,9 +1,16 @@
 import { Metadata } from "next/types";
 
-export const metadata: Metadata = {
-  title: "Genre Anime | Otakudesu",
-  description: "Genre Anime Page Otakudesu. Build by Rizky Haksono",
-};
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const formattedTitle = params.slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
+  return {
+    title: `${formattedTitle} Anime | Otakudesu`,
+    description: `Anime Genre Page for ${formattedTitle} | Otakudesu. Build by Rizky Haksono`,
+  };
+}
 
 export default function GenreSlugLayout({
   children,

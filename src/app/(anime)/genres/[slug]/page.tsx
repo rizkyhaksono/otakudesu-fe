@@ -3,7 +3,6 @@
 import { useGetGenreSlugQuery } from "@/redux/api/anime/anime-genre-api";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { useParams, useSearchParams, usePathname, notFound } from "next/navigation";
-import { useDynamicTitle } from "@/helpers/dynamic-title";
 import GenresCard from "./_components/genres-card";
 import GenresPagination from "./_components/genres-pagination";
 
@@ -25,8 +24,6 @@ export default function GenreSlugPage() {
     isError: errorGenre,
     isLoading: loadingGenre,
   } = useGetGenreSlugQuery({ slug: param.slug, page: search });
-
-  useDynamicTitle(loadingGenre, pascalCaseGenreName + " Anime");
 
   if (loadingGenre) {
     return <SkeletonCard />;

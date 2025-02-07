@@ -10,7 +10,6 @@ import Skeleton from "@/components/layout/skeleton-card";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import { useDynamicTitle } from "@/helpers/dynamic-title";
 import AnimeRecommendations from "./_components/anime-recommendations";
 import { saveEpisode } from "@/helpers/storage-episode";
 import Typography from "@/components/ui/typography";
@@ -23,8 +22,6 @@ export default function AnimeSlugPage() {
     error: errorAnime,
     isLoading: loadingAnime,
   } = useGetAnimeQuery(router.slug);
-
-  useDynamicTitle(loadingAnime, dataAnime?.data?.title);
 
   if (loadingAnime) {
     return <Skeleton />;

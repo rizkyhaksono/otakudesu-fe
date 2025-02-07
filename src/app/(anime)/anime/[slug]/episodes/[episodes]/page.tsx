@@ -5,7 +5,6 @@ import { useGetEpisodeQuery } from "@/redux/api/anime/anime-episode-api";
 import { useGetAnimeQuery } from "@/redux/api/anime/anime-api";
 import { useGetMovieQuery } from "@/redux/api/anime/anime-movie-api";
 import Skeleton from "@/components/layout/skeleton-card";
-import { useDynamicTitle } from "@/helpers/dynamic-title";
 import { updateEpisode } from "@/helpers/storage-episode";
 import { useState } from "react";
 import DisqusComments from "./components/disqus";
@@ -33,8 +32,6 @@ export default function AnimeEpisodesPage() {
     error: errorAnime,
     isLoading: loadingAnime
   } = useGetAnimeQuery(router.slug);
-
-  useDynamicTitle(loadingEpisode, dataEpisode?.data?.episode ? `Watch ${dataEpisode?.data?.episode} - ${router.slug}` : `Watch ${dataAnime?.data?.title}`);
 
   if (loadingEpisode || loadingAnime) return <Skeleton />;
   if (errorEpisode || errorAnime) return <>Error fetching data...</>;
