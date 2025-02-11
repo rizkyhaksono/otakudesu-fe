@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetMovieHomeQuery } from "@/redux/api/movie/movei-home.api";
+import { useGetMovieHomeQuery } from "@/redux/api/movie/movei-home-api";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import SkeletonCard from "@/components/layout/skeleton-card";
