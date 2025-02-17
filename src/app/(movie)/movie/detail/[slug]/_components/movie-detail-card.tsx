@@ -27,13 +27,6 @@ export default function MovieDetailCard({ slug }: Readonly<{ slug: string }>) {
           <CardTitle>{data?.data?.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <iframe
-            src={data?.data?.streaming}
-            title={`Streaming player for ${data?.data?.title}`}
-            style={{ border: 'none' }}
-            allowFullScreen
-            className="h-[200px] w-full rounded-xl sm:h-[300px] sm:w-full md:h-[400px] md:w-full lg:h-[500px] lg:w-full xl:h-[600px] xl:w-full mb-5"
-          />
           <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">
             <Image
               className="h-96 w-96 rounded-xl object-cover"
@@ -85,6 +78,13 @@ export default function MovieDetailCard({ slug }: Readonly<{ slug: string }>) {
               </div>
             </div>
           </div>
+          <iframe
+            src={data?.data?.streaming}
+            title={`Streaming player for ${data?.data?.title}`}
+            style={{ border: 'none' }}
+            allowFullScreen
+            className="h-[200px] w-full rounded-xl sm:h-[300px] sm:w-full md:h-[400px] md:w-full lg:h-[500px] lg:w-full xl:h-[600px] xl:w-full mt-5"
+          />
         </CardContent>
       </Card>
     </div>
