@@ -71,6 +71,10 @@ const data = {
           title: "Home",
           url: "/movie",
         },
+        {
+          title: "SEarch Movie",
+          url: "/movie/search",
+        },
       ],
     },
   ],

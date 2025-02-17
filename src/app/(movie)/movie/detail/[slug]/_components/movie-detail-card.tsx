@@ -20,8 +20,6 @@ export default function MovieDetailCard({ slug }: Readonly<{ slug: string }>) {
   if (error) return <div>Error loading movie details</div>;
   if (!data) return null;
 
-  console.log(data)
-
   return (
     <div>
       <Card>

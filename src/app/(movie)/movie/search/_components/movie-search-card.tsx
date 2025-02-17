@@ -6,12 +6,17 @@ import { useGetMovieSearchQuery } from "@/redux/api/movie/movie-search-api";
 import SkeletonCard from "@/components/layout/skeleton-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardTitle,
+  CardDescription,
+  CardFooter
+} from "@/components/ui/card";
 import { toast } from "sonner";
 
 export default function MovieSearchCardPage() {
   const [search, setSearch] = useState("");
-  const { data, error, isLoading } = useGetMovieSearchQuery(search);
+  const { data, error, isLoading, isSuccess } = useGetMovieSearchQuery(search, { skip: !search });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,16 +24,9 @@ export default function MovieSearchCardPage() {
     setSearch(formData.get("search") as string);
   };
 
-
-  if (isLoading) return toast.info("Fetching data...");
-
+  if (isLoading) return <SkeletonCard />;
   if (error) return toast.error("Error fetching data...");
-
-  if (search.length > 0) {
-    toast.success("Data fetched successfully.");
-  }
-
-  const movies = data?.data?.movies || [];
+  if (isSuccess) return toast.success("Data fetched successfully!");
 
   return (
     <>
@@ -44,7 +42,7 @@ export default function MovieSearchCardPage() {
       </form>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {movies.map((movie: any) => (
+        {data?.data?.movies.map((movie: any) => (
           <Card key={movie.slug} className="hover:shadow-lg transition-shadow">
             <Image
               src={movie.image}

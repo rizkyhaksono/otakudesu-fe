@@ -146,6 +146,9 @@ export default function Navbar() {
                     <ListItem href="/movie" title="Home">
                       All the movies you love
                     </ListItem>
+                    <ListItem href="/movie/search" title="Searh Movie">
+                      Find your favorite movies
+                    </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
