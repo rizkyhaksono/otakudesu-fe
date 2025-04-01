@@ -8,6 +8,14 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "kiryuu01.com",
+      },
+      {
+        protocol: "https",
+        hostname: "r2.uqni.net",
+      },
+      {
+        protocol: "https",
         hostname: "d40b35e2.delivery.rocketcdn.me",
       },
       {

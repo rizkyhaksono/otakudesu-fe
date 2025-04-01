@@ -19,7 +19,7 @@ export default function ComicHome() {
       <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {comicData?.data?.latestComics.map((comic: any) => (
           <div key={comic.title}>
-            <Link href={`/comic/${comic.slug}`} passHref target="_blank">
+            <Link href={`/comic/${comic.slug}`} passHref>
               <Card key={comic.title} className="shadow-lg hover:shadow-xl transition-shadow text-start h-full">
                 <Image
                   src={comic.image}

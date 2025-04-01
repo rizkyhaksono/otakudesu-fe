@@ -16,7 +16,7 @@ export default function ComicChapterDetail() {
   if (chapterData?.data === undefined) return notFound()
 
   return (
-    <div className="">
+    <div className="container mx-auto max-w-2xl">
       <div className="flex flex-col">
         {chapterData.data.image.map((imgSrc: string, index: number) => (
           <Image
