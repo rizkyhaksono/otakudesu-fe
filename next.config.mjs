@@ -8,6 +8,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "otakudesu.best",
+      },
+      {
+        protocol: "https",
         hostname: "kiryuu01.com",
       },
       {
