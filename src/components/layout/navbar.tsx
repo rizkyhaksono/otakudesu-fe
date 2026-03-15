@@ -52,11 +52,11 @@ export default function Navbar() {
   }
 
   return (
-    <header className="flex sticky top-0 z-50 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
+    <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 border-b border-border/80 bg-background/85 px-4 backdrop-blur-md">
       <div className="container flex w-full max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link className="mr-6 flex items-center space-x-2" href="/">
-            <FaBolt />
+            <FaBolt className="text-accent" />
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
@@ -78,7 +78,7 @@ export default function Navbar() {
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
                         <Link
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-500/10 to-blue-500/30 p-6 no-underline outline-none focus:shadow-md"
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-accent/10 to-primary/40 p-6 no-underline outline-none transition duration-300 focus:shadow-md"
                           href="/"
                         >
                           <FaCat className="size-6" />
@@ -160,14 +160,14 @@ export default function Navbar() {
             <SidebarTrigger />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Link className="flex items-center space-x-2" href="/">
-              <FaBolt />
+              <FaBolt className="text-accent" />
             </Link>
           </div>
           <div className="flex items-center max-[640px]:justify-end sm:justify-end space-x-2">
-            <Link target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono/otakudesu-fe">
+            <Link className="transition-colors duration-300 hover:text-accent" target="_blank" rel="noreferrer" href="https://github.com/rizkyhaksono/otakudesu-fe">
               <FaGithub />
             </Link>
-            <Button onClick={toggleTheme} variant="ghost">
+            <Button onClick={toggleTheme} variant="ghost" className="transition duration-300 hover:bg-accent/10 hover:text-accent">
               {theme === "light" ? <IoSunny /> : <FiMoon />}
             </Button>
           </div>
