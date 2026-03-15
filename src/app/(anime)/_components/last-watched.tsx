@@ -39,11 +39,11 @@ export default function LastWatched() {
         resolve();
       }),
       {
-      loading: "Deleting...",
-      success: "Episodes have been deleted",
-      error: "Failed to delete episodes",
-      finally: () => router.refresh(),
-    }
+        loading: "Deleting...",
+        success: "Episodes have been deleted",
+        error: "Failed to delete episodes",
+        finally: () => router.refresh(),
+      }
     );
   };
 
@@ -93,7 +93,10 @@ export default function LastWatched() {
           {lastWatched.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="transition duration-300 hover:-translate-y-0.5">
+                <Button
+                  variant="destructive"
+                  className="transition duration-300 hover:-translate-y-0.5"
+                >
                   Delete All
                 </Button>
               </AlertDialogTrigger>
@@ -106,9 +109,7 @@ export default function LastWatched() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteAllEpisode}>
-                    Continue
-                  </AlertDialogAction>
+                  <AlertDialogAction onClick={handleDeleteAllEpisode}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
