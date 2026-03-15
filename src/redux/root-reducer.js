@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import { baseAnimeApi, baseComicApi, baseMovieApi } from "./axios-base-query";
+import { baseAnimeApi, baseComicApi, baseMovieApi, baseMovieBoxApi } from "./axios-base-query";
 
 export const createNoopStorage = () => ({
   getItem() {
@@ -15,21 +15,15 @@ export const createNoopStorage = () => ({
 });
 
 export const storage =
-  typeof window !== "undefined"
-    ? createWebStorage("local")
-    : createNoopStorage();
+  typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
 
-export const rootPersistConfig = {
-  key: "root",
-  storage,
-  keyPrefix: "redux-",
-  whitelist: [],
-};
+export const rootPersistConfig = { key: "root", storage, keyPrefix: "redux-", whitelist: [] };
 
 const rootReducer = combineReducers({
   [baseAnimeApi.reducerPath]: baseAnimeApi.reducer,
   [baseComicApi.reducerPath]: baseComicApi.reducer,
   [baseMovieApi.reducerPath]: baseMovieApi.reducer,
+  [baseMovieBoxApi.reducerPath]: baseMovieBoxApi.reducer,
 });
 
 export default rootReducer;
