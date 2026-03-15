@@ -4,41 +4,35 @@ import { FaArrowRight } from "react-icons/fa6";
 
 export default function GreetingLayout() {
   return (
-    <section className="pt-10">
-      <div className="mx-auto max-w-7xl px-12">
-        <div className="mx-auto w-full text-left md:w-11/12 md:text-center xl:w-9/12">
-          <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-foreground md:text-6xl md:tracking-tight">
+    <section className="relative overflow-hidden pt-10">
+      <div className="mx-auto max-w-7xl px-6 sm:px-10">
+        <div className="mx-auto w-full animate-in fade-in zoom-in duration-700 rounded-3xl border border-border/70 bg-card/70 p-7 text-left shadow-sm backdrop-blur-sm md:w-11/12 md:p-10 md:text-center xl:w-9/12">
+          <h1 className="mb-6 text-5xl leading-none tracking-wide text-foreground md:text-7xl">
             <span>Begin an exciting journey&nbsp;</span>
-            <span className="leading-12 block w-full bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text py-2 text-transparent lg:inline">
-              into the world of anime!
-            </span>
+            <span className="text-primary block py-2 lg:inline">into the world of anime!</span>
           </h1>
-          <p className="mb-8 px-0 text-lg font-medium text-foreground md:text-xl lg:px-24">
+
+          <p className="mb-8 px-0 text-base font-medium leading-relaxed text-foreground md:text-xl lg:px-24">
             Start watching an anime without ads! From the{" "}
-            <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
-              community
-            </span>
+            <span className="text-primary py-2 font-bold">community</span>
             , for the{" "}
-            <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
-              community
-            </span>
+            <span className="text-primary py-2 font-bold">community</span>
             , by the{" "}
-            <span className="leading-12 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text py-2 font-bold text-transparent">
-              community
-            </span>
-            {""}.
+            <span className="text-primary py-2 font-bold">community</span>.
           </p>
-          <div className="mb-4 sm:space-x-2 md:mb-8 md:flex md:w-full md:justify-center md:space-x-2">
+
+          <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-start md:mb-0 md:w-full md:justify-center">
             <Link
               href="#started"
-              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-400/50 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-blue-300/50 dark:bg-blue-400/20 hover:dark:shadow-blue-300/10 sm:mb-0 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-lg font-semibold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 sm:w-auto"
             >
               <span>Get Started</span>
               <FaArrowRight />
             </Link>
+
             <Link
               href="/anime"
-              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gray-100 px-6 py-3 text-lg font-medium text-foreground duration-300 hover:shadow-lg hover:shadow-gray-300/50 dark:bg-gray-600/30 dark:text-white hover:dark:shadow-white/10 sm:mb-0 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-secondary px-6 py-3 text-lg font-semibold text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/80 hover:bg-secondary/70 sm:w-auto"
             >
               <span>Search Anime</span>
               <FaSearch />

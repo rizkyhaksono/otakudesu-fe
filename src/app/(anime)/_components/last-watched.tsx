@@ -21,8 +21,15 @@ import {
 import { useRouter } from "next/navigation";
 import Typography from "@/components/ui/typography";
 
+type WatchedEpisode = {
+  episode: string;
+  poster: string;
+  title: string;
+  router: string;
+};
+
 export default function LastWatched() {
-  const lastWatched = getSavedEpisode();
+  const lastWatched = getSavedEpisode() as WatchedEpisode[];
   const router = useRouter();
 
   const handleDeleteAllEpisode = () => {
@@ -30,53 +37,63 @@ export default function LastWatched() {
       new Promise<void>((resolve) => {
         deleteAllEpisode();
         resolve();
-      }), {
+      }),
+      {
       loading: "Deleting...",
       success: "Episodes have been deleted",
       error: "Failed to delete episodes",
       finally: () => router.refresh(),
-    })
+    }
+    );
   };
 
   return (
-    <Card className="border-none">
-      <CardHeader className="text-center text-xl font-bold">
-        Last Watched
+    <Card className="overflow-hidden border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm">
+      <CardHeader className="items-center text-center">
+        <Typography.H3 className="text-4xl tracking-wide">Last Watched</Typography.H3>
+        <span className="mt-2 h-1 w-20 rounded-full bg-primary" />
       </CardHeader>
-      <ScrollArea className="max-[465px]:w-[330px] max-[565px]:w-[400px] max-[665px]:w-[500px] max-[765px]:w-[600px] max-[865px]:w-[700px] max-[970px]:w-[800px] max-[1060px]:w-[900px] max-[1160px]:w-[1000px] max-[1300px]:w-[1100px] whitespace-nowrap">
-        <div className={`${lastWatched.length > 0 ? "flex space-x-2" : "py-4 text-center"}`}>
+
+      <ScrollArea className="w-full whitespace-nowrap px-4 pb-2">
+        <div className={lastWatched.length > 0 ? "flex gap-3 pb-2" : "py-4 text-center"}>
           {lastWatched.length > 0 ? (
-            lastWatched.map((episode: any) => (
+            lastWatched.map((episode, index) => (
               <Card
                 key={episode.router}
-                className="items-center duration-300 hover:bg-muted/40"
+                className="group min-w-[190px] max-w-[210px] overflow-hidden border border-border/70 bg-background/70 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-md"
+                style={{ animationDelay: `${Math.min(index * 70, 490)}ms` }}
               >
                 <Link href={episode.episode}>
                   <Image
                     src={episode.poster}
-                    className="rounded-t-lg object-cover max-[640px]:h-40 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-64 lg:h-72 lg:w-72 xl:h-96 xl:w-full"
+                    className="h-56 w-full rounded-t-lg object-cover transition-transform duration-500 group-hover:scale-[1.06]"
                     width={200}
                     height={100}
                     loading="lazy"
                     alt="Poster Last Watched"
                   />
                 </Link>
-                <ScrollArea className="w-60 p-2">
-                  <Typography.P className="text-center">{episode.title}</Typography.P>
+                <ScrollArea className="w-full px-3 py-2">
+                  <Typography.P className="line-clamp-2 text-center text-sm font-medium leading-6">
+                    {episode.title}
+                  </Typography.P>
                   <ScrollBar orientation="horizontal" />
                 </ScrollArea>
               </Card>
             ))
           ) : (
-            <Typography.P>No episode watched yet</Typography.P>
+            <Typography.P className="w-full py-6 text-center text-muted-foreground">
+              No episode watched yet
+            </Typography.P>
           )}
         </div>
+
         <ScrollBar orientation="horizontal" />
-        <div className="mx-2 my-4 flex justify-start">
+        <div className="my-4 flex justify-start pb-2">
           {lastWatched.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive">
+                <Button variant="destructive" className="transition duration-300 hover:-translate-y-0.5">
                   Delete All
                 </Button>
               </AlertDialogTrigger>
