@@ -4,26 +4,36 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    /* Base Colors - Sleek White/Light Mode */
+    --background: 0 0% 98%;
+    --foreground: 240 10% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 240 10% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 240 10% 8%;
+    
+    /* Crunchyroll Orange Primary */
+    --primary: 28 95% 54%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Subtle Gray for Secondary actions */
+    --secondary: 240 5% 90%;
+    --secondary-foreground: 240 10% 8%;
+    
+    --muted: 240 5% 90%;
+    --muted-foreground: 240 4% 46%;
+    
+    --accent: 28 95% 54%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 1rem;
+    
+    --border: 240 5% 85%;
+    --input: 240 5% 85%;
+    --ring: 28 95% 54%;
+    --radius: 0.75rem;
+    
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -40,25 +50,38 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    /* Premium Dark Base - similar to Crunchyroll's dark interfaces */
+    --background: 232 14% 10%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    
+    /* Slightly lighter dark for cards */
+    --card: 230 13% 14%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    
+    --popover: 230 13% 14%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
+    
+    /* Crunchyroll Orange Primary */
+    --primary: 28 95% 54%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Sleek secondary darks */
+    --secondary: 228 12% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    
+    --muted: 228 12% 20%;
+    --muted-foreground: 240 5% 65%;
+    
+    --accent: 28 95% 54%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    
+    --border: 228 12% 22%;
+    --input: 228 12% 22%;
+    --ring: 28 95% 54%;
+    
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
