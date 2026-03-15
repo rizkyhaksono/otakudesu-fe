@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-typescript-webpackaliases",
+    "redhat.vscode-xml",
+    "eamodio.gitlens",
+    "ms-vscode.makefile-tools",
+    "Gruntfuggly.todo-tree",
+    "wayou.vscode-todo-highlight",
+    "usernamehw.errorlens",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "mikestead.dotenv",
+    "janisdd.vscode-edit-csv",
+    "christian-kohler.path-intellisense",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers"
+  ]
+}
