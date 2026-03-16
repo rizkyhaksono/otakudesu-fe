@@ -36,7 +36,7 @@ export default function ComicHome() {
         <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
           {comicData?.data?.latestComics.map((comic: any) => (
             <div key={comic.title}>
-              <Link href={`/comic/${comic.slug}`} passHref>
+              <Link href={`/comic/${comic.slug}`}>
                 <Card
                   key={comic.title}
                   className="h-full text-start shadow-lg transition-shadow hover:shadow-xl"
@@ -73,7 +73,7 @@ export default function ComicHome() {
         <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
           {comicData?.data?.popularComics.map((comic: any) => (
             <div key={comic.title}>
-              <Link href={`/comic/${comic.slug}`} passHref target="_blank">
+              <Link href={`/comic/${comic.slug}`} target="_blank">
                 <Card
                   key={comic.title}
                   className="h-full text-start shadow-lg transition-shadow hover:shadow-xl"

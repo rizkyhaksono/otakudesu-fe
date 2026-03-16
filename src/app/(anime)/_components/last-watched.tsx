@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useEffect, useMemo, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,16 +27,56 @@ type WatchedEpisode = {
   poster: string;
   title: string;
   router: string;
+  watchedAt?: number;
 };
 
 export default function LastWatched() {
-  const lastWatched = getSavedEpisode() as WatchedEpisode[];
+  const [lastWatched, setLastWatched] = useState<WatchedEpisode[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const refreshEpisodes = () => {
+      setLastWatched(getSavedEpisode() as WatchedEpisode[]);
+    };
+
+    refreshEpisodes();
+    globalThis.addEventListener("focus", refreshEpisodes);
+    globalThis.addEventListener("storage", refreshEpisodes);
+
+    return () => {
+      globalThis.removeEventListener("focus", refreshEpisodes);
+      globalThis.removeEventListener("storage", refreshEpisodes);
+    };
+  }, []);
+
+  const currentProgress = useMemo(() => {
+    if (lastWatched.length === 0) return null;
+    return lastWatched[0];
+  }, [lastWatched]);
+
+  const parseEpisodeNumber = (episodePath: string) => {
+    const matched = /\/episodes\/(\d+)/.exec(episodePath);
+    return matched?.[1] ?? "-";
+  };
+
+  const timeAgo = (timestamp?: number) => {
+    if (!timestamp) return "Recently watched";
+
+    const diff = Date.now() - timestamp;
+    const minute = 60 * 1000;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+
+    if (diff < hour) return `${Math.max(1, Math.floor(diff / minute))}m ago`;
+    if (diff < day) return `${Math.floor(diff / hour)}h ago`;
+    return `${Math.floor(diff / day)}d ago`;
+  };
 
   const handleDeleteAllEpisode = () => {
     toast.promise(
       new Promise<void>((resolve) => {
         deleteAllEpisode();
+        setLastWatched([]);
         resolve();
       }),
       {
@@ -53,6 +94,24 @@ export default function LastWatched() {
         <Typography.H3 className="text-4xl tracking-wide">Last Watched</Typography.H3>
         <span className="mt-2 h-1 w-20 rounded-full bg-primary" />
       </CardHeader>
+
+      {currentProgress && (
+        <div className="mx-4 mb-3 rounded-lg border border-border/70 bg-background/60 px-3 py-2">
+          <Typography.P className="text-xs uppercase tracking-wide text-muted-foreground">
+            Continue Watching
+          </Typography.P>
+          <Link
+            href={currentProgress.episode}
+            className="mt-1 block text-sm font-semibold hover:text-primary"
+          >
+            {currentProgress.title}
+          </Link>
+          <Typography.P className="mt-0.5 text-xs text-muted-foreground">
+            Episode {parseEpisodeNumber(currentProgress.episode)} •{" "}
+            {timeAgo(currentProgress.watchedAt)}
+          </Typography.P>
+        </div>
+      )}
 
       <ScrollArea className="w-full whitespace-nowrap px-4 pb-2">
         <div className={lastWatched.length > 0 ? "flex gap-3 pb-2" : "py-4 text-center"}>
@@ -76,6 +135,9 @@ export default function LastWatched() {
                 <ScrollArea className="w-full px-3 py-2">
                   <Typography.P className="line-clamp-2 text-center text-sm font-medium leading-6">
                     {episode.title}
+                  </Typography.P>
+                  <Typography.P className="text-center text-xs text-muted-foreground">
+                    Ep {parseEpisodeNumber(episode.episode)} • {timeAgo(episode.watchedAt)}
                   </Typography.P>
                   <ScrollBar orientation="horizontal" />
                 </ScrollArea>

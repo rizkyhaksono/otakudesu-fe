@@ -1,5 +1,4 @@
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "@/components/layout/skeleton-card";
@@ -26,11 +25,12 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
   if (!animeData) {
     return (
       <section className="mb-10">
-        <CardHeader className="items-center text-center">
-          <Typography.H3 className="text-3xl tracking-wide text-foreground">
+        <div className="mb-4 flex items-center gap-3 px-2">
+          <span className="h-5 w-1 rounded-full bg-primary" />
+          <Typography.H3 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
             {animeHeader}
           </Typography.H3>
-        </CardHeader>
+        </div>
         <SkeletonCard />
       </section>
     );
@@ -38,14 +38,24 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
 
   return (
     <section className="mb-12">
-      <CardHeader className="items-center text-center">
-        <Typography.H3 className="inline-flex items-center text-4xl tracking-wide text-foreground">
-          {animeHeader}
-        </Typography.H3>
-        <span className="mt-3 h-1 w-24 rounded-full bg-primary" />
-      </CardHeader>
+      <div className="mb-4 flex items-center justify-between px-2">
+        <div className="flex items-center gap-3">
+          <span className="h-5 w-1 rounded-full bg-primary" />
+          <Typography.H3 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            {animeHeader}
+          </Typography.H3>
+        </div>
+        {seeAllLink && (
+          <Link
+            href={`/${seeAllLink}/1`}
+            className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            See all →
+          </Link>
+        )}
+      </div>
 
-      <div className="mx-2 grid gap-4 max-[640px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-3 px-2 max-[640px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
         {animeData.map((anime, index) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug} className="group h-full">
             <Card
@@ -65,27 +75,16 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </div>
 
-              <div className="mt-4 flex-1 space-y-2 px-4 pb-4">
-                <Typography.P className="line-clamp-2 text-base font-semibold leading-6 sm:text-lg">
+              <div className="mt-3 flex-1 space-y-1.5 px-3 pb-3">
+                <Typography.P className="line-clamp-2 text-sm font-semibold leading-5 sm:text-base">
                   {anime.title}
                 </Typography.P>
-                <div className="space-y-1 text-sm text-muted-foreground">{renderMeta(anime)}</div>
+                <div className="space-y-1 text-xs text-muted-foreground sm:text-sm">{renderMeta(anime)}</div>
               </div>
             </Card>
           </Link>
         ))}
       </div>
-
-      {seeAllLink && (
-        <CardFooter className="mt-4 flex justify-end">
-          <Button
-            variant="secondary"
-            className="transition-transform duration-300 hover:-translate-y-0.5"
-          >
-            <Link href={`/${seeAllLink}/1`}>See all</Link>
-          </Button>
-        </CardFooter>
-      )}
     </section>
   );
 }

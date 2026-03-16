@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find d:/workspace/stack/nextjs/otakudesu-fe -type f -name *loading* -o -name *skeleton*)"
+    ]
+  }
+}

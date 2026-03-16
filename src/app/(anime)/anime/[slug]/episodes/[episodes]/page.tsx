@@ -30,7 +30,7 @@ export default function AnimeEpisodesPage() {
   const {
     data: dataAnime,
     error: errorAnime,
-    isLoading: loadingAnime
+    isLoading: loadingAnime,
   } = useGetAnimeQuery(router.slug);
 
   if (loadingEpisode || loadingAnime) return <Skeleton />;
@@ -55,7 +55,7 @@ export default function AnimeEpisodesPage() {
           episodeNum={episodeNum}
           handleAnimeEpisode={handleAnimeEpisode}
           provider={provider}
-          router={link}
+          slug={router.slug}
           setProvider={setProvider}
           updateEpisode={updateEpisode}
         />

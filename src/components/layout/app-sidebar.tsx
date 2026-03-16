@@ -3,6 +3,7 @@
 import * as React from "react"
 import { GalleryVerticalEnd, Minus, Plus } from "lucide-react"
 import { usePathname } from 'next/navigation'
+import Link from "next/link"
 
 import {
   Collapsible,
@@ -72,7 +73,7 @@ const data = {
           url: "/movie",
         },
         {
-          title: "SEarch Movie",
+          title: "Search Movie",
           url: "/movie/search",
         },
       ],
@@ -133,7 +134,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               asChild
                               isActive={isUrlActive(item.url, pathname)}
                             >
-                              <a href={item.url}>{item.title}</a>
+                              <Link href={item.url}>{item.title}</Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}

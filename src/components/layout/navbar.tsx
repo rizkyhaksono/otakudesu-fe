@@ -55,21 +55,23 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 border-b border-border/80 bg-background/85 px-4 backdrop-blur-md">
       <div className="container flex w-full max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
-          <Link className="mr-6 flex items-center space-x-2" href="/">
+          <Link className="mr-6 flex items-center gap-2" href="/">
             <FaBolt className="text-accent" />
+            <span className="font-bold tracking-tight text-foreground">OtakuDesu</span>
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/"
                     className={navigationMenuTriggerStyle({
                       className: "mr-4 bg-transparent",
                     })}
                   >
                     Home
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent">Anime</NavigationMenuTrigger>
@@ -146,7 +148,7 @@ export default function Navbar() {
                     <ListItem href="/movie" title="Home">
                       All the movies you love
                     </ListItem>
-                    <ListItem href="/movie/search" title="Searh Movie">
+                    <ListItem href="/movie/search" title="Search Movie">
                       Find your favorite movies
                     </ListItem>
                   </ul>
@@ -156,11 +158,12 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 max-[640px]:justify-between sm:justify-between md:justify-end lg:justify-end xl:justify-end">
-          <div className="flex items-center space-x-2 sm:hidden">
+          <div className="flex items-center gap-2 sm:hidden">
             <SidebarTrigger />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Link className="flex items-center space-x-2" href="/">
+            <Separator orientation="vertical" className="h-4" />
+            <Link className="flex items-center gap-1.5" href="/">
               <FaBolt className="text-accent" />
+              <span className="font-bold tracking-tight text-foreground">OtakuDesu</span>
             </Link>
           </div>
           <div className="flex items-center space-x-2 max-[640px]:justify-end sm:justify-end">

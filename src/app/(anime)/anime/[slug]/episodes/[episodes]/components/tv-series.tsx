@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import {
   Select,
   SelectContent,
@@ -24,18 +20,18 @@ export default function TVSeries({
   episodeNum,
   handleAnimeEpisode,
   provider,
-  router,
+  slug,
   setProvider,
   updateEpisode,
 }: Readonly<{
-  dataAnime: any
-  dataEpisode: any
-  episodeNum: any
-  handleAnimeEpisode: any
-  provider: string
-  router: any
-  setProvider: any
-  updateEpisode: any
+  dataAnime: any;
+  dataEpisode: any;
+  episodeNum: any;
+  handleAnimeEpisode: any;
+  provider: string;
+  slug: string;
+  setProvider: any;
+  updateEpisode: any;
 }>) {
   if (dataEpisode?.data === undefined) return notFound();
 
@@ -55,30 +51,27 @@ export default function TVSeries({
         </div>
 
         {/* Episode navigation */}
-        <div className="mt-4 flex flex-row max-[640px]:flex-wrap items-center justify-between gap-2">
+        <div className="mt-4 flex flex-row items-center justify-between gap-2 max-[640px]:flex-wrap">
           {dataEpisode?.data?.has_previous_episode === true ? (
             <HoverCard>
-              <HoverCardTrigger className="max-[644px]:w-full">
+              <HoverCardTrigger asChild>
                 <Button
                   variant={"secondary"}
                   className="rounded-lg duration-300 max-[644px]:w-full"
-                  onClick={() =>
-                    updateEpisode(
-                      `/anime/${router.slug}/episodes/${episodeNum! - 1}`,
-                      router.slug,
-                    )
-                  }
+                  onClick={() => {
+                    const prevEpisodeUrl = `/anime/${slug}/episodes/${episodeNum! - 1}`;
+                    updateEpisode(prevEpisodeUrl, slug);
+                    handleAnimeEpisode(episodeNum! - 1);
+                  }}
                 >
-                  <Link href={`${episodeNum! - 1}`}>
-                    Previous
-                  </Link>
+                  Previous
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent>Back to previous episode.</HoverCardContent>
             </HoverCard>
           ) : (
             <HoverCard>
-              <HoverCardTrigger className="max-[644px]:w-full">
+              <HoverCardTrigger asChild>
                 <Button
                   variant={"outline"}
                   className="cursor-not-allowed rounded-lg text-foreground opacity-50 max-[644px]:w-full"
@@ -96,9 +89,7 @@ export default function TVSeries({
           {/* Select episode */}
           <Select
             value={episodeNum?.toString()}
-            onValueChange={(value: string) =>
-              handleAnimeEpisode(Number(value))
-            }
+            onValueChange={(value: string) => handleAnimeEpisode(Number(value))}
           >
             <SelectTrigger className="w-full max-[644px]:my-2 max-[644px]:w-full">
               <SelectValue placeholder="Select an episode" />
@@ -107,14 +98,9 @@ export default function TVSeries({
               <SelectGroup>
                 <SelectLabel>All episodes</SelectLabel>
                 {dataAnime?.data?.episode_lists.map((episode: any, index: number) => (
-                  <Link
-                    href={`/anime/${router.slug}/episodes/${index + 1}`}
-                    key={episode.slug}
-                  >
-                    <SelectItem value={`${index + 1}`}>
-                      {`Episode ${index + 1}`}
-                    </SelectItem>
-                  </Link>
+                  <SelectItem value={`${index + 1}`} key={episode.slug}>
+                    {`Episode ${index + 1}`}
+                  </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
@@ -130,10 +116,7 @@ export default function TVSeries({
                 <SelectLabel>Media Provider</SelectLabel>
                 {dataEpisode?.data?.download_urls.mp4?.map((resolution: any) =>
                   resolution.urls.map((url: any) => (
-                    <SelectItem
-                      value={url.url}
-                      key={`${resolution.resolution} - ${url.provider}`}
-                    >
+                    <SelectItem value={url.url} key={`${resolution.resolution} - ${url.provider}`}>
                       {`${resolution.resolution} - ${url.provider}`}
                     </SelectItem>
                   ))
@@ -145,27 +128,24 @@ export default function TVSeries({
           {/* Next episode */}
           {dataEpisode?.data?.has_next_episode === true ? (
             <HoverCard>
-              <HoverCardTrigger className="max-[644px]:w-full">
+              <HoverCardTrigger asChild>
                 <Button
                   variant={"secondary"}
                   className="rounded-lg duration-300 max-[644px]:w-full"
-                  onClick={() =>
-                    updateEpisode(
-                      `/anime/${router.slug}/episodes/${episodeNum! + 1}`,
-                      router.slug,
-                    )
-                  }
+                  onClick={() => {
+                    const nextEpisodeUrl = `/anime/${slug}/episodes/${episodeNum! + 1}`;
+                    updateEpisode(nextEpisodeUrl, slug);
+                    handleAnimeEpisode(episodeNum! + 1);
+                  }}
                 >
-                  <Link href={`${episodeNum! + 1}`}>
-                    Next
-                  </Link>
+                  Next
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent>Go to next episode.</HoverCardContent>
             </HoverCard>
           ) : (
             <HoverCard>
-              <HoverCardTrigger className="max-[644px]:w-full">
+              <HoverCardTrigger asChild>
                 <Button
                   variant={"outline"}
                   className="cursor-not-allowed rounded-lg border text-foreground opacity-50 max-[644px]:w-full"
@@ -187,16 +167,12 @@ export default function TVSeries({
             <ul className="mt-5">
               {dataEpisode?.data?.download_urls.mp4?.map((resolution: any) => (
                 <li key={resolution.resolution} className="mb-4 flex gap-2">
-                  <Typography.P>
-                    {resolution.resolution}:
-                  </Typography.P>
+                  <Typography.P>{resolution.resolution}:</Typography.P>
                   <ul className="mb-2 flex flex-wrap gap-2">
                     {resolution.urls.map((url: any) => (
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
-                          <Button
-                            className="md:text-base lg:text-base xl:text-base"
-                          >
+                          <Button className="md:text-base lg:text-base xl:text-base">
                             {url.provider}
                           </Button>
                         </Link>
@@ -214,16 +190,12 @@ export default function TVSeries({
             <ul className="mt-5">
               {dataEpisode?.data?.download_urls.mkv?.map((resolution: any) => (
                 <li key={resolution.resolution} className="mb-4 flex gap-2">
-                  <Typography.P>
-                    {resolution.resolution}:
-                  </Typography.P>
+                  <Typography.P>{resolution.resolution}:</Typography.P>
                   <ul className="mb-2 flex flex-wrap items-center gap-2">
                     {resolution.urls.map((url: any) => (
                       <li key={url.provider}>
                         <Link target="_blank" href={url.url}>
-                          <Button
-                            className="md:text-base lg:text-base xl:text-base"
-                          >
+                          <Button className="md:text-base lg:text-base xl:text-base">
                             {url.provider}
                           </Button>
                         </Link>
@@ -237,5 +209,5 @@ export default function TVSeries({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,10 +1,14 @@
 import { type Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { chapter: string } }): Promise<Metadata> {
-  const formattedTitle = params.chapter
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+type Params = Promise<{ chapter: string }>;
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { chapter } = await params;
+
+  const formattedTitle = chapter
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return {
     title: `Read - ${formattedTitle} | Otakudesu`,
@@ -13,9 +17,5 @@ export async function generateMetadata({ params }: { params: { chapter: string }
 }
 
 export default function ComicChapterLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
