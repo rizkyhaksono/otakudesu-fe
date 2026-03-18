@@ -10,12 +10,8 @@ export default async function MovieDetailPage({ params }: Readonly<{ params: Par
   const isMovieBoxId = /^\d+$/.test(slug);
 
   return (
-    <div className="container mx-auto mt-10">
-      {isMovieBoxId ? (
-        <MovieBoxDetailCard subjectId={slug} />
-      ) : (
-        <MovieDetailCard slug={slug} />
-      )}
+    <div className="container mx-auto mt-10 px-4 pb-10 sm:px-6 lg:px-8">
+      {isMovieBoxId ? <MovieBoxDetailCard subjectId={slug} /> : <MovieDetailCard slug={slug} />}
     </div>
   );
 }

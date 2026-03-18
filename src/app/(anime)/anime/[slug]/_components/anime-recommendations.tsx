@@ -21,13 +21,17 @@ export default function AnimeRecommendations({
           Recommendations
         </Typography.P>
       </div>
-      <div className="grid gap-3 max-[640px]:grid-cols-2 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
         {recommendations.map((recommendation) => (
-          <Link key={recommendation.slug} href={`/anime/${recommendation.slug}`} className="group h-full">
+          <Link
+            key={recommendation.slug}
+            href={`/anime/${recommendation.slug}`}
+            className="group h-full"
+          >
             <Card className="h-full overflow-hidden border-border/60 bg-card/90 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-[1.01] group-hover:shadow-md">
               <div className="relative overflow-hidden">
                 <Image
-                  className="w-full rounded-t-sm object-cover transition-transform duration-500 group-hover:scale-[1.06] max-[640px]:h-36 sm:h-52 md:h-48 lg:h-52"
+                  className="h-36 w-full rounded-t-sm object-cover transition-transform duration-500 group-hover:scale-[1.06] sm:h-52 md:h-48 lg:h-52"
                   src={recommendation.poster}
                   alt={recommendation.title}
                   width={300}

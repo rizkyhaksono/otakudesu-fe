@@ -11,13 +11,13 @@ export default function AnimeSearchPage() {
   const { data: dataAnime } = useGetSearchQuery(search);
 
   return (
-    <div className="container mx-auto min-h-screen">
+    <div className="container mx-auto min-h-screen px-4 sm:px-6 lg:px-8">
       {/* Search Hero Section */}
       <div className="relative mb-10 overflow-hidden rounded-b-3xl border-b border-border/70 bg-card pb-12 pt-16 shadow-sm">
         {/* Background Decorative Element */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background opacity-80" />
 
-        <div className="relative z-10 mx-auto px-4 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+        <div className="relative z-10 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl sm:mx-auto sm:text-center">
             <h2 className="mb-4 text-center font-sans text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Discover Your{" "}
@@ -64,7 +64,7 @@ export default function AnimeSearchPage() {
         </div>
       </div>
 
-      <div className="px-4 pb-12 sm:px-6 lg:px-8">
+      <div className="pb-12">
         {search && dataAnime?.data?.length > 0 && (
           <h3 className="mb-6 text-2xl font-bold tracking-tight">Search Results</h3>
         )}

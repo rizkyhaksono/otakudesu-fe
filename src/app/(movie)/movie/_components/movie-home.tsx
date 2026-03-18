@@ -39,7 +39,7 @@ export default function MovieHome() {
             Latest Movies
           </Typography.H3>
         </div>
-        <div className="grid gap-3 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
           {movieData?.data?.movies.map((movie: any) => (
             <Link key={movie.title} href={`/movie/detail/${movie.slug}`} className="group h-full">
               <Card className="h-full overflow-hidden border-border/60 bg-card/90 shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-[1.01] group-hover:shadow-md">
@@ -49,7 +49,7 @@ export default function MovieHome() {
                     alt={movie.title}
                     width={1000}
                     height={1000}
-                    className="rounded-t-lg object-cover transition-transform duration-500 group-hover:scale-[1.06] max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                    className="h-36 w-full rounded-t-lg object-cover transition-transform duration-500 group-hover:scale-[1.06] sm:h-80 md:h-72 lg:h-72 xl:h-96"
                     loading="lazy"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

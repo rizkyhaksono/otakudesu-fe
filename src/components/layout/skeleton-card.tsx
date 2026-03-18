@@ -4,7 +4,7 @@ export default function SkeletonCard() {
   const skeletonIds = ["a", "b", "c", "d", "e"];
 
   return (
-    <div className="mx-2 my-8 grid gap-4 max-[640px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+    <div className="mx-2 my-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
       {skeletonIds.map((id, index) => (
         <div
           key={id}
@@ -12,7 +12,7 @@ export default function SkeletonCard() {
           style={{ animationDelay: `${index * 80}ms` }}
         >
           <div
-            className="animate-shimmer h-40 w-full rounded-md sm:h-64 lg:h-72 [background-size:400%_100%]"
+            className="h-40 w-full animate-shimmer rounded-md [background-size:400%_100%] sm:h-64 lg:h-72"
             style={{
               background:
                 "linear-gradient(105deg, hsl(var(--muted)) 40%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--muted)) 60%)",

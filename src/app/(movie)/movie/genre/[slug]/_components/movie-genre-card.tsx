@@ -22,16 +22,16 @@ export default function MovieGenreCard({
   }
 
   return (
-    <div className="container mx-auto mt-5">
+    <div className="container mx-auto mt-5 px-4 sm:px-6 lg:px-8">
       <CardHeader className="text-center text-2xl font-bold">{movieHeader}</CardHeader>
-      <CardContent className="grid gap-2 max-[640px]:grid-cols-2 max-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+      <CardContent className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
         {movieData.map((movie: MovieGenreItem) => (
           <Link href={`/movie/detail/${movie.slug}`} key={movie.slug}>
             <div className="h-full items-center rounded-md border transition duration-300 hover:shadow-xl dark:hover:bg-black dark:hover:shadow-black">
               <Image
                 src={movie.image}
                 alt={movie.title}
-                className="rounded-t-lg object-cover max-[640px]:h-52 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                className="h-52 w-full rounded-t-lg object-cover sm:h-80 md:h-72 lg:h-72 xl:h-96"
                 width={300}
                 height={300}
               />

@@ -12,20 +12,20 @@ import { Button } from "@/components/ui/button";
 import { notFound, usePathname } from "next/navigation";
 
 export default function ComicSlugDetail() {
-  const pathname = usePathname()
-  const slug = pathname.split("/").pop()
+  const pathname = usePathname();
+  const slug = pathname.split("/").pop();
 
-  const { data: comicData, error: comicError, isLoading } = useGetComicDetailQuery(slug as string)
+  const { data: comicData, error: comicError, isLoading } = useGetComicDetailQuery(slug as string);
 
   if (isLoading) {
-    return <SkeletonCard />
+    return <SkeletonCard />;
   }
 
   if (comicError) {
-    return <>Error fetching data...</>
+    return <>Error fetching data...</>;
   }
 
-  if (comicData?.data === undefined) return notFound()
+  if (comicData?.data === undefined) return notFound();
 
   return (
     <div>
@@ -34,44 +34,29 @@ export default function ComicSlugDetail() {
           <CardTitle>{comicData?.data?.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">
+          <div className="flex flex-col gap-5 md:flex-row md:gap-6">
             <Image
-              className="h-96 w-96 rounded-xl object-cover"
+              className="h-64 w-full rounded-xl object-cover sm:h-80 md:h-96 md:w-72 lg:w-80"
               width={1000}
               height={1000}
               src={comicData?.data?.image}
               alt={comicData?.data?.title}
+              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 320px, 384px"
             />
-            <div className="max-[766px]:my-5 min-[766px]:ml-10">
+            <div className="md:flex-1">
               <Typography.P className="font-normal">
                 {comicData?.data?.description || "Sinopsis belum ada."}
               </Typography.P>
               <Separator className="my-2" />
-              <div className="text-sm text-muted-foreground grid grid-cols-2">
-                <Typography.P>
-                  Alternative Title: {comicData?.data?.altTitle}
-                </Typography.P>
-                <Typography.P>
-                  Status: {comicData?.data?.status}
-                </Typography.P>
-                <Typography.P>
-                  Artist: {comicData?.data?.artist}
-                </Typography.P>
-                <Typography.P>
-                  Type: {comicData?.data?.type}
-                </Typography.P>
-                <Typography.P>
-                  Latest {comicData?.data?.latestChapter}
-                </Typography.P>
-                <Typography.P>
-                  Released: {comicData?.data?.released}
-                </Typography.P>
-                <Typography.P>
-                  Posted on: {comicData?.data?.postedOn}
-                </Typography.P>
-                <Typography.P>
-                  Updated on: {comicData?.data?.updatedOn}
-                </Typography.P>
+              <div className="grid grid-cols-1 gap-1 text-sm text-muted-foreground sm:grid-cols-2 sm:gap-2">
+                <Typography.P>Alternative Title: {comicData?.data?.altTitle}</Typography.P>
+                <Typography.P>Status: {comicData?.data?.status}</Typography.P>
+                <Typography.P>Artist: {comicData?.data?.artist}</Typography.P>
+                <Typography.P>Type: {comicData?.data?.type}</Typography.P>
+                <Typography.P>Latest {comicData?.data?.latestChapter}</Typography.P>
+                <Typography.P>Released: {comicData?.data?.released}</Typography.P>
+                <Typography.P>Posted on: {comicData?.data?.postedOn}</Typography.P>
+                <Typography.P>Updated on: {comicData?.data?.updatedOn}</Typography.P>
                 <div className="mt-1">
                   Genres:{" "}
                   <span className="font-semibold">
@@ -97,5 +82,5 @@ export default function ComicSlugDetail() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

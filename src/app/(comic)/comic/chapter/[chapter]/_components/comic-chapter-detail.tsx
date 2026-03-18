@@ -6,17 +6,21 @@ import SkeletonCard from "@/components/layout/skeleton-card";
 import Image from "next/image";
 
 export default function ComicChapterDetail() {
-  const pathname = usePathname()
-  const slug = pathname.split("/").pop()
+  const pathname = usePathname();
+  const slug = pathname.split("/").pop();
 
-  const { data: chapterData, error: chapterError, isLoading } = useGetComicChapterQuery(slug as string)
+  const {
+    data: chapterData,
+    error: chapterError,
+    isLoading,
+  } = useGetComicChapterQuery(slug as string);
 
-  if (isLoading) return <SkeletonCard />
-  if (chapterError) return <>Error fetching data...</>
-  if (chapterData?.data === undefined) return notFound()
+  if (isLoading) return <SkeletonCard />;
+  if (chapterError) return <>Error fetching data...</>;
+  if (chapterData?.data === undefined) return notFound();
 
   return (
-    <div className="container mx-auto max-w-2xl">
+    <div className="container mx-auto max-w-2xl px-2 pb-6 sm:px-4">
       <div className="flex flex-col">
         {chapterData.data.image.map((imgSrc: string, index: number) => (
           <Image
@@ -25,11 +29,11 @@ export default function ComicChapterDetail() {
             alt={`Page ${index + 1}`}
             width={2000}
             height={2000}
-            className="w-full h-auto object-cover"
+            className="h-auto w-full object-cover"
             loading="lazy"
           />
         ))}
       </div>
     </div>
-  )
+  );
 }

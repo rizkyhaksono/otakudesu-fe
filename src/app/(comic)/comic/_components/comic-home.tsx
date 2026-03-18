@@ -33,7 +33,7 @@ export default function ComicHome() {
       {heroItems.length > 0 && <SharedHeroCarousel items={heroItems} />}
       <div className="container mx-auto mt-10 space-y-6 px-4">
         <Typography.H2 className="mb-5 mt-10 text-center">{"Latest Comics"}</Typography.H2>
-        <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+        <div className="mx-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
           {comicData?.data?.latestComics.map((comic: any) => (
             <div key={comic.title}>
               <Link href={`/comic/${comic.slug}`}>
@@ -46,7 +46,7 @@ export default function ComicHome() {
                     alt={comic.title}
                     width={1000}
                     height={1000}
-                    className="rounded-t-lg object-cover max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                    className="h-36 w-full rounded-t-lg object-cover sm:h-80 md:h-72 lg:h-72 xl:h-96"
                     loading="lazy"
                   />
                   <div className="mt-4 flex-1 space-y-1 px-4 pb-4">
@@ -70,7 +70,7 @@ export default function ComicHome() {
         </div>
 
         <Typography.H2 className="mb-5 mt-10 text-center">{"Popular Comics"}</Typography.H2>
-        <div className="mx-2 grid gap-2 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
+        <div className="mx-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5">
           {comicData?.data?.popularComics.map((comic: any) => (
             <div key={comic.title}>
               <Link href={`/comic/${comic.slug}`} target="_blank">
@@ -83,7 +83,7 @@ export default function ComicHome() {
                     alt={comic.title}
                     width={1000}
                     height={1000}
-                    className="rounded-t-lg object-cover max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                    className="h-36 w-full rounded-t-lg object-cover sm:h-80 md:h-72 lg:h-72 xl:h-96"
                     loading="lazy"
                   />
                   <div className="mt-4 flex-1 space-y-1 px-4 pb-4">

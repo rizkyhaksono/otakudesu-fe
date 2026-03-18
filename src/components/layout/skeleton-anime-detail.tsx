@@ -6,7 +6,6 @@ const shimmerStyle = {
   background:
     "linear-gradient(105deg, hsl(var(--muted)) 40%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--muted)) 60%)",
 };
-
 export default function SkeletonAnimeDetail() {
   return (
     <div className="container mx-auto mt-6 px-4 pb-12">
@@ -21,7 +20,7 @@ export default function SkeletonAnimeDetail() {
             {/* Poster shimmer */}
             <div className="flex-shrink-0">
               <div
-                className="animate-shimmer h-72 w-full rounded-xl sm:h-80 md:h-96 md:w-60 lg:w-72 [background-size:400%_100%]"
+                className="h-72 w-full animate-shimmer rounded-xl [background-size:400%_100%] sm:h-80 md:h-96 md:w-60 lg:w-72"
                 style={shimmerStyle}
               />
             </div>
@@ -61,8 +60,19 @@ export default function SkeletonAnimeDetail() {
           <div className="mt-6">
             <Skeleton className="mb-3 h-5 w-24" />
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <Skeleton key={i} className="h-9 w-full rounded-lg" />
+              {[
+                "ep-1",
+                "ep-2",
+                "ep-3",
+                "ep-4",
+                "ep-5",
+                "ep-6",
+                "ep-7",
+                "ep-8",
+                "ep-9",
+                "ep-10",
+              ].map((id) => (
+                <Skeleton key={id} className="h-9 w-full rounded-lg" />
               ))}
             </div>
           </div>
@@ -75,14 +85,14 @@ export default function SkeletonAnimeDetail() {
               <span className="h-5 w-1 rounded-full bg-primary" />
               <Skeleton className="h-5 w-32" />
             </div>
-            <div className="grid gap-3 max-[640px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
               {["a", "b", "c", "d", "e"].map((id) => (
                 <div
                   key={id}
                   className="overflow-hidden rounded-lg border border-border/60 bg-card/90"
                 >
                   <div
-                    className="animate-shimmer w-full rounded-t-sm max-[640px]:h-36 sm:h-52 md:h-48 lg:h-52 [background-size:400%_100%]"
+                    className="h-36 w-full animate-shimmer rounded-t-sm [background-size:400%_100%] sm:h-52 md:h-48 lg:h-52"
                     style={shimmerStyle}
                   />
                   <div className="space-y-1 px-3 py-2">

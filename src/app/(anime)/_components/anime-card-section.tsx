@@ -38,8 +38,8 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
 
   return (
     <section className="mb-12">
-      <div className="mb-4 flex items-center justify-between px-2">
-        <div className="flex items-center gap-3">
+      <div className="mb-4 flex items-end justify-between px-2">
+        <div className="flex items-end gap-3">
           <span className="h-5 w-1 rounded-full bg-primary" />
           <Typography.H3 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
             {animeHeader}
@@ -55,7 +55,7 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
         )}
       </div>
 
-      <div className="grid gap-3 px-2 max-[640px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 px-2 sm:grid-cols-3 lg:grid-cols-5">
         {animeData.map((anime, index) => (
           <Link href={`/anime/${anime.slug}`} key={anime.slug} className="group h-full">
             <Card
@@ -68,7 +68,7 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
                 <Image
                   src={anime.poster}
                   alt={anime.title}
-                  className="rounded-t-lg object-cover transition-transform duration-500 group-hover:scale-[1.06] max-[640px]:h-36 max-[640px]:w-full sm:h-80 sm:w-full md:h-72 md:w-full lg:h-72 lg:w-full xl:h-96 xl:w-full"
+                  className="h-36 w-full rounded-t-lg object-cover transition-transform duration-500 group-hover:scale-[1.06] sm:h-80 md:h-72 lg:h-72 xl:h-96"
                   width={1000}
                   height={1000}
                 />
@@ -79,7 +79,9 @@ export default function AnimeCardSection<T extends BaseAnimeItem>({
                 <Typography.P className="line-clamp-2 text-sm font-semibold leading-5 sm:text-base">
                   {anime.title}
                 </Typography.P>
-                <div className="space-y-1 text-xs text-muted-foreground sm:text-sm">{renderMeta(anime)}</div>
+                <div className="space-y-1 text-xs text-muted-foreground sm:text-sm">
+                  {renderMeta(anime)}
+                </div>
               </div>
             </Card>
           </Link>

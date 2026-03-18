@@ -27,8 +27,7 @@ export default function OngoingPagination({
     return null;
   }
 
-  const { current_page, last_visible_page, has_previous_page, has_next_page } =
-    ongoingData;
+  const { current_page, last_visible_page, has_previous_page, has_next_page } = ongoingData;
   const totalPages = last_visible_page > 0 ? last_visible_page : 1;
   const nextPageEnabled = has_next_page === true && current_page < totalPages;
   const prevPageEnabled = has_previous_page === true && current_page > 1;
@@ -38,9 +37,7 @@ export default function OngoingPagination({
       <PaginationContent>
         <PaginationItem>
           {prevPageEnabled && (
-            <PaginationPrevious
-              href={`/ongoing-anime/${ongoingData?.current_page - 1}`}
-            />
+            <PaginationPrevious href={`/ongoing-anime/${ongoingData?.current_page - 1}`} />
           )}
         </PaginationItem>
 
@@ -52,35 +49,36 @@ export default function OngoingPagination({
           <DropdownMenuTrigger>
             <PaginationEllipsis />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="max-w-[92vw]">
             <DropdownMenuLabel>All Pages</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <div
-              className="m-3 grid grid-cols-5"
+              className="m-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
               key={ongoingData?.current_page}
             >
-              {[...Array(ongoingData?.last_visible_page)].map((_, index) => (
-                <Link key={ongoingData?.current_page} href={`${index + 1}`}>
-                  <DropdownMenuItem
-                    className={`mb-2 mr-2 flex cursor-pointer justify-center ${
-                      Number(ongoingData?.current_page) === index + 1
-                        ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
-                        : ""
-                    }`}
-                  >
-                    {index + 1}
-                  </DropdownMenuItem>
-                </Link>
-              ))}
+              {[...Array(ongoingData?.last_visible_page)].map((_, index) => {
+                const pageNumber = index + 1;
+                return (
+                  <Link key={pageNumber} href={`/ongoing-anime/${pageNumber}`}>
+                    <DropdownMenuItem
+                      className={`mb-2 mr-2 flex cursor-pointer justify-center ${
+                        Number(ongoingData?.current_page) === pageNumber
+                          ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white"
+                          : ""
+                      }`}
+                    >
+                      {pageNumber}
+                    </DropdownMenuItem>
+                  </Link>
+                );
+              })}
             </div>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <PaginationItem>
           {nextPageEnabled && (
-            <PaginationNext
-              href={`/ongoing-anime/${ongoingData?.current_page + 1}`}
-            />
+            <PaginationNext href={`/ongoing-anime/${ongoingData?.current_page + 1}`} />
           )}
         </PaginationItem>
       </PaginationContent>

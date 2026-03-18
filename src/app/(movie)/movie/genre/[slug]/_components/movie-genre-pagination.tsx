@@ -50,10 +50,10 @@ export default function MovieGenrePagination({
           <DropdownMenuTrigger>
             <PaginationEllipsis />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="flex flex-col">
+          <DropdownMenuContent className="flex max-w-[92vw] flex-col">
             <DropdownMenuLabel>All Pages</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <div className="m-3 grid grid-cols-5">
+            <div className="m-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
               {Array.from({ length: paginationData.last_visible_page }, (_, index) => {
                 const pageNumber = index + 1;
                 const isCurrentPage = paginationData.current_page === pageNumber;

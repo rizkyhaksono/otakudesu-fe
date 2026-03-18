@@ -26,20 +26,21 @@ export default function MovieBoxDetailCard({ subjectId }: Readonly<{ subjectId: 
           <CardTitle>{subject.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="max-[640px]:grid-cols-1 md:flex lg:flex xl:flex">
+          <div className="flex flex-col gap-5 md:flex-row md:gap-6">
             <Image
-              className="h-96 w-96 rounded-xl object-cover"
+              className="h-64 w-full rounded-xl object-cover sm:h-80 md:h-96 md:w-72 lg:w-80"
               width={1000}
               height={1000}
               src={subject.cover.url}
               alt={subject.title}
+              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 320px, 384px"
             />
-            <div className="max-[766px]:my-5 min-[766px]:ml-10">
+            <div className="md:flex-1">
               <Typography.P className="font-normal">
                 {subject.description || "No description available."}
               </Typography.P>
               <Separator className="my-2" />
-              <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+              <div className="grid grid-cols-1 gap-1 text-sm text-muted-foreground sm:grid-cols-2 sm:gap-2">
                 <Typography.P>IMDB Rating: {subject.imdbRatingValue || "N/A"}</Typography.P>
                 <Typography.P>Duration: {subject.duration} minutes</Typography.P>
                 <Typography.P>Country: {subject.countryName}</Typography.P>
