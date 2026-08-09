@@ -8,9 +8,6 @@ const nextConfig = {
     serverSourceMaps: false,
   },
   productionBrowserSourceMaps: false,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     remotePatterns: [
       {
