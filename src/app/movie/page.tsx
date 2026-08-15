@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getMovieHome } from "@/services/movie";
+import { isBackendReachable } from "@/lib/api";
+import BackendDown from "@/components/media/backend-down";
 import PageShell from "@/components/media/page-shell";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
@@ -37,6 +39,10 @@ export default async function MovieHomePage() {
   const empty =
     home.trending.length + home.popular_movies.length + home.popular_tv.length === 0;
 
+  // Only pay for the health check when there is nothing to show — an empty
+  // section has two very different causes and they need different advice.
+  const backendUp = empty ? await isBackendReachable() : true;
+
   return (
     <PageShell
       title="Film & Serial"
@@ -52,10 +58,12 @@ export default async function MovieHomePage() {
         </div>
       }
     >
-      {empty ? (
+      {empty && !backendUp ? <BackendDown /> : null}
+
+      {empty && backendUp ? (
         <EmptyState
           title="Sumber film belum dikonfigurasi"
-          description="Isi TMDB_ACCESS_TOKEN di backend untuk mengaktifkan bagian ini."
+          description="Backend berjalan, tapi TMDB_ACCESS_TOKEN belum diisi. Tambahkan di otakudesu-be/.env lalu restart backend."
           action={{ href: "/", label: "Kembali ke beranda" }}
         />
       ) : null}

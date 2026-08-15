@@ -69,3 +69,23 @@ export async function apiOr<T>(path: string, fallback: T, options: Options = {})
 export function apiBaseUrl(): string {
   return BASE_URL;
 }
+
+/**
+ * Cheap liveness check against the backend.
+ *
+ * Used only to tell two very different failures apart in the UI: "the backend
+ * is down" and "the backend is up but this domain has no data". Rendering the
+ * same empty state for both sent a real user hunting through their `.env` when
+ * the actual problem was a service that had not been started.
+ */
+export async function isBackendReachable(): Promise<boolean> {
+  try {
+    const response = await fetch(`${BASE_URL}/api/health`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(3000),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
