@@ -12,6 +12,7 @@ const KIND_LABEL: Record<BookmarkEntry["kind"], string> = {
   comic: "Komik",
   movie: "Film",
   tv: "TV",
+  radio: "Radio",
 };
 
 export default function BookmarkList() {

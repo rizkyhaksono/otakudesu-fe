@@ -296,3 +296,35 @@ export type ComicBrowse = {
   genres: ComicGenre[];
   comics: ComicSummary[];
 };
+
+// ── Radio ─────────────────────────────────────────────────────────────────────
+
+export type RadioStation = {
+  id: string;
+  name: string;
+  stream: string;
+  favicon: string | null;
+  tags: string[];
+  codec: string | null;
+  bitrate: number | null;
+  popularity: number;
+  homepage: string | null;
+  state: string | null;
+  language: string | null;
+  /** Only set when the stream is HTTPS; otherwise the browser would block it. */
+  direct: string | null;
+  proxy_url: string;
+};
+
+export type RadioTag = { slug: string; count: number };
+
+// ── News ──────────────────────────────────────────────────────────────────────
+
+export type NewsItem = {
+  id: string;
+  title: string;
+  link: string;
+  summary: string | null;
+  published_at: string | null;
+  category: string | null;
+};

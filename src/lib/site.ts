@@ -49,7 +49,15 @@ export const NAV: readonly NavEntry[] = [
   { label: "Anime", key: "anime", items: ANIME_LINKS },
   { label: "Komik", key: "comic", items: COMIC_LINKS },
   { href: "/movie", label: "Film", key: "movie" },
-  { href: "/tv", label: "TV Live", key: "tv" },
+  {
+    label: "Lainnya",
+    key: "more",
+    items: [
+      { href: "/tv", label: "TV Live", key: "tv", description: "Siaran TV Indonesia" },
+      { href: "/radio", label: "Radio", key: "radio", description: "Stasiun radio Indonesia" },
+      { href: "/berita", label: "Berita", key: "news", description: "Kabar terbaru dunia anime" },
+    ],
+  },
 ];
 
 /** Flattened form, used by the footer and the sitemap. */
@@ -59,6 +67,8 @@ export const NAV_FLAT: readonly NavLink[] = [
   ...COMIC_LINKS,
   { href: "/movie", label: "Film", key: "movie" },
   { href: "/tv", label: "TV Live", key: "tv" },
+  { href: "/radio", label: "Radio", key: "radio" },
+  { href: "/berita", label: "Berita", key: "news" },
   { href: "/bookmark", label: "Bookmark", key: "bookmark" },
 ];
 

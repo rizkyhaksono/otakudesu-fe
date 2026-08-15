@@ -26,11 +26,11 @@ export default function SiteHeader() {
           <ul className="flex items-center">
             {NAV.map((entry) =>
               isNavGroup(entry) ? (
-                <li key={entry.label}>
+                <li key={entry.label} data-tour={entry.key ? `nav-${entry.key}` : undefined}>
                   <NavDropdown label={entry.label} navKey={entry.key} items={entry.items} />
                 </li>
               ) : (
-                <li key={entry.href}>
+                <li key={entry.href} data-tour={entry.key ? `nav-${entry.key}` : undefined}>
                   <NavLinkItem href={entry.href} label={entry.label} navKey={entry.key} />
                 </li>
               ),
@@ -39,16 +39,21 @@ export default function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-          <SearchTrigger />
+          <span data-tour="search">
+            <SearchTrigger />
+          </span>
           <Link
             href="/bookmark"
+            data-tour="bookmark"
             aria-label="Bookmark"
             title="Bookmark"
             className="press hover:bg-accent hidden size-9 items-center justify-center sm:inline-flex"
           >
             <Bookmark className="size-4" aria-hidden />
           </Link>
-          <LanguageSwitcher />
+          <span data-tour="language">
+            <LanguageSwitcher />
+          </span>
           <ThemeToggle />
           <MobileNav />
         </div>

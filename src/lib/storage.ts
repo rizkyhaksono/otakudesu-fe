@@ -8,7 +8,7 @@
  * get imported by components that render on the server too.
  */
 
-export type MediaKind = "anime" | "comic" | "movie" | "tv";
+export type MediaKind = "anime" | "comic" | "movie" | "tv" | "radio";
 
 export type HistoryEntry = {
   kind: MediaKind;

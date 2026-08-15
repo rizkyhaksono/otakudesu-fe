@@ -12,6 +12,7 @@ const KIND_LABEL: Record<HistoryEntry["kind"], string> = {
   comic: "Komik",
   movie: "Film",
   tv: "TV",
+  radio: "Radio",
 };
 
 /** Combined "continue watching / continue reading" rail across every domain. */

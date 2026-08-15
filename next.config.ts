@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LOCALE_REWRITE_HEADER } from "./src/lib/i18n/internal";
 
 /**
  * Only the hosts that actually serve images we render. `next/image` treats this
@@ -95,6 +96,29 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      /*
+       * `/id/...` is the internal form of the default locale; the canonical
+       * URL is the bare path, so visitors and crawlers are sent there.
+       *
+       * A production build re-runs the whole request pipeline against the path
+       * the proxy rewrote to, which means these rules also see the proxy's own
+       * `/id/...` — and `/tv` bounced to `/id/tv` and back forever. The proxy
+       * therefore tags its rewrite with a header, and `missing` makes these
+       * rules skip that internal pass while still catching real requests.
+       */
+      {
+        source: "/id",
+        destination: "/",
+        permanent: true,
+        missing: [{ type: "header", key: LOCALE_REWRITE_HEADER }],
+      },
+      {
+        source: "/id/:path*",
+        destination: "/:path*",
+        permanent: true,
+        missing: [{ type: "header", key: LOCALE_REWRITE_HEADER }],
+      },
+
       // Legacy query-string pagination -> path segments, which index far better.
       { source: "/anime", destination: "/search", permanent: true },
       { source: "/comic/chapter/:slug", destination: "/comic", permanent: false },

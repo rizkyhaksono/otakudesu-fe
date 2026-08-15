@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import SupportPrompt from "./support-prompt";
-import FeatureTour from "./feature-tour";
+import ProductTour from "./product-tour";
 
 /**
- * Sequences the two one-time overlays: support prompt first, tour only once it
+ * Sequences the two one-time overlays: support prompt first, the product tour only once it
  * has been dismissed. Showing both at once would stack two dialogs on a
  * first-time visitor.
  */
@@ -15,7 +15,7 @@ export default function Onboarding() {
   return (
     <>
       <SupportPrompt onDismiss={() => setSupportDone(true)} />
-      <FeatureTour active={supportDone} />
+      <ProductTour active={supportDone} />
     </>
   );
 }

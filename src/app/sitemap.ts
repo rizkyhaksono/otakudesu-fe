@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAnimeList, getGenres } from "@/services/anime";
 import { getComicHome } from "@/services/comic";
 import { getTvChannels } from "@/services/tv";
+import { getRadioStations } from "@/services/radio";
 import { SITE } from "@/lib/site";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n/dictionaries";
 
@@ -48,14 +49,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     { url: url("/movie"), lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: url("/tv"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: url("/radio"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: url("/berita"), lastModified: now, changeFrequency: "hourly", priority: 0.7 },
   ];
 
   // A failure in any one source must not take the whole sitemap down.
-  const [groups, genres, comics, tv] = await Promise.all([
+  const [groups, genres, comics, tv, radio] = await Promise.all([
     getAnimeList().catch(() => []),
     getGenres().catch(() => []),
     getComicHome().catch(() => null),
     getTvChannels().catch(() => ({ channels: [], total: 0 })),
+    getRadioStations().catch(() => ({ stations: [], total: 0 })),
   ]);
 
   const animeRoutes: MetadataRoute.Sitemap = groups
@@ -97,6 +101,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
+  const radioRoutes: MetadataRoute.Sitemap = radio.stations.map((station) => ({
+    url: url(`/radio/${station.id}`),
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
   // De-duplicate: the same comic can appear in several home listings.
   const seen = new Set<string>();
   const base = [
@@ -105,6 +116,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...genreRoutes,
     ...comicRoutes,
     ...tvRoutes,
+    ...radioRoutes,
   ].filter((entry) => {
     if (seen.has(entry.url)) return false;
     seen.add(entry.url);

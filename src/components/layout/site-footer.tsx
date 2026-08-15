@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ANIME_LINKS, NAV_FLAT, SITE } from "@/lib/site";
+import TourTrigger from "@/components/onboarding/tour-trigger";
 
 const EXPLORE = ANIME_LINKS;
 
@@ -80,6 +81,9 @@ export default function SiteFooter() {
                 >
                   API publik
                 </a>
+              </li>
+              <li>
+                <TourTrigger />
               </li>
             </ul>
           </div>
