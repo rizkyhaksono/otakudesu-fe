@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { AlertTriangle, Loader2, MonitorPlay } from "lucide-react";
+import { AlertTriangle, ExternalLink, Loader2, MonitorPlay } from "lucide-react";
 import type { EpisodeMirror } from "@/types/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "ready" | "error";
+type Resolved = { url: string; embeddable: boolean };
 
 /**
  * Episode player with a server switcher.
@@ -46,16 +47,69 @@ export default function EpisodePlayer({
   const [selected, setSelected] = useState<string | null>(null);
   const [src, setSrc] = useState<string | null>(initialSrc ?? null);
   const [status, setStatus] = useState<Status>(initialSrc ? "ready" : "idle");
-  const [resolved, setResolved] = useState<Record<string, string>>({});
+  const [resolved, setResolved] = useState<Record<string, Resolved>>({});
+  const [blocked, setBlocked] = useState<string | null>(null);
+
+  const apply = (entry: Resolved) => {
+    // Some hosts publish `frame-ancestors` that exclude us; the browser will
+    // render nothing at all, so show an explicit escape hatch instead of a
+    // blank rectangle the user cannot diagnose.
+    if (!entry.embeddable) {
+      setSrc(null);
+      setBlocked(entry.url);
+      setStatus("ready");
+      return;
+    }
+    setBlocked(null);
+    setSrc(entry.url);
+    setStatus("ready");
+  };
+
+  /**
+   * Try servers in order until one embeds. Several providers publish
+   * `frame-ancestors` that exclude us, so "first in the list" is often the one
+   * that cannot play — walking the list is what makes the player work on load.
+   */
+  const pickFirstWorking = useCallback(
+    async (candidates: EpisodeMirror[]) => {
+      for (const candidate of candidates) {
+        setSelected(candidate.content);
+        setStatus("loading");
+        try {
+          const response = await fetch(
+            `/api/mirror?content=${encodeURIComponent(candidate.content)}`,
+            { cache: "force-cache" },
+          );
+          const body = (await response.json()) as {
+            data?: { url?: string; embeddable?: boolean };
+          };
+          const url = body.data?.url;
+          if (!url) continue;
+
+          const entry: Resolved = { url, embeddable: body.data?.embeddable !== false };
+          setResolved((previous) => ({ ...previous, [candidate.content]: entry }));
+          if (entry.embeddable) {
+            apply(entry);
+            return;
+          }
+        } catch {
+          // Try the next candidate.
+        }
+      }
+      setStatus("error");
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const pick = useCallback(
     async (mirror: EpisodeMirror) => {
       setSelected(mirror.content);
+      setBlocked(null);
 
       const cached = resolved[mirror.content];
       if (cached) {
-        setSrc(cached);
-        setStatus("ready");
+        apply(cached);
         return;
       }
 
@@ -65,7 +119,10 @@ export default function EpisodePlayer({
           `/api/mirror?content=${encodeURIComponent(mirror.content)}`,
           { cache: "force-cache" },
         );
-        const body = (await response.json()) as { data?: { url?: string }; error?: string };
+        const body = (await response.json()) as {
+          data?: { url?: string; embeddable?: boolean };
+          error?: string;
+        };
         const url = body.data?.url;
 
         if (!url) {
@@ -73,9 +130,9 @@ export default function EpisodePlayer({
           return;
         }
 
-        setResolved((previous) => ({ ...previous, [mirror.content]: url }));
-        setSrc(url);
-        setStatus("ready");
+        const entry: Resolved = { url, embeddable: body.data?.embeddable !== false };
+        setResolved((previous) => ({ ...previous, [mirror.content]: entry }));
+        apply(entry);
       } catch {
         setStatus("error");
       }
@@ -95,8 +152,7 @@ export default function EpisodePlayer({
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowFullScreen
             loading="lazy"
-            referrerPolicy="origin"
-            sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+            referrerPolicy="no-referrer"
           />
         ) : null}
 
@@ -115,7 +171,27 @@ export default function EpisodePlayer({
           </div>
         ) : null}
 
-        {status === "idle" && !src ? (
+        {blocked ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+            <ExternalLink className="text-muted-foreground size-6" aria-hidden />
+            <p className="text-sm">Server ini tidak mengizinkan pemutaran tertanam.</p>
+            <p className="text-muted-foreground max-w-sm text-xs">
+              Penyedianya membatasi pemutar hanya untuk situs aslinya. Buka di tab baru, atau pilih
+              server lain di bawah.
+            </p>
+            <a
+              href={blocked}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press bg-foreground text-background hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold"
+            >
+              <ExternalLink className="size-4" aria-hidden />
+              Buka di tab baru
+            </a>
+          </div>
+        ) : null}
+
+        {status === "idle" && !src && !blocked ? (
           <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-sm">
             Tidak ada server tersedia untuk episode ini.
           </div>

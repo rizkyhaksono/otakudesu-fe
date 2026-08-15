@@ -1,5 +1,18 @@
 import Link from "next/link";
-import { NAV_FLAT, SITE } from "@/lib/site";
+import { ANIME_LINKS, NAV_FLAT, SITE } from "@/lib/site";
+
+const EXPLORE = ANIME_LINKS;
+
+/**
+ * Everything that is not anime-specific. Derived rather than sliced by index:
+ * the previous `slice(6)` shifted when the comic links were added, which is how
+ * Bookmark ended up rendered twice.
+ */
+const OTHER = NAV_FLAT.filter(
+  (item) => !ANIME_LINKS.some((link) => link.href === item.href) && item.href !== "/",
+).filter(
+  (item, index, all) => all.findIndex((other) => other.href === item.href) === index,
+);
 
 export default function SiteFooter() {
   return (
@@ -16,7 +29,7 @@ export default function SiteFooter() {
           <div>
             <p className="eyebrow">Jelajahi</p>
             <ul className="mt-3 space-y-1.5">
-              {NAV_FLAT.slice(1, 6).map((item) => (
+              {EXPLORE.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -32,7 +45,7 @@ export default function SiteFooter() {
           <div>
             <p className="eyebrow">Lainnya</p>
             <ul className="mt-3 space-y-1.5">
-              {NAV_FLAT.slice(6).map((item) => (
+              {OTHER.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -42,11 +55,6 @@ export default function SiteFooter() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/bookmark" className="text-muted-foreground hover:text-foreground text-sm">
-                  Bookmark
-                </Link>
-              </li>
             </ul>
           </div>
 

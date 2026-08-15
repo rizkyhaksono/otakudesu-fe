@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "next build && bun run assemble",
+    "build": "rm -rf .next/cache/fetch-cache && next build && bun run assemble",
     "start": "PORT=3001 node .next/standalone/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

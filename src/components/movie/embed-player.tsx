@@ -43,8 +43,7 @@ export default function EmbedPlayer({
           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
           allowFullScreen
           loading="lazy"
-          referrerPolicy="origin"
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+          referrerPolicy="no-referrer"
         />
       </div>
 

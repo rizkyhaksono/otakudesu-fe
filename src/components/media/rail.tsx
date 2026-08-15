@@ -61,9 +61,44 @@ export default function Rail({
     track.scrollBy({ left: direction * track.clientWidth * 0.9, behavior: "smooth" });
   };
 
+  /**
+   * Drag tracking deliberately avoids `setPointerCapture`.
+   *
+   * Capturing retargets the subsequent `click` to the capturing element, so the
+   * anchor under the cursor never receives it — every card in a rail became
+   * unclickable. Listening on `window` for the duration of the drag gives the
+   * same behaviour while leaving click targeting alone.
+   */
+  useEffect(() => {
+    if (!dragging) return;
+
+    const onMove = (event: PointerEvent) => {
+      const track = trackRef.current;
+      if (!track || !drag.current.active) return;
+
+      const delta = event.clientX - drag.current.startX;
+      drag.current.moved = Math.max(drag.current.moved, Math.abs(delta));
+      track.scrollLeft = drag.current.startScroll - delta;
+    };
+
+    const onUp = () => {
+      drag.current.active = false;
+      setDragging(false);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, [dragging]);
+
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     // Touch already scrolls natively; hijacking it would fight the browser.
-    if (event.pointerType === "touch") return;
+    if (event.pointerType === "touch" || event.button !== 0) return;
     const track = trackRef.current;
     if (!track) return;
 
@@ -74,24 +109,6 @@ export default function Rail({
       moved: 0,
     };
     setDragging(true);
-    track.setPointerCapture(event.pointerId);
-  };
-
-  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!drag.current.active) return;
-    const track = trackRef.current;
-    if (!track) return;
-
-    const delta = event.clientX - drag.current.startX;
-    drag.current.moved = Math.max(drag.current.moved, Math.abs(delta));
-    track.scrollLeft = drag.current.startScroll - delta;
-  };
-
-  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!drag.current.active) return;
-    drag.current.active = false;
-    setDragging(false);
-    trackRef.current?.releasePointerCapture?.(event.pointerId);
   };
 
   /**
@@ -99,7 +116,9 @@ export default function Rail({
    * under the cursor — otherwise every drag navigates away.
    */
   const onClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (drag.current.moved > 6) {
+    // Only a real drag suppresses the click; a plain click must always pass
+    // through to the card underneath.
+    if (drag.current.moved > 8) {
       event.preventDefault();
       event.stopPropagation();
     }
@@ -112,9 +131,6 @@ export default function Rail({
         ref={trackRef}
         onScroll={sync}
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
         onClickCapture={onClickCapture}
         className={cn(
           "scrollbar-none -mx-4 flex overflow-x-auto px-4 sm:-mx-6 sm:px-6",

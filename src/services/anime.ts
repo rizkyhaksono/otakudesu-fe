@@ -74,7 +74,7 @@ export const getAnimeMovie = (slug: string) =>
 
 /** Resolve one alternate server token into a playable iframe URL. */
 export async function getEpisodeMirror(content: string) {
-  return api<{ url: string }>(`/api/v1/anime/mirror?content=${encodeURIComponent(content)}`, {
+  return api<{ url: string; embeddable: boolean }>(`/api/v1/anime/mirror?content=${encodeURIComponent(content)}`, {
     revalidate: 600,
   });
 }
