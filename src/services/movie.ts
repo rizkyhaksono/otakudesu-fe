@@ -56,3 +56,17 @@ export const getSeriesSources = (id: number, season: number, episode: number) =>
     `/api/v1/movie/tv/${id}/sources?season=${season}&episode=${episode}`,
     { revalidate: 86_400 },
   );
+
+export type MovieCategory = "trending" | "popular" | "top-rated" | "tv" | "tv-top-rated";
+
+/** Paginated category listing behind each home shelf's "see all". */
+export async function listMovies(category: MovieCategory, page = 1) {
+  const params = new URLSearchParams({ category });
+  if (page > 1) params.set("page", String(page));
+
+  return apiOr<MoviePage<MovieSummary>>(
+    `/api/v1/movie/list?${params.toString()}`,
+    { page: 1, total_pages: 0, results: [] },
+    { revalidate: 3600 },
+  );
+}

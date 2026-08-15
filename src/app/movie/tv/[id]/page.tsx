@@ -7,6 +7,7 @@ import PageShell from "@/components/media/page-shell";
 import EmbedPlayer from "@/components/movie/embed-player";
 import SeasonPicker from "@/components/movie/season-picker";
 import { MovieCast, MovieFacts } from "@/components/movie/detail-body";
+import ExternalLinks from "@/components/movie/external-links";
 import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
@@ -144,6 +145,8 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
           ) : null}
 
           <MovieCast detail={series} />
+
+          <ExternalLinks detail={series} mediaType="tv" />
         </div>
 
         <aside className="space-y-3">

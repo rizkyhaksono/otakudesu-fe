@@ -65,43 +65,6 @@ export default function EpisodePlayer({
     setStatus("ready");
   };
 
-  /**
-   * Try servers in order until one embeds. Several providers publish
-   * `frame-ancestors` that exclude us, so "first in the list" is often the one
-   * that cannot play — walking the list is what makes the player work on load.
-   */
-  const pickFirstWorking = useCallback(
-    async (candidates: EpisodeMirror[]) => {
-      for (const candidate of candidates) {
-        setSelected(candidate.content);
-        setStatus("loading");
-        try {
-          const response = await fetch(
-            `/api/mirror?content=${encodeURIComponent(candidate.content)}`,
-            { cache: "force-cache" },
-          );
-          const body = (await response.json()) as {
-            data?: { url?: string; embeddable?: boolean };
-          };
-          const url = body.data?.url;
-          if (!url) continue;
-
-          const entry: Resolved = { url, embeddable: body.data?.embeddable !== false };
-          setResolved((previous) => ({ ...previous, [candidate.content]: entry }));
-          if (entry.embeddable) {
-            apply(entry);
-            return;
-          }
-        } catch {
-          // Try the next candidate.
-        }
-      }
-      setStatus("error");
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
   const pick = useCallback(
     async (mirror: EpisodeMirror) => {
       setSelected(mirror.content);

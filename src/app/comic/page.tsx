@@ -65,25 +65,25 @@ export default async function ComicHomePage() {
       ) : null}
 
       {home.latest_manga.length ? (
-        <Section title="Update terbaru" eyebrow="Manga">
+        <Section title="Update terbaru" eyebrow="Manga" href="/comic/browse?sort=latest">
           <PosterGrid>{home.latest_manga.map(toCard)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.popular_manga.length ? (
-        <Section title="Populer" eyebrow="Paling banyak dibaca">
+        <Section title="Populer" eyebrow="Paling banyak dibaca" href="/comic/browse?sort=popular">
           <PosterGrid>{home.popular_manga.map(toCard)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.trending_manga.length ? (
-        <Section title="Sedang tren" eyebrow="Naik daun">
+        <Section title="Sedang tren" eyebrow="Naik daun" href="/comic/browse?sort=popular">
           <PosterGrid>{home.trending_manga.map(toCard)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.latest_novels.length ? (
-        <Section title="Novel terbaru" eyebrow="Light novel">
+        <Section title="Novel terbaru" eyebrow="Light novel" href="/comic/novels">
           <PosterGrid>{home.latest_novels.map(toCard)}</PosterGrid>
         </Section>
       ) : null}

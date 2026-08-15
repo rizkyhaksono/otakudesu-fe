@@ -1,59 +1,48 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { browseComics } from "@/services/comic";
+import { browseNovels } from "@/services/comic";
 import PageShell from "@/components/media/page-shell";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
 import Pager from "@/components/media/pager";
 import EmptyState from "@/components/media/empty-state";
-import CatalogueFilters from "@/components/comic/catalogue-filters";
+import SearchForm from "@/components/search/search-form";
 
 export const revalidate = 1800;
 
-type Props = {
-  searchParams: Promise<{ page?: string; genre?: string; q?: string; type?: string; sort?: string }>;
-};
+type Props = { searchParams: Promise<{ page?: string; q?: string }> };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { page, genre, q } = await searchParams;
+  const { page, q } = await searchParams;
   const number = Number.parseInt(page ?? "1", 10) || 1;
 
-  const title = q
-    ? `Cari komik “${q}”`
-    : genre
-      ? `Komik ${genre.replace(/-/g, " ")}`
-      : "Jelajahi Komik";
-
   return {
-    title: number > 1 ? `${title} — Halaman ${number}` : title,
+    title: q ? `Cari novel “${q}”` : number > 1 ? `Novel — Halaman ${number}` : "Baca Novel",
     description:
-      "Katalog lengkap manga, manhwa dan manhua bahasa Indonesia — filter genre, cari judul, update tiap hari.",
-    alternates: { canonical: "/comic/browse" },
+      "Katalog light novel dan web novel bahasa Indonesia, update bab terbaru setiap hari.",
+    alternates: { canonical: "/comic/novels" },
     robots: q || number > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
-export default async function ComicBrowsePage({ searchParams }: Props) {
-  const { page, genre, q, type, sort } = await searchParams;
+export default async function NovelsPage({ searchParams }: Props) {
+  const { page, q } = await searchParams;
   const number = Number.parseInt(page ?? "1", 10) || 1;
   if (number < 1) notFound();
 
-  const data = await browseComics({ page: number, genre, q, type, sort });
+  const data = await browseNovels({ page: number, q });
 
   const buildHref = (target: number) => {
     const params = new URLSearchParams();
-    if (genre) params.set("genre", genre);
     if (q) params.set("q", q);
-    if (type) params.set("type", type);
-    if (sort) params.set("sort", sort);
     if (target > 1) params.set("page", String(target));
     const query = params.toString();
-    return `/comic/browse${query ? `?${query}` : ""}`;
+    return `/comic/novels${query ? `?${query}` : ""}`;
   };
 
   return (
     <PageShell
-      title="Jelajahi Komik"
+      title="Novel"
       description={
         data.pagination.total
           ? `${data.pagination.total.toLocaleString("id-ID")} judul terindeks.`
@@ -62,11 +51,13 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
       crumbs={[
         { label: "Beranda", href: "/" },
         { label: "Komik", href: "/comic" },
-        { label: "Jelajahi", href: "/comic/browse" },
+        { label: "Novel", href: "/comic/novels" },
       ]}
       wide
     >
-      <CatalogueFilters genres={data.genres} active={{ genre, type, sort, q }} />
+      <div className="mb-6 max-w-md">
+        <SearchForm action="/comic/novels" placeholder="Cari judul novel…" defaultValue={q} />
+      </div>
 
       {data.comics.length ? (
         <>
@@ -84,7 +75,6 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
               />
             ))}
           </PosterGrid>
-
           <Pager
             current={data.pagination.current_page}
             last={data.pagination.last_page}
@@ -92,11 +82,7 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
           />
         </>
       ) : (
-        <EmptyState
-          title="Tidak ada komik yang cocok"
-          description="Coba genre lain atau kata kunci yang berbeda."
-          action={{ href: "/comic/browse", label: "Reset filter" }}
-        />
+        <EmptyState title="Tidak ada novel yang cocok" action={{ href: "/comic/novels", label: "Reset" }} />
       )}
     </PageShell>
   );

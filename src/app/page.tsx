@@ -130,9 +130,9 @@ export default async function HomePage() {
         </Shelf>
 
         {comic.latest_manga.length ? (
-          <Shelf title="Komik terbaru" eyebrow="Manga · Manhwa · Manhua" href="/comic">
-            {comic.latest_manga.concat(comic.popular_manga).slice(0, 18).map((item) => (
-              <div key={`${item.slug}-comic`} className={CARD}>
+          <Shelf title="Komik terbaru" eyebrow="Manga · Manhwa · Manhua" href="/comic/browse?sort=latest">
+            {comic.latest_manga.slice(0, 18).map((item) => (
+              <div key={`${item.slug}-latest`} className={CARD}>
                 <PosterCard
                   href={`/comic/${item.slug}`}
                   title={item.title ?? "Tanpa judul"}
@@ -147,15 +147,87 @@ export default async function HomePage() {
           </Shelf>
         ) : null}
 
+        {comic.popular_manga.length ? (
+          <Shelf title="Komik populer" eyebrow="Paling banyak dibaca" href="/comic/browse?sort=popular">
+            {comic.popular_manga.slice(0, 18).map((item) => (
+              <div key={`${item.slug}-popular`} className={CARD}>
+                <PosterCard
+                  href={`/comic/${item.slug}`}
+                  title={item.title ?? "Tanpa judul"}
+                  poster={item.poster}
+                  badge={item.type}
+                  meta={item.latest_chapter?.title}
+                  rating={item.rating ? item.rating.toFixed(1) : null}
+                  sizes={RAIL_SIZES}
+                />
+              </div>
+            ))}
+          </Shelf>
+        ) : null}
+
+        {comic.latest_novels.length ? (
+          <Shelf title="Novel terbaru" eyebrow="Light novel · Web novel" href="/comic/novels">
+            {comic.latest_novels.slice(0, 18).map((item) => (
+              <div key={`${item.slug}-novel`} className={CARD}>
+                <PosterCard
+                  href={`/comic/${item.slug}`}
+                  title={item.title ?? "Tanpa judul"}
+                  poster={item.poster}
+                  badge="Novel"
+                  meta={item.latest_chapter?.title}
+                  rating={item.rating ? item.rating.toFixed(1) : null}
+                  sizes={RAIL_SIZES}
+                />
+              </div>
+            ))}
+          </Shelf>
+        ) : null}
+
         {movie.trending.length ? (
-          <Shelf title="Film & serial populer" eyebrow="Sedang tren" href="/movie">
-            {movie.trending.concat(movie.popular_movies).slice(0, 18).map((item) => (
+          <Shelf title="Sedang tren" eyebrow="Film & serial" href="/movie/browse?category=trending">
+            {movie.trending.slice(0, 18).map((item) => (
               <div key={`${item.media_type}-${item.id}`} className={CARD}>
                 <PosterCard
                   href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
                   title={item.title ?? "Tanpa judul"}
                   poster={item.poster}
                   badge={item.media_type === "tv" ? "Serial" : "Film"}
+                  rating={item.rating ? item.rating.toFixed(1) : null}
+                  meta={item.release_year ? String(item.release_year) : null}
+                  sizes={RAIL_SIZES}
+                />
+              </div>
+            ))}
+          </Shelf>
+        ) : null}
+
+        {movie.popular_movies.length ? (
+          <Shelf title="Film populer" eyebrow="Movie" href="/movie/browse?category=popular">
+            {movie.popular_movies.slice(0, 18).map((item) => (
+              <div key={`movie-${item.id}`} className={CARD}>
+                <PosterCard
+                  href={`/movie/${item.id}`}
+                  title={item.title ?? "Tanpa judul"}
+                  poster={item.poster}
+                  badge="Film"
+                  rating={item.rating ? item.rating.toFixed(1) : null}
+                  meta={item.release_year ? String(item.release_year) : null}
+                  sizes={RAIL_SIZES}
+                />
+              </div>
+            ))}
+          </Shelf>
+        ) : null}
+
+        {movie.popular_tv.length ? (
+          <Shelf title="Serial populer" eyebrow="TV series" href="/movie/browse?category=tv">
+            {movie.popular_tv.slice(0, 18).map((item) => (
+              <div key={`series-${item.id}`} className={CARD}>
+                <PosterCard
+                  href={`/movie/tv/${item.id}`}
+                  title={item.title ?? "Tanpa judul"}
+                  poster={item.poster}
+                  badge="Serial"
                   rating={item.rating ? item.rating.toFixed(1) : null}
                   meta={item.release_year ? String(item.release_year) : null}
                   sizes={RAIL_SIZES}

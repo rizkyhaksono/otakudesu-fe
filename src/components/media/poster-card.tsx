@@ -77,11 +77,18 @@ export default function PosterCard({
           edge. Two clamped lines plus a reserved meta line keeps every card in
           a shelf exactly the same height.
         */}
+        {/*
+          Heights are pinned in px against an explicit line-height, not guessed
+          in `em`. A `1em` box on a 0.68rem font is ~11px while the line itself
+          needs 16px, which clipped the descenders off every meta line; and a
+          `2.4em` title box was shorter than the two `leading-snug` lines it was
+          meant to hold, so the overflow pushed into the row below.
+        */}
         <div className="flex flex-1 flex-col p-2">
-          <h3 className="group-hover:text-primary line-clamp-2 min-h-[2.4em] text-[0.8rem] leading-snug font-semibold transition-colors">
+          <h3 className="group-hover:text-primary line-clamp-2 h-8 text-[0.8rem] leading-4 font-semibold transition-colors">
             {title}
           </h3>
-          <p className="text-muted-foreground mt-1 h-[1em] truncate font-mono text-[0.68rem] tabular-nums">
+          <p className="text-muted-foreground mt-1.5 h-4 truncate font-mono text-[0.68rem] leading-4 tabular-nums">
             {meta ?? ""}
           </p>
         </div>

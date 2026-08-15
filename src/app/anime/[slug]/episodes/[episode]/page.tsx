@@ -58,10 +58,24 @@ export default async function EpisodePage({ params }: Props) {
   const currentIndex = episodes.findIndex((item) => item.episode_number === number);
   const mirrors = data.mirrors ?? [];
 
-  // Resolve a source server-side when the episode page embeds none, so the
-  // player is filled on first paint instead of after a client round-trip.
-  const initialSrc =
-    data.stream_url ?? (mirrors[0] ? (await getEpisodeMirror(mirrors[0].content))?.url : null);
+  /*
+   * Resolve a source server-side so the player is filled on first paint.
+   *
+   * Walks the list rather than taking mirrors[0]: several providers publish
+   * `frame-ancestors` that exclude us, and they are frequently first, so
+   * "first mirror" and "first mirror that can actually play" are not the same
+   * thing. Capped so a bad episode cannot fan out into a dozen upstream calls.
+   */
+  let initialSrc: string | null = data.stream_url ?? null;
+  if (!initialSrc) {
+    for (const candidate of mirrors.slice(0, 4)) {
+      const resolved = await getEpisodeMirror(candidate.content);
+      if (resolved?.url && resolved.embeddable) {
+        initialSrc = resolved.url;
+        break;
+      }
+    }
+  }
 
   const previous = currentIndex >= 0 ? episodes[currentIndex + 1] : undefined;
   const next = currentIndex > 0 ? episodes[currentIndex - 1] : undefined;

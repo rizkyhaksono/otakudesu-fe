@@ -31,11 +31,15 @@ export async function browseComics(options: {
   page?: number;
   genre?: string;
   q?: string;
+  type?: string;
+  sort?: string;
 } = {}) {
   const params = new URLSearchParams();
   if (options.page && options.page > 1) params.set("page", String(options.page));
   if (options.genre) params.set("genre", options.genre);
   if (options.q) params.set("q", options.q);
+  if (options.type) params.set("type", options.type);
+  if (options.sort) params.set("sort", options.sort);
 
   const query = params.toString();
   return apiOr<ComicBrowse>(
@@ -47,4 +51,18 @@ export async function browseComics(options: {
 
 export async function getComicGenres() {
   return apiOr<ComicGenre[]>("/api/v1/comic/genres", [], { revalidate: 86_400 });
+}
+
+/** Novels are a separate catalogue upstream, not a filter on the manga index. */
+export async function browseNovels(options: { page?: number; q?: string } = {}) {
+  const params = new URLSearchParams();
+  if (options.page && options.page > 1) params.set("page", String(options.page));
+  if (options.q) params.set("q", options.q);
+
+  const query = params.toString();
+  return apiOr<ComicBrowse>(
+    `/api/v1/comic/novels${query ? `?${query}` : ""}`,
+    { pagination: { current_page: 1, last_page: 1, per_page: 24, total: 0 }, genres: [], comics: [] },
+    { revalidate: 1800 },
+  );
 }

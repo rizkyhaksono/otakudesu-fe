@@ -69,19 +69,19 @@ export default async function MovieHomePage() {
       ) : null}
 
       {home.trending.length ? (
-        <Section title="Sedang tren" eyebrow="Minggu ini">
+        <Section title="Sedang tren" eyebrow="Minggu ini" href="/movie/browse?category=trending">
           <PosterGrid>{home.trending.map(toCard)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.popular_movies.length ? (
-        <Section title="Film populer" eyebrow="Movie">
+        <Section title="Film populer" eyebrow="Movie" href="/movie/browse?category=popular">
           <PosterGrid>{home.popular_movies.map(toCard)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.popular_tv.length ? (
-        <Section title="Serial populer" eyebrow="TV series">
+        <Section title="Serial populer" eyebrow="TV series" href="/movie/browse?category=tv">
           <PosterGrid>{home.popular_tv.map(toCard)}</PosterGrid>
         </Section>
       ) : null}

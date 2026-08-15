@@ -6,6 +6,7 @@ import { getMovie, getMovieSources } from "@/services/movie";
 import PageShell from "@/components/media/page-shell";
 import EmbedPlayer from "@/components/movie/embed-player";
 import { MovieCast, MovieFacts } from "@/components/movie/detail-body";
+import ExternalLinks from "@/components/movie/external-links";
 import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
@@ -111,6 +112,8 @@ export default async function MovieDetailPage({ params }: Props) {
           ) : null}
 
           <MovieCast detail={movie} />
+
+          <ExternalLinks detail={movie} mediaType="movie" />
         </div>
 
         <aside>
