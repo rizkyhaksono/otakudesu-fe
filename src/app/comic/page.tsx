@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getComicHome } from "@/services/comic";
 import PageShell from "@/components/media/page-shell";
@@ -44,6 +45,16 @@ export default async function ComicHomePage() {
         { label: "Komik", href: "/comic" },
       ]}
       wide
+      actions={
+        <div className="flex gap-px bg-border [&>*]:bg-background">
+          <Link href="/comic/browse" className="press hover:bg-accent px-3 py-2 text-sm font-medium">
+            Jelajahi katalog
+          </Link>
+          <Link href="/comic/genres" className="press hover:bg-accent px-3 py-2 text-sm font-medium">
+            Genre
+          </Link>
+        </div>
+      }
     >
       {!hasAny ? (
         <EmptyState

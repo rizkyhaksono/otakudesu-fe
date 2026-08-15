@@ -33,9 +33,15 @@ export const ANIME_LINKS: readonly NavLink[] = [
   { href: "/anime-list", label: "Daftar A–Z", description: "Seluruh katalog" },
 ];
 
+export const COMIC_LINKS: readonly NavLink[] = [
+  { href: "/comic", label: "Update terbaru", description: "Chapter yang baru rilis" },
+  { href: "/comic/browse", label: "Jelajahi katalog", description: "Ribuan judul, bisa difilter" },
+  { href: "/comic/genres", label: "Genre", description: "Action, romance, isekai…" },
+];
+
 export const NAV: readonly NavEntry[] = [
   { label: "Anime", items: ANIME_LINKS },
-  { href: "/comic", label: "Komik" },
+  { label: "Komik", items: COMIC_LINKS },
   { href: "/movie", label: "Film" },
   { href: "/tv", label: "TV Live" },
 ];
@@ -44,7 +50,7 @@ export const NAV: readonly NavEntry[] = [
 export const NAV_FLAT: readonly NavLink[] = [
   { href: "/", label: "Beranda" },
   ...ANIME_LINKS,
-  { href: "/comic", label: "Komik" },
+  ...COMIC_LINKS,
   { href: "/movie", label: "Film" },
   { href: "/tv", label: "TV Live" },
   { href: "/bookmark", label: "Bookmark" },

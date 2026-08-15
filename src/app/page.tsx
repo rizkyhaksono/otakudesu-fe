@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 };
 
 /** Poster width inside a rail. Fixed so every row scrolls in even steps. */
-const CARD = "w-[42vw] shrink-0 snap-start sm:w-[30vw] md:w-[22vw] lg:w-[16vw] xl:w-[13vw]";
+const CARD =
+  "w-[44vw] shrink-0 snap-start pr-2 sm:w-[30vw] md:w-[23vw] lg:w-[17vw] xl:w-[13.5vw]";
 const RAIL_SIZES = "(min-width: 1280px) 13vw, (min-width: 1024px) 16vw, (min-width: 768px) 22vw, (min-width: 640px) 30vw, 42vw";
 
 export default async function HomePage() {
@@ -170,7 +171,7 @@ export default async function HomePage() {
               <Link
                 key={channel.id}
                 href={`/tv/${channel.id}`}
-                className="press hover:border-primary group w-40 shrink-0 snap-start border p-3 sm:w-44"
+                className="press hover:border-primary group mr-2 w-40 shrink-0 snap-start border p-3 sm:w-44"
               >
                 <span className="bg-muted relative block aspect-video w-full">
                   {channel.logo ? (

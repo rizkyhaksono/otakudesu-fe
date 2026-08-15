@@ -41,7 +41,7 @@ export default function PosterCard({
       href={href}
       className="group focus-visible:outline-ring block focus-visible:outline-2 focus-visible:outline-offset-2"
     >
-      <article className="flex h-full flex-col">
+      <article className="bg-card hover:border-primary/60 flex h-full flex-col border transition-colors">
         <div className="bg-muted relative aspect-[2/3] w-full overflow-hidden border-b">
           <PosterImage
             src={poster}
@@ -71,15 +71,19 @@ export default function PosterCard({
           ) : null}
         </div>
 
-        <div className="flex flex-1 flex-col gap-0.5 p-2">
-          <h3 className="group-hover:text-primary line-clamp-2 text-[0.8rem] leading-snug font-semibold transition-colors">
+        {/*
+          Fixed heights, not intrinsic ones: titles run from one to three lines,
+          and letting each card size itself leaves a row with a ragged bottom
+          edge. Two clamped lines plus a reserved meta line keeps every card in
+          a shelf exactly the same height.
+        */}
+        <div className="flex flex-1 flex-col p-2">
+          <h3 className="group-hover:text-primary line-clamp-2 min-h-[2.4em] text-[0.8rem] leading-snug font-semibold transition-colors">
             {title}
           </h3>
-          {meta ? (
-            <p className="text-muted-foreground mt-auto font-mono text-[0.68rem] tabular-nums">
-              {meta}
-            </p>
-          ) : null}
+          <p className="text-muted-foreground mt-1 h-[1em] truncate font-mono text-[0.68rem] tabular-nums">
+            {meta ?? ""}
+          </p>
         </div>
       </article>
     </Link>

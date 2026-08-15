@@ -25,7 +25,20 @@ const imageHosts = [
   "**.iptv-org.github.io",
 ];
 
-const embedHosts = ["https://www.2embed.cc", "https://player.videasy.net", "https://vidsrc.to"];
+/*
+ * Video hosts cannot be a fixed allowlist.
+ *
+ * Anime mirrors resolve to whichever CDN the upstream picked that day —
+ * filedon.co, odvidhide.com, mega.nz, desustream.net, blogger.com and others
+ * rotate constantly — and the film providers rotate their own domains too. A
+ * static list silently blocks the player, which is exactly what happened:
+ * every mirror rendered "This content is blocked".
+ *
+ * So `frame-src` allows https: and the real protection is the iframe `sandbox`
+ * on every player, which withholds top-navigation and popups. Those hosts also
+ * never receive our origin (`referrerPolicy="origin"`) and cannot reach our DOM.
+ */
+const FRAME_SRC = "https:";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -44,7 +57,7 @@ const csp = [
   "media-src 'self' blob: https: http:",
   "font-src 'self' data:",
   "connect-src 'self' https: http:",
-  `frame-src 'self' ${embedHosts.join(" ")} https://disqus.com`,
+  `frame-src 'self' ${FRAME_SRC}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

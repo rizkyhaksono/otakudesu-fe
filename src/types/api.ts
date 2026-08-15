@@ -283,3 +283,16 @@ export type TvChannel = {
 };
 
 export type TvCategory = { slug: string; count: number };
+
+export type ComicPagination = {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+};
+
+export type ComicBrowse = {
+  pagination: ComicPagination;
+  genres: ComicGenre[];
+  comics: ComicSummary[];
+};
