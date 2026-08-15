@@ -27,7 +27,7 @@ export default function Pager({
 
   return (
     <nav aria-label="Pagination" className="mt-6 flex items-center justify-center">
-      <ul className="flex items-center gap-px border bg-border [&>*]:bg-background">
+      <ul className="flex max-w-full items-center gap-px overflow-x-auto border bg-border [&>*]:bg-background">
         <li>
           <PagerLink href={href(current - 1)} disabled={current <= 1} label="Sebelumnya">
             <ChevronLeft className="size-4" aria-hidden />
@@ -39,9 +39,7 @@ export default function Pager({
             <li>
               <PagerLink href={href(1)}>1</PagerLink>
             </li>
-            {pages[0]! > 2 ? (
-              <li className="text-muted-foreground px-2 font-mono text-xs">…</li>
-            ) : null}
+            {pages[0]! > 2 ? <Ellipsis /> : null}
           </>
         ) : null}
 
@@ -55,9 +53,7 @@ export default function Pager({
 
         {pages[pages.length - 1]! < last ? (
           <>
-            {pages[pages.length - 1]! < last - 1 ? (
-              <li className="text-muted-foreground px-2 font-mono text-xs">…</li>
-            ) : null}
+            {pages[pages.length - 1]! < last - 1 ? <Ellipsis /> : null}
             <li>
               <PagerLink href={href(last)}>{last}</PagerLink>
             </li>
@@ -71,6 +67,22 @@ export default function Pager({
         </li>
       </ul>
     </nav>
+  );
+}
+
+/**
+ * The gap between cells is drawn by the row's background showing through, so
+ * every cell has to be the same height. The ellipsis previously had only
+ * horizontal padding, which collapsed its cell and broke the row.
+ */
+function Ellipsis() {
+  return (
+    <li
+      aria-hidden
+      className="text-muted-foreground flex h-9 min-w-9 items-center justify-center px-2 font-mono text-xs select-none"
+    >
+      …
+    </li>
   );
 }
 
@@ -88,7 +100,7 @@ function PagerLink({
   label?: string;
 }) {
   const className = cn(
-    "flex h-9 min-w-9 items-center justify-center px-3 font-mono text-xs tabular-nums transition-colors",
+    "press flex h-9 min-w-9 shrink-0 items-center justify-center px-3 font-mono text-xs tabular-nums",
     active && "bg-primary text-primary-foreground font-semibold",
     !active && !disabled && "hover:bg-accent",
     disabled && "text-muted-foreground/40 pointer-events-none",

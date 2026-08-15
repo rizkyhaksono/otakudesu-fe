@@ -162,9 +162,17 @@ export default async function ComicDetailPage({ params }: Props) {
           {comic.genres.length ? (
             <ul className="mb-4 flex flex-wrap gap-1.5">
               {comic.genres.map((genre) => (
-                <li key={genre.slug} className="chip">
-                  {genre.icon ? <span aria-hidden>{genre.icon}</span> : null}
-                  {genre.name}
+                <li key={genre.slug}>
+                  {/* Clickable, like the anime genres — a dead-end chip on a
+                      detail page is a missed navigation path for readers and
+                      crawlers alike. */}
+                  <Link
+                    href={`/comic/browse?genre=${genre.slug}`}
+                    className="chip press hover:border-primary hover:text-primary"
+                  >
+                    {genre.icon ? <span aria-hidden>{genre.icon}</span> : null}
+                    {genre.name}
+                  </Link>
                 </li>
               ))}
             </ul>
