@@ -3,10 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/client";
 
 /** Top-level nav link that marks itself active for the current section. */
-export default function NavLinkItem({ href, label }: { href: string; label: string }) {
+export default function NavLinkItem({
+  href,
+  label,
+  navKey,
+}: {
+  href: string;
+  label: string;
+  /** Key into `dictionary.nav`; falls back to the Indonesian label. */
+  navKey?: string;
+}) {
   const pathname = usePathname();
+  const { t } = useI18n();
+  const text = (navKey && (t.nav as Record<string, string>)[navKey]) || label;
   const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
@@ -18,7 +30,7 @@ export default function NavLinkItem({ href, label }: { href: string; label: stri
         active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
       )}
     >
-      {label}
+      {text}
       {/* Flat underline rather than a pill — consistent with the squared system. */}
       <span
         className={cn(

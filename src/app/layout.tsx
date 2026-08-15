@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { getLocale } from "@/lib/i18n/server";
-import { DICTIONARIES } from "@/lib/i18n/dictionaries";
 import Onboarding from "@/components/onboarding/onboarding";
 import Providers from "./providers";
 import SiteHeader from "@/components/layout/site-header";
@@ -84,16 +82,11 @@ export const viewport: Viewport = {
   ],
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  // Locale comes from a cookie, so the whole tree renders server-side in the
-  // chosen language and the first paint is never wrong.
-  const locale = await getLocale();
-  const t = DICTIONARIES[locale];
-
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     // next-themes mutates <html>, so the hydration suppression belongs here —
     // not on <body>, where it was before and did nothing.
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={SITE.lang} suppressHydrationWarning>
       <body
         className={cn(
           "min-h-dvh antialiased",
@@ -120,12 +113,12 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             },
           }}
         />
-        <Providers locale={locale}>
+        <Providers>
           <a
             href="#main"
             className="bg-primary text-primary-foreground sr-only px-4 py-2 focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50"
           >
-            {t.common.home}
+            Lompat ke konten
           </a>
           <div className="flex min-h-dvh flex-col">
             <SiteHeader />

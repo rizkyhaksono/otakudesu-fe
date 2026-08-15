@@ -3,7 +3,6 @@
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { LocaleProvider } from "@/lib/i18n/client";
-import type { Locale } from "@/lib/i18n/dictionaries";
 
 /**
  * Client-side context only. Redux and redux-persist are gone — data now comes
@@ -13,18 +12,12 @@ import type { Locale } from "@/lib/i18n/dictionaries";
  * `dynamic(..., { ssr: false })`, which previously skipped the entire subtree
  * during SSR and left crawlers with an empty document.
  *
- * `locale` is resolved on the server and passed down, so client components read
- * the same dictionary the server rendered with — no flash of the wrong language.
+ * The locale is resolved inside `LocaleProvider` from the cookie, on the client.
+ * Resolving it on the server would make every route dynamic and disable ISR.
  */
-export default function Providers({
-  children,
-  locale,
-}: {
-  children: React.ReactNode;
-  locale: Locale;
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <LocaleProvider locale={locale}>
+    <LocaleProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
         {children}
         <Toaster position="bottom-right" />

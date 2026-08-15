@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Languages } from "lucide-react";
 import { LOCALES, LOCALE_NAMES, type Locale } from "@/lib/i18n/dictionaries";
-import { useI18n } from "@/lib/i18n/client";
+import { notifyLocaleChanged, useI18n } from "@/lib/i18n/client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +11,6 @@ export default function LanguageSwitcher() {
   const { locale, t } = useI18n();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
-  const router = useRouter();
 
   const choose = async (next: Locale) => {
     setOpen(false);
@@ -24,8 +22,9 @@ export default function LanguageSwitcher() {
       body: JSON.stringify({ locale: next }),
     });
 
-    // Server Components hold the translated copy, so re-render from the server.
-    startTransition(() => router.refresh());
+    // Nothing server-rendered depends on the locale, so just tell the client
+    // store — no refetch, no round-trip.
+    startTransition(() => notifyLocaleChanged());
   };
 
   return (

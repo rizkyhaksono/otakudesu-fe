@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Bookmark } from "lucide-react";
 import { isNavGroup, NAV, SITE } from "@/lib/site";
-import { getLocale } from "@/lib/i18n/server";
-import { DICTIONARIES } from "@/lib/i18n/dictionaries";
 import LanguageSwitcher from "@/components/layout/language-switcher";
 import ThemeToggle from "@/components/layout/theme-toggle";
 import MobileNav from "@/components/layout/mobile-nav";
@@ -14,11 +12,7 @@ import NavLinkItem from "@/components/layout/nav-link";
  * Server component: the whole navigation ships as HTML, which is what gives
  * crawlers a complete internal link graph on every page.
  */
-export default async function SiteHeader() {
-  const t = DICTIONARIES[await getLocale()];
-  const label = (key: string | undefined, fallback: string) =>
-    (key && (t.nav as Record<string, string>)[key]) || fallback;
-
+export default function SiteHeader() {
   return (
     <header className="bg-background/90 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-40 border-b backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-1 px-4 sm:px-6">
@@ -33,17 +27,11 @@ export default async function SiteHeader() {
             {NAV.map((entry) =>
               isNavGroup(entry) ? (
                 <li key={entry.label}>
-                  <NavDropdown
-                    label={label(entry.key, entry.label)}
-                    items={entry.items.map((item) => ({
-                      ...item,
-                      label: label(item.key, item.label),
-                    }))}
-                  />
+                  <NavDropdown label={entry.label} navKey={entry.key} items={entry.items} />
                 </li>
               ) : (
                 <li key={entry.href}>
-                  <NavLinkItem href={entry.href} label={label(entry.key, entry.label)} />
+                  <NavLinkItem href={entry.href} label={entry.label} navKey={entry.key} />
                 </li>
               ),
             )}
@@ -54,8 +42,8 @@ export default async function SiteHeader() {
           <SearchTrigger />
           <Link
             href="/bookmark"
-            aria-label={t.nav.bookmark}
-            title={t.nav.bookmark}
+            aria-label="Bookmark"
+            title="Bookmark"
             className="press hover:bg-accent hidden size-9 items-center justify-center sm:inline-flex"
           >
             <Bookmark className="size-4" aria-hidden />

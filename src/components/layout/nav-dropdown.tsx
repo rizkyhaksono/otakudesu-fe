@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import type { NavLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/client";
 
 /**
  * Dropdown for a nav group.
@@ -14,7 +15,18 @@ import { cn } from "@/lib/utils";
  * stay in the server-rendered HTML for crawlers, and so opening it costs no
  * layout work.
  */
-export default function NavDropdown({ label, items }: { label: string; items: readonly NavLink[] }) {
+export default function NavDropdown({
+  label,
+  navKey,
+  items,
+}: {
+  label: string;
+  navKey?: string;
+  items: readonly NavLink[];
+}) {
+  const { t } = useI18n();
+  const tr = (key: string | undefined, fallback: string) =>
+    (key && (t.nav as Record<string, string>)[key]) || fallback;
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -58,7 +70,7 @@ export default function NavDropdown({ label, items }: { label: string; items: re
           active || open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         )}
       >
-        {label}
+        {tr(navKey, label)}
         <ChevronDown
           className={cn(
             "size-3.5 transition-transform duration-200 ease-[var(--ease-out)]",
@@ -85,7 +97,7 @@ export default function NavDropdown({ label, items }: { label: string; items: re
                 onClick={() => setOpen(false)}
                 className="hover:bg-accent press block px-3 py-2.5"
               >
-                <span className="block text-sm font-medium">{item.label}</span>
+                <span className="block text-sm font-medium">{tr(item.key, item.label)}</span>
                 {item.description ? (
                   <span className="text-muted-foreground block text-xs">{item.description}</span>
                 ) : null}

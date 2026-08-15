@@ -26,6 +26,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/comic"), lastModified: now, changeFrequency: "hourly", priority: 0.9 },
     { url: url("/comic/browse"), lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: url("/comic/genres"), lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+    { url: url("/comic/novels"), lastModified: now, changeFrequency: "daily", priority: 0.7 },
+    {
+      url: url("/movie/browse?category=trending"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.7,
+    },
+    {
+      url: url("/movie/browse?category=popular"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
+    {
+      url: url("/movie/browse?category=tv"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
     { url: url("/movie"), lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: url("/tv"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
   ];
