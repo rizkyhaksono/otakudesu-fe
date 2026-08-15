@@ -3,6 +3,7 @@ import { getAnimeList, getGenres } from "@/services/anime";
 import { getComicHome } from "@/services/comic";
 import { getTvChannels } from "@/services/tv";
 import { SITE } from "@/lib/site";
+import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n/dictionaries";
 
 /*
  * One hour, not a day: if the build ran while the API was unreachable the
@@ -98,11 +99,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // De-duplicate: the same comic can appear in several home listings.
   const seen = new Set<string>();
-  return [...staticRoutes, ...animeRoutes, ...genreRoutes, ...comicRoutes, ...tvRoutes].filter(
-    (entry) => {
-      if (seen.has(entry.url)) return false;
-      seen.add(entry.url);
-      return true;
-    },
+  const base = [
+    ...staticRoutes,
+    ...animeRoutes,
+    ...genreRoutes,
+    ...comicRoutes,
+    ...tvRoutes,
+  ].filter((entry) => {
+    if (seen.has(entry.url)) return false;
+    seen.add(entry.url);
+    return true;
+  });
+
+  /*
+   * Only the entry points are emitted per-locale.
+   *
+   * The catalogue itself is Indonesian, so listing ~2,000 detail pages three
+   * times would triple the sitemap to advertise pages whose content is
+   * identical apart from the chrome. The section pages are where a non-
+   * Indonesian visitor actually lands, and `hreflang` on every page handles the
+   * rest.
+   */
+  const translated = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE).flatMap((locale) =>
+    staticRoutes.map((entry) => ({
+      ...entry,
+      url: entry.url.replace(SITE.url, `${SITE.url}/${locale}`),
+      priority: (entry.priority ?? 0.5) * 0.8,
+    })),
   );
+
+  return [...base, ...translated];
 }

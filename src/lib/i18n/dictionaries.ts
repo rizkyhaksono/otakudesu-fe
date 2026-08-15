@@ -54,6 +54,7 @@ const id = {
     close: "Tutup",
     skip: "Lewati",
     done: "Selesai",
+    skipToContent: "Lompat ke konten",
   },
   support: {
     title: "Proyek ini open source",
@@ -119,6 +120,7 @@ const en: Dictionary = {
     close: "Close",
     skip: "Skip",
     done: "Done",
+    skipToContent: "Skip to content",
   },
   support: {
     title: "This project is open source",
@@ -177,6 +179,7 @@ const ja: Dictionary = {
     close: "閉じる",
     skip: "スキップ",
     done: "完了",
+    skipToContent: "本文へスキップ",
   },
   support: {
     title: "このプロジェクトはオープンソースです",

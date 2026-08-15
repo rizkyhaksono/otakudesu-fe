@@ -65,3 +65,20 @@ export const NAV_FLAT: readonly NavLink[] = [
 export function absoluteUrl(path = "/"): string {
   return `${SITE.url}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/**
+ * `hreflang` map for a path.
+ *
+ * The default locale is served unprefixed, so its alternate is the bare path —
+ * that keeps every already-indexed URL as the canonical one while telling
+ * search engines the other two are translations, not duplicates.
+ */
+export function localeAlternates(path = "/"): Record<string, string> {
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return {
+    id: absoluteUrl(clean),
+    en: absoluteUrl(clean === "/" ? "/en" : `/en${clean}`),
+    ja: absoluteUrl(clean === "/" ? "/ja" : `/ja${clean}`),
+    "x-default": absoluteUrl(clean),
+  };
+}
