@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun test tests
+
+      - name: Build
+        run: bun run build
+        env:
+          # The backend is not reachable in CI; pages and the sitemap degrade
+          # gracefully and refill via ISR, so the build must still succeed.
+          API_BASE_URL: http://127.0.0.1:3000
+          NEXT_PUBLIC_SITE_URL: https://example.com

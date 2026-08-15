@@ -1,0 +1,44 @@
+# Frontend deploy. The backend lives in its own repository and compose file;
+# point API_BASE_URL at wherever it runs.
+
+services:
+  fe:
+    build:
+      context: .
+      args:
+        API_BASE_URL: ${API_BASE_URL:-http://otakudesu-be-v3:3000}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://otakudesu.natee.my.id}
+    image: otakudesu-fe:latest
+    container_name: otakudesu-fe-v3
+    ports:
+      - "31422:3001"
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-http://otakudesu-be-v3:3000}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://otakudesu.natee.my.id}
+    restart: always
+
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+
+networks:
+  default:
+    name: nginx_default
+    external: true

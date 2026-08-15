@@ -1,65 +1,66 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for AI agents working in this repository.
 
 ## Commands
 
-- `npm run dev` — start Next.js dev server (default port 3001 per README; `next dev` itself defaults to 3000 unless overridden)
-- `npm run build` — production build
-- `npm run start` — run the production build
-- `npm run lint` — `next lint` using the `next/core-web-vitals` + `next/typescript` config
+```bash
+bun run dev         # dev server on :3001 (needs the backend running)
+bun run build       # production build (standalone)
+bun run lint        # eslint flat config  (`next lint` was REMOVED in Next 16)
+bun run typecheck   # tsc --noEmit
+bun test tests      # unit tests
+```
 
-There is no test runner configured.
+Package manager is **bun**; there is no `package-lock.json`.
 
-## Required environment
-
-Three upstream APIs are wired through RTK Query base configs and must be set before `npm run dev` will work end-to-end (see [.env.example](.env.example) and [src/redux/axios-base-query.js](src/redux/axios-base-query.js)):
-
-- `NEXT_PUBLIC_BASE_ANIME_API_URL` — anime data (Otakudesu backend)
-- `NEXT_PUBLIC_BASE_COMIC_API_URL` — comic data
-- `NEXT_PUBLIC_BASE_MOVIE_API_URL` — movie data
-
-A fourth base, `baseMovieBoxApi`, is hard-coded to `https://api.sansekai.my.id/api/moviebox` in the same file.
-
-Remote image hostnames are allow-listed in [next.config.mjs](next.config.mjs) — when adding a new upstream that serves posters, that file must be updated or `next/image` will reject the URL at runtime.
+Toolchain note: TypeScript is pinned to 5.9 and ESLint to 9, not the newest releases.
+typescript-eslint does not support TS 7, and `eslint-plugin-react` (via `eslint-config-next`) still
+calls `context.getFilename()`, removed in ESLint 10. Both were verified to break.
 
 ## Architecture
 
-This is a Next.js 16 App Router frontend (TypeScript, Tailwind, shadcn/ui "new-york" style, `@/*` → `./src/*`) that consumes three independent backend APIs and stitches them into a single UI.
+This is a **Server Component app**. There is no client-side data layer — Redux, RTK Query and
+`redux-persist` were removed. Content pages are `async` functions that fetch and render HTML.
 
-### Three-domain split via App Router route groups
+```
+src/app/…            routes; ISR via `export const revalidate`
+src/services/…       typed wrappers around the backend API
+src/lib/api.ts       fetch client — `server-only`
+src/lib/storage.ts   localStorage history + bookmarks
+src/components/…     ui/ · layout/ · media/ · comic/ · movie/ · tv/ · history/ · seo/
+```
 
-[src/app/](src/app/) is divided into three route groups, each owning one domain:
+### Rules that must survive edits
 
-- `(anime)` — home (`page.tsx`), `anime/[slug]`, `anime/[slug]/episodes/...`, `completed-anime`, `ongoing-anime`, `genres`, `schedules`
-- `(comic)` — `comic/[slug]`, `comic/chapter/...`
-- `(movie)` — `movie/detail/...`, `movie/genre/...`, `movie/search/...`
+- **Default to Server Components.** `"use client"` only for browser APIs or interactive state
+  (players, reader controls, dialogs, bookmarks). Never fetch data in a client component.
+- **Never import `src/lib/api.ts` from a client component** — it is `server-only` and will throw.
+  That guard is what keeps `API_BASE_URL` out of the browser bundle.
+- **`generateMetadata` must use real API data**, never a prettified slug. Use `metaDescription()`
+  from `src/lib/seo.ts`: upstream fields are often present but empty, and `??` does not catch `""`.
+- **Missing content calls `notFound()` on the server** so the response is a real HTTP 404. The old
+  code called it from client components, which produced soft 404s with status 200.
+- **No `dangerouslySetInnerHTML` for upstream content.** The only permitted use is JSON-LD in
+  `src/components/seo/json-ld.tsx`.
+- **Subscribe to localStorage with `useSyncExternalStore`** (`src/hooks/use-storage.ts`), not
+  `useEffect` + `setState` — React 19's lint rules reject the latter and the former is correct.
 
-Each group has its own `_components/` folder for route-local UI (`hero-carousel`, `home-layout`, cards, etc.) — these are intentionally not in the global [src/components/](src/components/) tree because they are coupled to a specific group's data shape. Global, reusable layout chrome lives in [src/components/layout/](src/components/layout/) and the shadcn primitives in [src/components/ui/](src/components/ui/).
+## Design system
 
-### Data layer: four parallel RTK Query slices
+Squared editorial style. **Every `--radius-*` token in `src/app/globals.css` is `0`**, plus a base
+`border-radius: 0 !important` — so radius is controlled in exactly one place and no component can
+reintroduce rounding. Structure comes from 1px borders and background tone; there are no shadows.
 
-Data fetching is centralized in Redux Toolkit Query, not in `fetch` calls inside components. The pattern, defined in [src/redux/axios-base-query.js](src/redux/axios-base-query.js):
+Fonts: Archivo (display), Inter (body), JetBrains Mono (all metadata, with tabular figures).
+Utility classes `eyebrow`, `chip` and `grid-hairline` live in `globals.css`.
 
-1. Four `createApi` instances are declared up front — `baseAnimeApi`, `baseComicApi`, `baseMovieApi`, `baseMovieBoxApi` — each with its own `reducerPath` and `baseUrl`. They start with no endpoints.
-2. Feature files under [src/redux/api/{anime,comic,movie}/](src/redux/api/) call `baseXxxApi.enhanceEndpoints({}).injectEndpoints(...)` to attach endpoints, then re-export the generated `useXxxQuery` hooks (e.g. [anime-home-api.ts](src/redux/api/anime/anime-home-api.ts), [anime-api.ts](src/redux/api/anime/anime-api.ts)).
-3. [root-reducer.js](src/redux/root-reducer.js) combines all four reducers; [store.js](src/redux/store.js) wires all four `.middleware`s into `configureStore` and wraps the root in `redux-persist` (`whitelist: []` — nothing is actually persisted to localStorage by redux-persist; cache is in-memory only). `serializableCheck` and `immutableCheck` are disabled.
+## Adding a page
 
-When adding a new endpoint, pick the correct base API for its domain and inject into it — do **not** add a fifth `createApi` unless a genuinely new upstream is being introduced. When adding a new domain, register the new reducer + middleware in both `root-reducer.js` and `store.js`.
+Route → service function in `src/services/` → `export const revalidate` → `generateMetadata` →
+`PageShell` with breadcrumbs → JSON-LD if a schema.org type fits → register in `src/app/sitemap.ts`.
 
-The Redux files are intentionally JavaScript while the rest of the app is TypeScript (`allowJs: true` in [tsconfig.json](tsconfig.json)).
+## Disclaimer
 
-### Provider stack
+Index/aggregator only; no media is hosted here.
 
-[src/app/layout.tsx](src/app/layout.tsx) is server-side and only sets fonts + metadata. All client-side providers live in [src/app/provider.tsx](src/app/provider.tsx) (`"use client"`): Redux `Provider` → `next-themes` `ThemeProvider` (system default, class strategy) → `sonner` `Toaster` + `@vercel/analytics`. New global client context belongs here.
-
-### Local persistence
-
-`redux-persist` is configured but persists nothing. The "last watched" feature instead uses `localStorage` directly via [src/helpers/storage-episode.ts](src/helpers/storage-episode.ts), which keeps the most recent 24 episodes (`MAX_WATCHED_ITEMS`) keyed by `router`. All access is SSR-guarded with `typeof window === "undefined"` checks — preserve those guards when editing.
-
-## Conventions
-
-- Path alias: import from `@/...` (maps to `src/...`).
-- shadcn/ui is configured in [components.json](components.json) — style `new-york`, RSC enabled, base color `gray`. New shadcn components land in [src/components/ui/](src/components/ui/).
-- ESLint extends `next/core-web-vitals` + `next/typescript`; notable rules in [.eslintrc.json](.eslintrc.json): `no-console` warns (allows `warn`/`error`), unused vars prefixed with `_` are ignored, `no-explicit-any` is a warning not an error.
-- Prettier ([.prettierrc](.prettierrc)): 100-col, 2-space, double quotes, `prettier-plugin-tailwindcss` sorts class names — run formatting before committing class-heavy JSX.

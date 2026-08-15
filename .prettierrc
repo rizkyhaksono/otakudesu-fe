@@ -5,10 +5,8 @@
   "trailingComma": "es5",
   "printWidth": 100,
   "arrowParens": "always",
-  "jsxSingleQuote": false,
   "bracketSpacing": true,
-  "bracketSameLine": false,
   "endOfLine": "lf",
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./tailwind.config.ts"
+  "tailwindStylesheet": "./src/app/globals.css"
 }
