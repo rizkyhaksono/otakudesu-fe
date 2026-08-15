@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,17 +19,22 @@ export default function PosterImage({
   sizes,
   priority = false,
   className,
+  fallback,
 }: {
   src?: string | null;
   alt: string;
   sizes: string;
   priority?: boolean;
   className?: string;
+  /** Replaces the neutral tile when the caller knows something better to show. */
+  fallback?: ReactNode;
 }) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   if (!src || failed) {
+    if (fallback) return <>{fallback}</>;
+
     return (
       <div
         className="bg-muted text-muted-foreground/60 absolute inset-0 flex items-center justify-center"

@@ -1,4 +1,5 @@
 import type { MovieDetail } from "@/types/api";
+import RateElsewhere, { type RateTarget } from "@/components/media/rate-elsewhere";
 
 /**
  * Outbound links for people who track what they watch.
@@ -27,11 +28,37 @@ export default function ExternalLinks({
     detail.homepage ? { href: detail.homepage, label: "Situs resmi" } : null,
   ].filter((link): link is { href: string; label: string } => link !== null);
 
+  /*
+   * Rating is broken out from the link row on purpose: it is an action, not a
+   * reference. Letterboxd is where film ratings belong; TMDB is the fallback
+   * for series, which Letterboxd does not catalogue.
+   */
+  const rateTargets: RateTarget[] =
+    mediaType === "movie"
+      ? [
+          {
+            href: `https://letterboxd.com/tmdb/${detail.id}/`,
+            label: "Letterboxd",
+            note: "Catat dan beri bintang",
+          },
+          { href: `https://www.themoviedb.org/movie/${detail.id}`, label: "TMDB" },
+        ]
+      : [
+          {
+            href: `https://www.themoviedb.org/tv/${detail.id}`,
+            label: "TMDB",
+            note: "Serial tidak ada di Letterboxd",
+          },
+        ];
+
   if (!links.length) return null;
 
   return (
     <section className="mt-6">
-      <h2 className="eyebrow mb-2">Selengkapnya</h2>
+      <h2 className="eyebrow mb-2">Rating</h2>
+      <RateElsewhere targets={rateTargets} />
+
+      <h2 className="eyebrow mt-6 mb-2">Selengkapnya</h2>
       <ul className="flex flex-wrap gap-px bg-border [&>*]:bg-background">
         {links.map((link) => (
           <li key={link.href}>

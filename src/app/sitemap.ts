@@ -3,6 +3,7 @@ import { getAnimeList, getGenres } from "@/services/anime";
 import { getComicHome } from "@/services/comic";
 import { getTvChannels } from "@/services/tv";
 import { getRadioStations } from "@/services/radio";
+import { getNews } from "@/services/news";
 import { SITE } from "@/lib/site";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n/dictionaries";
 
@@ -54,12 +55,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // A failure in any one source must not take the whole sitemap down.
-  const [groups, genres, comics, tv, radio] = await Promise.all([
+  const [groups, genres, comics, tv, radio, news] = await Promise.all([
     getAnimeList().catch(() => []),
     getGenres().catch(() => []),
     getComicHome().catch(() => null),
     getTvChannels().catch(() => ({ channels: [], total: 0 })),
     getRadioStations().catch(() => ({ stations: [], total: 0 })),
+    getNews().catch(() => []),
   ]);
 
   const animeRoutes: MetadataRoute.Sitemap = groups
@@ -108,6 +110,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
+  const newsRoutes: MetadataRoute.Sitemap = news.map((item) => ({
+    url: url(`/berita/${item.id}`),
+    lastModified: item.published_at ? new Date(item.published_at) : now,
+    changeFrequency: "never" as const,
+    priority: 0.5,
+  }));
+
   // De-duplicate: the same comic can appear in several home listings.
   const seen = new Set<string>();
   const base = [
@@ -117,6 +126,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...comicRoutes,
     ...tvRoutes,
     ...radioRoutes,
+    ...newsRoutes,
   ].filter((entry) => {
     if (seen.has(entry.url)) return false;
     seen.add(entry.url);

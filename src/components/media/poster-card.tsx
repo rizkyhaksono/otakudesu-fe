@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import PosterImage from "@/components/media/poster-image";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,8 @@ export type PosterCardProps = {
   accent?: "ongoing" | "completed" | "none";
   priority?: boolean;
   sizes?: string;
+  /** Shown instead of the neutral tile when there is no artwork at all. */
+  fallback?: ReactNode;
 };
 
 const DEFAULT_SIZES =
@@ -35,6 +38,7 @@ export default function PosterCard({
   accent = "none",
   priority = false,
   sizes = DEFAULT_SIZES,
+  fallback,
 }: PosterCardProps) {
   return (
     <Link
@@ -48,6 +52,7 @@ export default function PosterCard({
             alt=""
             sizes={sizes}
             priority={priority}
+            fallback={fallback}
             className="group-hover:scale-[1.03] group-hover:brightness-110"
           />
 

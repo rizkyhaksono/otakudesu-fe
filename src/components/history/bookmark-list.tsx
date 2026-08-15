@@ -6,6 +6,7 @@ import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
 import EmptyState from "@/components/media/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
+import EntryThumb from "@/components/history/entry-thumb";
 
 const KIND_LABEL: Record<BookmarkEntry["kind"], string> = {
   anime: "Anime",
@@ -50,6 +51,7 @@ export default function BookmarkList() {
           title={entry.title}
           poster={entry.poster}
           badge={KIND_LABEL[entry.kind]}
+          fallback={<EntryThumb kind={entry.kind} poster={null} title={entry.title} />}
         />
       ))}
     </PosterGrid>

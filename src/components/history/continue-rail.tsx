@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { History, X } from "lucide-react";
 import { clearHistory, getHistory, type HistoryEntry } from "@/lib/storage";
 import { useStoredValue } from "@/hooks/use-storage";
 import { Button } from "@/components/ui/button";
+import EntryThumb from "@/components/history/entry-thumb";
 
 const KIND_LABEL: Record<HistoryEntry["kind"], string> = {
   anime: "Anime",
@@ -47,15 +47,7 @@ export default function ContinueRail() {
           <li key={entry.id} className="w-36 shrink-0 sm:w-40">
             <Link href={entry.href} className="group block">
               <div className="bg-muted relative aspect-[2/3] border-b">
-                {entry.poster ? (
-                  <Image
-                    src={entry.poster}
-                    alt=""
-                    fill
-                    sizes="160px"
-                    className="object-cover transition group-hover:brightness-110"
-                  />
-                ) : null}
+                <EntryThumb kind={entry.kind} poster={entry.poster} title={entry.title} />
                 <span className="bg-foreground text-background absolute top-0 left-0 px-1.5 py-0.5 font-mono text-[0.6rem] uppercase">
                   {KIND_LABEL[entry.kind]}
                 </span>

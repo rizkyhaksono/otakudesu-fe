@@ -21,6 +21,8 @@ const imageHosts = [
   "**.uqni.net",
   // TMDB stills and posters
   "image.tmdb.org",
+  // Article images from the news source
+  "**.animenewsnetwork.com",
   // Live TV channel logos
   "i.imgur.com",
   "**.iptv-org.github.io",

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { metaDescription } from "@/lib/seo";
 import { Download, Play } from "lucide-react";
 import { getAnime } from "@/services/anime";
+import { getNews } from "@/services/news";
 import PageShell from "@/components/media/page-shell";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
@@ -12,6 +13,8 @@ import Section from "@/components/media/section";
 import JsonLd from "@/components/seo/json-ld";
 import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
+import NewsList from "@/components/news/news-list";
+import RateElsewhere, { malSearchUrl } from "@/components/media/rate-elsewhere";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 
@@ -58,6 +61,11 @@ export default async function AnimeDetailPage({ params }: Props) {
 
   // Real 404 status, not a client-side soft 404 served with 200.
   if (!anime) notFound();
+
+  // Headlines about this specific title. The matcher demands near-complete
+  // coverage of the title's words, so an unrelated article never slips in —
+  // an empty result is the correct answer far more often than a loose one.
+  const relatedNews = anime.title ? await getNews({ q: anime.title, limit: 5 }) : [];
 
   const firstEpisode = anime.episode_lists.at(-1);
   const latestEpisode = anime.episode_lists.at(0);
@@ -151,6 +159,19 @@ export default async function AnimeDetailPage({ params }: Props) {
               </Button>
             ) : null}
           </div>
+
+          <div className="mt-4">
+            <h2 className="eyebrow mb-2">Rating</h2>
+            <RateElsewhere
+              targets={[
+                {
+                  href: malSearchUrl(anime.title ?? slug),
+                  label: "MyAnimeList",
+                  note: "Buka entri lalu beri skor",
+                },
+              ]}
+            />
+          </div>
         </div>
 
         <div className="min-w-0">
@@ -192,6 +213,12 @@ export default async function AnimeDetailPage({ params }: Props) {
           ) : null}
         </div>
       </div>
+
+      {relatedNews.length ? (
+        <Section title="Berita terkait" eyebrow={`${relatedNews.length} artikel`}>
+          <NewsList items={relatedNews} />
+        </Section>
+      ) : null}
 
       {anime.episode_lists.length ? (
         <Section title="Daftar episode" eyebrow={`${anime.episode_lists.length} episode`}>

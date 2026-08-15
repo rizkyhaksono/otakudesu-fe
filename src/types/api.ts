@@ -323,8 +323,23 @@ export type RadioTag = { slug: string; count: number };
 export type NewsItem = {
   id: string;
   title: string;
+  /** Canonical URL at the source, shown as attribution. */
   link: string;
   summary: string | null;
   published_at: string | null;
   category: string | null;
+};
+
+/** Typed blocks, so article content never has to be injected as HTML. */
+export type NewsBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string }
+  | { type: "quote"; text: string }
+  | { type: "image"; src: string; alt: string | null };
+
+export type NewsArticle = NewsItem & {
+  intro: string | null;
+  image: string | null;
+  blocks: NewsBlock[];
+  source: { name: string; url: string };
 };

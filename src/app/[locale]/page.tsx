@@ -1,15 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Radio as RadioIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getAnimeHome } from "@/services/anime";
 import { getComicHome } from "@/services/comic";
 import { getMovieHome } from "@/services/movie";
 import { getTvChannels } from "@/services/tv";
+import { getRadioStations } from "@/services/radio";
+import { getNews } from "@/services/news";
 import PosterCard from "@/components/media/poster-card";
 import Rail from "@/components/media/rail";
 import Hero, { type HeroSlide } from "@/components/media/hero";
 import ContinueRail from "@/components/history/continue-rail";
 import JsonLd from "@/components/seo/json-ld";
+import NewsList from "@/components/news/news-list";
 import { SITE, localeAlternates } from "@/lib/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -27,13 +31,15 @@ const CARD =
 const RAIL_SIZES = "(min-width: 1280px) 13vw, (min-width: 1024px) 16vw, (min-width: 768px) 22vw, (min-width: 640px) 30vw, 42vw";
 
 export default async function HomePage() {
-  // Four independent domains, one render pass. A failure in any one of them
+  // Six independent domains, one render pass. A failure in any one of them
   // degrades that row only — the services already return empty on error.
-  const [anime, comic, movie, tv] = await Promise.all([
+  const [anime, comic, movie, tv, radio, news] = await Promise.all([
     getAnimeHome(),
     getComicHome(),
     getMovieHome(),
     getTvChannels(),
+    getRadioStations(),
+    getNews({ limit: 6 }),
   ]);
 
   // The hero mixes domains so the front page shows what the site actually is.
@@ -267,6 +273,50 @@ export default async function HomePage() {
               </Link>
             ))}
           </Shelf>
+        ) : null}
+
+        {radio.stations.length ? (
+          <Shelf title="Radio Indonesia" eyebrow={`${radio.total} stasiun`} href="/radio">
+            {radio.stations.slice(0, 20).map((station) => (
+              <Link
+                key={station.id}
+                href={`/radio/${station.id}`}
+                className="press hover:border-primary group mr-2 flex w-44 shrink-0 snap-start items-center gap-3 border p-3 sm:w-52"
+              >
+                <span className="bg-muted text-muted-foreground flex size-11 shrink-0 items-center justify-center border">
+                  <RadioIcon className="size-5" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="group-hover:text-primary block truncate text-sm font-semibold">
+                    {station.name}
+                  </span>
+                  <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
+                    {station.state ?? "Indonesia"}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </Shelf>
+        ) : null}
+
+        {news.length ? (
+          <section className="mt-10">
+            <div className="mb-3 flex items-baseline justify-between gap-4">
+              <div>
+                <p className="eyebrow">Dari dunia anime</p>
+                <h2 className="font-display text-xl leading-none font-extrabold tracking-tight uppercase sm:text-2xl">
+                  Berita terbaru
+                </h2>
+              </div>
+              <Link
+                href="/berita"
+                className="text-muted-foreground hover:text-primary press shrink-0 font-mono text-xs uppercase"
+              >
+                Lihat semua →
+              </Link>
+            </div>
+            <NewsList items={news} />
+          </section>
         ) : null}
       </div>
     </div>
