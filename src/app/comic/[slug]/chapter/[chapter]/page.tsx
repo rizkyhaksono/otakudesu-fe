@@ -50,7 +50,8 @@ export default async function ComicChapterPage({ params }: Props) {
     <>
       <RecordView
         kind="comic"
-        id={`comic:${slug}:${number}`}
+        id={`comic:${slug}`}
+        part={number}
         title={data.comic.title ?? slug}
         href={`/comic/${slug}/chapter/${number}`}
         poster={data.comic.poster}

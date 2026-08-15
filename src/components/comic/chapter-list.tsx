@@ -4,10 +4,19 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Check } from "lucide-react";
 import type { ComicChapterRef } from "@/types/api";
-import { getHistory } from "@/lib/storage";
+import { getReadParts } from "@/lib/storage";
 import { useStoredValue } from "@/hooks/use-storage";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+
+/** Stable reader so `useStoredValue` can memoise the snapshot. */
+function useReadParts(slug: string): Set<number> {
+  const read = useMemo(() => () => getReadParts(`comic:${slug}`), [slug]);
+  const [parts] = useStoredValue<Set<number>>(read, EMPTY);
+  return parts;
+}
+
+const EMPTY = new Set<number>();
 
 export default function ChapterList({
   slug,
@@ -19,15 +28,9 @@ export default function ChapterList({
   const [query, setQuery] = useState("");
 
   // Chapters already opened are marked, so a long list stays navigable.
-  const [readIds] = useStoredValue<Set<string>>(
-    () =>
-      new Set(
-        getHistory()
-          .filter((entry) => entry.kind === "comic" && entry.id.startsWith(`comic:${slug}:`))
-          .map((entry) => entry.id),
-      ),
-    new Set<string>(),
-  );
+  // Sourced from the progress store rather than history: history is capped at
+  // 40 entries and holds one card per series, so it cannot answer this.
+  const readParts = useReadParts(slug);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -51,7 +54,8 @@ export default function ChapterList({
 
       <ul className="scrollbar-thin grid max-h-[32rem] gap-px overflow-y-auto border bg-border sm:grid-cols-2 lg:grid-cols-3 [&>*]:bg-background">
         {filtered.map((chapter) => {
-          const read = readIds.has(`comic:${slug}:${chapter.chapter_number}`);
+          const read =
+            chapter.chapter_number !== null && readParts.has(chapter.chapter_number);
           return (
             <li key={chapter.slug ?? chapter.chapter_number}>
               <Link

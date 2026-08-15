@@ -83,6 +83,7 @@ export default async function EpisodePage({ params }: Props) {
         href={`/anime/${slug}/episodes/${number}`}
         poster={anime.poster}
         progress={`Episode ${number}`}
+        part={number}
       />
 
       <JsonLd
