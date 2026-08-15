@@ -11,17 +11,44 @@ export const SITE = {
   github: "https://github.com/rizkyhaksono/otakudesu-fe",
 } as const;
 
-export const NAV = [
-  { href: "/", label: "Beranda" },
-  { href: "/ongoing-anime/1", label: "Ongoing" },
-  { href: "/completed-anime/1", label: "Selesai" },
-  { href: "/anime-list", label: "Daftar A–Z" },
-  { href: "/genres", label: "Genre" },
-  { href: "/schedules", label: "Jadwal" },
+/**
+ * Navigation is grouped by domain rather than listed flat.
+ *
+ * Nine top-level links read as clutter and gave every page equal weight. The
+ * four domains are the actual mental model; everything anime-specific lives one
+ * level down. Dropdown children still render into the HTML, so crawlers keep the
+ * full internal link graph.
+ */
+export type NavLink = { href: string; label: string; description?: string };
+export type NavGroup = { label: string; items: readonly NavLink[] };
+export type NavEntry = NavLink | NavGroup;
+
+export const isNavGroup = (entry: NavEntry): entry is NavGroup => "items" in entry;
+
+export const ANIME_LINKS: readonly NavLink[] = [
+  { href: "/ongoing-anime/1", label: "Sedang tayang", description: "Episode terbaru tiap hari" },
+  { href: "/completed-anime/1", label: "Selesai tayang", description: "Anime yang sudah tamat" },
+  { href: "/schedules", label: "Jadwal rilis", description: "Tahu hari rilis tiap judul" },
+  { href: "/genres", label: "Genre", description: "Jelajahi per kategori" },
+  { href: "/anime-list", label: "Daftar A–Z", description: "Seluruh katalog" },
+];
+
+export const NAV: readonly NavEntry[] = [
+  { label: "Anime", items: ANIME_LINKS },
   { href: "/comic", label: "Komik" },
   { href: "/movie", label: "Film" },
   { href: "/tv", label: "TV Live" },
-] as const;
+];
+
+/** Flattened form, used by the footer and the sitemap. */
+export const NAV_FLAT: readonly NavLink[] = [
+  { href: "/", label: "Beranda" },
+  ...ANIME_LINKS,
+  { href: "/comic", label: "Komik" },
+  { href: "/movie", label: "Film" },
+  { href: "/tv", label: "TV Live" },
+  { href: "/bookmark", label: "Bookmark" },
+];
 
 export function absoluteUrl(path = "/"): string {
   return `${SITE.url}${path.startsWith("/") ? path : `/${path}`}`;

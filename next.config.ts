@@ -6,13 +6,23 @@ import type { NextConfig } from "next";
  * image proxy.
  */
 const imageHosts = [
+  // Anime posters
   "otakudesu.blog",
   "otakudesu.best",
   "otakudesu.cloud",
-  "img.komiku.org",
-  "thumbnail.komiku.org",
+  // Comic covers and page images. Wildcards on purpose: these CDNs move between
+  // subdomains (thumbnail./img./novel.) and a fixed list silently breaks images
+  // every time they do — which is exactly what happened with novel.kiryuuid.net.
+  "**.komiku.org",
+  "**.komiku.to",
+  "**.komiku.id",
+  "**.kiryuuid.net",
+  "**.uqni.net",
+  // TMDB stills and posters
   "image.tmdb.org",
+  // Live TV channel logos
   "i.imgur.com",
+  "**.iptv-org.github.io",
 ];
 
 const embedHosts = ["https://www.2embed.cc", "https://player.videasy.net", "https://vidsrc.to"];

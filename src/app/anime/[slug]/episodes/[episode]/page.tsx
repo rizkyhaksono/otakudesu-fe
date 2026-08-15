@@ -2,10 +2,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight, List } from "lucide-react";
-import { getAnime, getEpisode } from "@/services/anime";
+import { getAnime, getEpisode, getEpisodeMirror } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
 import DownloadTable from "@/components/media/download-table";
-import VideoFrame from "@/components/media/video-frame";
+import EpisodePlayer from "@/components/anime/episode-player";
 import EpisodePicker from "@/components/anime/episode-picker";
 import RecordView from "@/components/history/record-view";
 import JsonLd from "@/components/seo/json-ld";
@@ -56,6 +56,13 @@ export default async function EpisodePage({ params }: Props) {
 
   const episodes = anime.episode_lists;
   const currentIndex = episodes.findIndex((item) => item.episode_number === number);
+  const mirrors = data.mirrors ?? [];
+
+  // Resolve a source server-side when the episode page embeds none, so the
+  // player is filled on first paint instead of after a client round-trip.
+  const initialSrc =
+    data.stream_url ?? (mirrors[0] ? (await getEpisodeMirror(mirrors[0].content))?.url : null);
+
   const previous = currentIndex >= 0 ? episodes[currentIndex + 1] : undefined;
   const next = currentIndex > 0 ? episodes[currentIndex - 1] : undefined;
 
@@ -97,13 +104,11 @@ export default async function EpisodePage({ params }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
         <div className="min-w-0">
-          {data.stream_url ? (
-            <VideoFrame src={data.stream_url} title={data.episode || "Pemutar"} />
-          ) : (
-            <div className="text-muted-foreground border p-10 text-center text-sm">
-              Sumber pemutar tidak tersedia untuk episode ini.
-            </div>
-          )}
+          <EpisodePlayer
+            title={data.episode || "Pemutar"}
+            initialSrc={initialSrc}
+            mirrors={mirrors}
+          />
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Button asChild variant="outline" size="sm" disabled={!previous} className="gap-1">

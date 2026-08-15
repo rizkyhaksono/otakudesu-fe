@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NAV, SITE } from "@/lib/site";
+import { NAV_FLAT, SITE } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
@@ -16,7 +16,7 @@ export default function SiteFooter() {
           <div>
             <p className="eyebrow">Jelajahi</p>
             <ul className="mt-3 space-y-1.5">
-              {NAV.slice(1, 6).map((item) => (
+              {NAV_FLAT.slice(1, 6).map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -32,7 +32,7 @@ export default function SiteFooter() {
           <div>
             <p className="eyebrow">Lainnya</p>
             <ul className="mt-3 space-y-1.5">
-              {NAV.slice(6).map((item) => (
+              {NAV_FLAT.slice(6).map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

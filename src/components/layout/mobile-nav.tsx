@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { NAV, SITE } from "@/lib/site";
+import { NAV_FLAT, SITE } from "@/lib/site";
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function MobileNav() {
         </SheetHeader>
         <nav aria-label="Menu seluler" className="mt-2 border-t">
           <ul>
-            {[...NAV, { href: "/bookmark", label: "Bookmark" }].map((item) => (
+            {NAV_FLAT.map((item) => (
               <li key={item.href} className="border-b">
                 <Link
                   href={item.href}

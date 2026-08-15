@@ -71,3 +71,10 @@ export const getBatch = (slug: string) =>
 
 export const getAnimeMovie = (slug: string) =>
   api<AnimeMovie>(`/api/v1/anime/movie/${slug}`, { revalidate: 1800 });
+
+/** Resolve one alternate server token into a playable iframe URL. */
+export async function getEpisodeMirror(content: string) {
+  return api<{ url: string }>(`/api/v1/anime/mirror?content=${encodeURIComponent(content)}`, {
+    revalidate: 600,
+  });
+}

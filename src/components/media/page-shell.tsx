@@ -56,7 +56,7 @@ export default function PageShell({
 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b pb-4">
         <div className="min-w-0">
-          <h1 className="font-display text-2xl font-extrabold tracking-tight uppercase sm:text-3xl">
+          <h1 className="animate-rise font-display text-2xl font-extrabold tracking-tight uppercase sm:text-3xl">
             {title}
           </h1>
           {description ? (

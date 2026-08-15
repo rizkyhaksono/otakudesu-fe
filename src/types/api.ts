@@ -68,6 +68,13 @@ export type AnimeDetail = {
 
 export type EpisodeRef = { slug?: string; otakudesu_url?: string } | null;
 
+export type EpisodeMirror = {
+  provider: string;
+  quality: string | null;
+  /** Opaque token handed back to the mirror-resolve endpoint. */
+  content: string;
+};
+
 export type Episode = {
   episode: string;
   anime: { slug?: string; otakudesu_url?: string };
@@ -76,6 +83,8 @@ export type Episode = {
   has_previous_episode: boolean;
   previous_episode: EpisodeRef;
   stream_url?: string;
+  /** Alternate servers; resolve each via /api/v1/anime/mirror. */
+  mirrors?: EpisodeMirror[];
   download_urls: { mp4: DownloadGroup[]; mkv: DownloadGroup[] };
 };
 

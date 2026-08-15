@@ -166,13 +166,18 @@
   /*
    * Collapsed-border grid: cells share a single hairline so a listing reads as
    * one continuous table rather than a set of floating cards.
+   *
+   * The border lives on the *cells*, not on the container background. Painting
+   * the container meant a partially-filled last row rendered as one large empty
+   * block — the grid still reserves those tracks, and they showed as solid
+   * colour. With per-cell borders the leftover tracks are simply invisible.
    */
   .grid-hairline {
-    @apply border-border grid gap-px border bg-[var(--border)];
+    @apply grid border-t border-l;
   }
 
   .grid-hairline > * {
-    @apply bg-background;
+    @apply bg-background border-r border-b;
   }
 
   /* Section label: small, uppercase, wide-tracked. */
@@ -186,7 +191,107 @@
   }
 }
 
+/* Rails scroll natively; the scrollbar itself would break the flat aesthetic. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility scrollbar-thin {
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+}
+
+
+/*
+ * ── Motion ───────────────────────────────────────────────────────────────────
+ *
+ * One easing curve and three durations, used everywhere. The curve decelerates:
+ * motion starts quickly and settles gently, which reads as responsive rather
+ * than sluggish. Nothing bounces, nothing overshoots, nothing runs past 420ms.
+ *
+ * Every animation sits inside a `prefers-reduced-motion: no-preference` guard,
+ * so reduced-motion users get the final state immediately instead of a faster
+ * version of the same movement.
+ */
+@layer base {
+  :root {
+    --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --dur-fast: 150ms;
+    --dur-base: 260ms;
+    --dur-slow: 420ms;
+  }
+
+  /* Colour still responds under reduced motion; only movement is dropped. */
+  .press {
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .animate-rise {
+      animation: rise var(--dur-slow) var(--ease-out) both;
+    }
+
+    .animate-fade {
+      animation: fade-in var(--dur-base) var(--ease-out) both;
+    }
+
+    /*
+     * Staggered entrance for grids and lists. Capped at 12 steps — past that a
+     * delay stops reading as a flourish and starts reading as lag.
+     */
+    .stagger > * {
+      animation: rise var(--dur-slow) var(--ease-out) both;
+    }
+    .stagger > *:nth-child(1) { animation-delay: 20ms; }
+    .stagger > *:nth-child(2) { animation-delay: 40ms; }
+    .stagger > *:nth-child(3) { animation-delay: 60ms; }
+    .stagger > *:nth-child(4) { animation-delay: 80ms; }
+    .stagger > *:nth-child(5) { animation-delay: 100ms; }
+    .stagger > *:nth-child(6) { animation-delay: 120ms; }
+    .stagger > *:nth-child(7) { animation-delay: 140ms; }
+    .stagger > *:nth-child(8) { animation-delay: 160ms; }
+    .stagger > *:nth-child(9) { animation-delay: 180ms; }
+    .stagger > *:nth-child(10) { animation-delay: 200ms; }
+    .stagger > *:nth-child(11) { animation-delay: 220ms; }
+    .stagger > *:nth-child(n + 12) { animation-delay: 240ms; }
+
+    /* Press feedback: small, immediate, so taps feel physical. */
+    .press {
+      transition:
+        transform var(--dur-fast) var(--ease-out),
+        background-color var(--dur-fast) var(--ease-out),
+        border-color var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out);
+    }
+    .press:active {
+      transform: scale(0.97);
+    }
+  }
 }

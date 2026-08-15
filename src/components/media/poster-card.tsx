@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import PosterImage from "@/components/media/poster-image";
 import { cn } from "@/lib/utils";
 
 export type PosterCardProps = {
@@ -43,20 +43,13 @@ export default function PosterCard({
     >
       <article className="flex h-full flex-col">
         <div className="bg-muted relative aspect-[2/3] w-full overflow-hidden border-b">
-          {poster ? (
-            <Image
-              src={poster}
-              alt=""
-              fill
-              sizes={sizes}
-              priority={priority}
-              className="object-cover transition-[filter,transform] duration-200 group-hover:brightness-110"
-            />
-          ) : (
-            <div className="text-muted-foreground flex h-full items-center justify-center font-mono text-xs">
-              no image
-            </div>
-          )}
+          <PosterImage
+            src={poster}
+            alt=""
+            sizes={sizes}
+            priority={priority}
+            className="group-hover:scale-[1.03] group-hover:brightness-110"
+          />
 
           {badge ? (
             <span
