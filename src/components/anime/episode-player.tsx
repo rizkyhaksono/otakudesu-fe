@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { AlertTriangle, ExternalLink, Loader2, MonitorPlay } from "lucide-react";
 import type { EpisodeMirror } from "@/types/api";
+import type { MuseMatch } from "@/services/anime";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,10 +28,13 @@ export default function EpisodePlayer({
   title,
   initialSrc,
   mirrors,
+  muse,
 }: {
   title: string;
   initialSrc?: string | null;
   mirrors: EpisodeMirror[];
+  /** Official Muse Indonesia playlist, when one matches this series. */
+  muse?: MuseMatch | null;
 }) {
   // Group by quality so the switcher reads "480p: a, b, c" rather than a flat wall.
   const groups = useMemo(() => {
@@ -160,6 +164,33 @@ export default function EpisodePlayer({
           </div>
         ) : null}
       </div>
+
+      {muse ? (
+        <div className="mt-3 border">
+          <p className="eyebrow flex items-center gap-1.5 border-b px-3 py-2">
+            <MonitorPlay className="size-3.5" aria-hidden />
+            Sumber resmi
+          </p>
+          <div className="flex flex-wrap items-center gap-2 p-2">
+            <Button
+              size="sm"
+              variant={src === muse.url ? "default" : "outline"}
+              className="press h-7 font-mono text-xs"
+              onClick={() => {
+                setSelected(null);
+                setBlocked(null);
+                setSrc(muse.url);
+                setStatus("ready");
+              }}
+            >
+              Muse Indonesia
+            </Button>
+            <span className="text-muted-foreground text-xs">
+              Playlist resmi berlisensi — seluruh seri, bukan per-episode.
+            </span>
+          </div>
+        </div>
+      ) : null}
 
       {groups.length ? (
         <div className="mt-3 border">

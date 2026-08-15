@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight, List } from "lucide-react";
-import { getAnime, getEpisode, getEpisodeMirror } from "@/services/anime";
+import { getAnime, getEpisode, getEpisodeMirror, getMuseFallback } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
 import DownloadTable from "@/components/media/download-table";
 import EpisodePlayer from "@/components/anime/episode-player";
@@ -66,6 +66,9 @@ export default async function EpisodePage({ params }: Props) {
    * "first mirror" and "first mirror that can actually play" are not the same
    * thing. Capped so a bad episode cannot fan out into a dozen upstream calls.
    */
+  // Official fallback, resolved in parallel with everything else.
+  const muse = await getMuseFallback(anime.title ?? slug);
+
   let initialSrc: string | null = data.stream_url ?? null;
   if (!initialSrc) {
     for (const candidate of mirrors.slice(0, 4)) {
@@ -123,6 +126,7 @@ export default async function EpisodePage({ params }: Props) {
             title={data.episode || "Pemutar"}
             initialSrc={initialSrc}
             mirrors={mirrors}
+            muse={muse}
           />
 
           <div className="mt-3 flex flex-wrap items-center gap-2">

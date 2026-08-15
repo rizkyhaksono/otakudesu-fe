@@ -19,31 +19,37 @@ export const SITE = {
  * level down. Dropdown children still render into the HTML, so crawlers keep the
  * full internal link graph.
  */
-export type NavLink = { href: string; label: string; description?: string };
-export type NavGroup = { label: string; items: readonly NavLink[] };
+export type NavLink = {
+  href: string;
+  label: string;
+  description?: string;
+  /** Key into `dictionary.nav`, used to translate the visible label. */
+  key?: string;
+};
+export type NavGroup = { label: string; key?: string; items: readonly NavLink[] };
 export type NavEntry = NavLink | NavGroup;
 
 export const isNavGroup = (entry: NavEntry): entry is NavGroup => "items" in entry;
 
 export const ANIME_LINKS: readonly NavLink[] = [
-  { href: "/ongoing-anime/1", label: "Sedang tayang", description: "Episode terbaru tiap hari" },
-  { href: "/completed-anime/1", label: "Selesai tayang", description: "Anime yang sudah tamat" },
-  { href: "/schedules", label: "Jadwal rilis", description: "Tahu hari rilis tiap judul" },
-  { href: "/genres", label: "Genre", description: "Jelajahi per kategori" },
-  { href: "/anime-list", label: "Daftar A–Z", description: "Seluruh katalog" },
+  { href: "/ongoing-anime/1", label: "Sedang tayang", key: "ongoing", description: "Episode terbaru tiap hari" },
+  { href: "/completed-anime/1", label: "Selesai tayang", key: "completed", description: "Anime yang sudah tamat" },
+  { href: "/schedules", label: "Jadwal rilis", key: "schedule", description: "Tahu hari rilis tiap judul" },
+  { href: "/genres", label: "Genre", key: "genres", description: "Jelajahi per kategori" },
+  { href: "/anime-list", label: "Daftar A–Z", key: "directory", description: "Seluruh katalog" },
 ];
 
 export const COMIC_LINKS: readonly NavLink[] = [
-  { href: "/comic", label: "Update terbaru", description: "Chapter yang baru rilis" },
-  { href: "/comic/browse", label: "Jelajahi katalog", description: "Ribuan judul, bisa difilter" },
-  { href: "/comic/genres", label: "Genre", description: "Action, romance, isekai…" },
+  { href: "/comic", label: "Update terbaru", key: "latest", description: "Chapter yang baru rilis" },
+  { href: "/comic/browse", label: "Jelajahi katalog", key: "browse", description: "Ribuan judul, bisa difilter" },
+  { href: "/comic/genres", label: "Genre", key: "genres", description: "Action, romance, isekai…" },
 ];
 
 export const NAV: readonly NavEntry[] = [
-  { label: "Anime", items: ANIME_LINKS },
-  { label: "Komik", items: COMIC_LINKS },
-  { href: "/movie", label: "Film" },
-  { href: "/tv", label: "TV Live" },
+  { label: "Anime", key: "anime", items: ANIME_LINKS },
+  { label: "Komik", key: "comic", items: COMIC_LINKS },
+  { href: "/movie", label: "Film", key: "movie" },
+  { href: "/tv", label: "TV Live", key: "tv" },
 ];
 
 /** Flattened form, used by the footer and the sitemap. */
@@ -51,9 +57,9 @@ export const NAV_FLAT: readonly NavLink[] = [
   { href: "/", label: "Beranda" },
   ...ANIME_LINKS,
   ...COMIC_LINKS,
-  { href: "/movie", label: "Film" },
-  { href: "/tv", label: "TV Live" },
-  { href: "/bookmark", label: "Bookmark" },
+  { href: "/movie", label: "Film", key: "movie" },
+  { href: "/tv", label: "TV Live", key: "tv" },
+  { href: "/bookmark", label: "Bookmark", key: "bookmark" },
 ];
 
 export function absoluteUrl(path = "/"): string {

@@ -78,3 +78,15 @@ export async function getEpisodeMirror(content: string) {
     revalidate: 600,
   });
 }
+
+export type MuseMatch = { playlist_id: string; title: string; url: string; score: number };
+
+/**
+ * Official Muse Indonesia playlist for a title, when one exists. Used as a
+ * legal fallback when the scraped mirrors are all blocked or dead.
+ */
+export async function getMuseFallback(title: string) {
+  return api<MuseMatch>(`/api/v1/anime/muse?title=${encodeURIComponent(title)}`, {
+    revalidate: 21_600,
+  });
+}
