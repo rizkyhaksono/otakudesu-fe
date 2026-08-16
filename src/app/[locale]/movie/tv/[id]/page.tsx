@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { metaDescription } from "@/lib/seo";
 import { getSeason, getSeries, getSeriesSources } from "@/services/movie";
 import PageShell from "@/components/media/page-shell";
+import { dictionaryFor } from "@/lib/i18n/server";
 import EmbedPlayer from "@/components/movie/embed-player";
 import SeasonPicker from "@/components/movie/season-picker";
 import { MovieCast, MovieFacts } from "@/components/movie/detail-body";
@@ -16,7 +17,7 @@ import { absoluteUrl, localeAlternates } from "@/lib/site";
 export const revalidate = 3600;
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
   searchParams: Promise<{ s?: string; e?: string }>;
 };
 
@@ -31,15 +32,17 @@ function parseNumber(value: string | undefined, fallback: number): number {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = parseId((await params).id);
+  const { id: raw, locale } = await params;
+  const t = dictionaryFor(locale);
+  const id = parseId(raw);
   if (Number.isNaN(id)) return { robots: { index: false, follow: false } };
 
   const series = await getSeries(id);
-  if (!series) return { title: "Serial tidak ditemukan", robots: { index: false, follow: false } };
+  if (!series) return { title: t.crumbs.tv, robots: { index: false, follow: false } };
 
   const description = metaDescription(
     series.overview,
-    `Nonton serial ${series.title} subtitle Indonesia — semua musim dan episode.`,
+    `${series.title} — ${t.pages.movie.description}`,
   );
 
   return {
@@ -57,7 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SeriesDetailPage({ params, searchParams }: Props) {
-  const id = parseId((await params).id);
+  const { id: raw, locale } = await params;
+  const t = dictionaryFor(locale);
+  const id = parseId(raw);
   if (Number.isNaN(id)) notFound();
 
   const query = await searchParams;
@@ -80,8 +85,8 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
       title={series.title ?? `Serial ${id}`}
       description={series.tagline ?? undefined}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Film", href: "/movie" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.movie, href: "/movie" },
         { label: series.title ?? String(id), href: `/movie/tv/${id}` },
       ]}
       wide
@@ -146,7 +151,7 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
 
           <MovieCast detail={series} />
 
-          <ExternalLinks detail={series} mediaType="tv" />
+          <ExternalLinks detail={series} mediaType="tv" t={t} />
         </div>
 
         <aside className="space-y-3">

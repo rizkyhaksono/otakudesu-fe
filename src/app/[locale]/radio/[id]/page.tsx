@@ -10,20 +10,22 @@ import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
 import { apiBaseUrl } from "@/lib/api";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
+import { dictionaryFor } from "@/lib/i18n/server";
 
 export const revalidate = 21_600;
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string; locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const station = await getRadioStation(id);
-  if (!station) return { title: "Stasiun tidak ditemukan", robots: { index: false, follow: false } };
+  if (!station) return { title: t.pages.radio.emptyTitle, robots: { index: false, follow: false } };
 
-  const title = `Radio ${station.name} Streaming Online`;
-  const description = `Dengarkan siaran langsung ${station.name}${
-    station.state ? ` dari ${station.state}` : ""
-  } gratis, langsung dari browser tanpa aplikasi tambahan.`;
+  const title = `${station.name} — ${t.pages.radio.liveBroadcast}`;
+  const description = `${station.name}${station.state ? ` · ${station.state}` : ""} — ${
+    t.pages.radio.liveBroadcast
+  }.`;
 
   return {
     title,
@@ -34,7 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function RadioStationPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const station = await getRadioStation(id);
   if (!station) notFound();
 
@@ -43,19 +46,19 @@ export default async function RadioStationPage({ params }: Props) {
     .slice(0, 10);
 
   const facts = [
-    ["Wilayah", station.state],
-    ["Bahasa", station.language],
-    ["Codec", station.codec],
-    ["Bitrate", station.bitrate ? `${station.bitrate} kbps` : null],
+    [t.pages.radio.region, station.state],
+    [t.pages.radio.language, station.language],
+    [t.pages.radio.codec, station.codec],
+    [t.pages.radio.bitrate, station.bitrate ? `${station.bitrate} kbps` : null],
   ].filter(([, value]) => Boolean(value)) as [string, string][];
 
   return (
     <PageShell
       title={station.name}
-      description="Siaran radio langsung"
+      description={t.pages.radio.liveBroadcast}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Radio", href: "/radio" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.radio, href: "/radio" },
         { label: station.name, href: `/radio/${id}` },
       ]}
       wide
@@ -66,7 +69,7 @@ export default async function RadioStationPage({ params }: Props) {
         title={station.name}
         href={`/radio/${id}`}
         poster={station.favicon}
-        progress="Live"
+        progress={t.pages.tv.live}
       />
 
       <JsonLd
@@ -120,7 +123,7 @@ export default async function RadioStationPage({ params }: Props) {
             <span className="min-w-0">
               <span className="block truncate font-semibold">{station.name}</span>
               <span className="text-muted-foreground block truncate font-mono text-[0.7rem] uppercase">
-                {station.state ?? "Indonesia"}
+                {station.state ?? t.pages.radio.title}
               </span>
             </span>
           </div>
@@ -140,14 +143,14 @@ export default async function RadioStationPage({ params }: Props) {
               rel="noopener noreferrer nofollow"
               className="hover:bg-accent flex items-center justify-between gap-2 border p-3 text-sm transition-colors"
             >
-              Situs resmi
+              {t.pages.radio.officialSite}
               <ExternalLink className="size-4 shrink-0" aria-hidden />
             </a>
           ) : null}
 
           {related.length ? (
             <div className="border">
-              <p className="eyebrow border-b p-3">Stasiun lain</p>
+              <p className="eyebrow border-b p-3">{t.pages.radio.otherStations}</p>
               <ul>
                 {related.map((item) => (
                   <li key={item.id} className="border-b last:border-b-0">

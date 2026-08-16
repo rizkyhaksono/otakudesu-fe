@@ -8,20 +8,23 @@ import Pager from "@/components/media/pager";
 import JsonLd from "@/components/seo/json-ld";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 21_600;
 
 const PER_PAGE = 60;
 
-type Props = { searchParams: Promise<{ tag?: string; q?: string; page?: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ tag?: string; q?: string; page?: string }>;
+};
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { tag, page } = await searchParams;
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { tag, page }] = await Promise.all([getDictionary(params), searchParams]);
 
   return {
-    title: tag ? `Radio Indonesia — ${tag}` : "Radio Indonesia Online",
-    description:
-      "Dengarkan radio Indonesia streaming online gratis: pop, dangdut, rock, berita dan stasiun daerah, langsung dari browser.",
+    title: tag ? `${t.pages.radio.title} — ${tag}` : t.pages.radio.title,
+    description: t.tour.moreBody,
     alternates: { canonical: "/radio", languages: localeAlternates("/radio") },
     // Filtered and paged views are navigation, not content worth indexing
     // separately — the same rule the TV listing follows.
@@ -29,8 +32,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
-export default async function RadioPage({ searchParams }: Props) {
-  const { tag, q, page } = await searchParams;
+export default async function RadioPage({ params, searchParams }: Props) {
+  const [{ t }, { tag, q, page }] = await Promise.all([getDictionary(params), searchParams]);
   const [{ stations, total }, tags] = await Promise.all([
     getRadioStations({ tag, q }),
     getRadioTags(),
@@ -51,11 +54,11 @@ export default async function RadioPage({ searchParams }: Props) {
 
   return (
     <PageShell
-      title="Radio Indonesia"
-      description={total ? `${total} stasiun dengan siaran aktif.` : undefined}
+      title={t.pages.radio.title}
+      description={total ? `${total} ${t.pages.radio.stations}` : undefined}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Radio", href: "/radio" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.radio, href: "/radio" },
       ]}
       wide
     >
@@ -63,7 +66,7 @@ export default async function RadioPage({ searchParams }: Props) {
         data={{
           "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "Stasiun radio Indonesia",
+          name: t.pages.radio.title,
           url: absoluteUrl("/radio"),
           numberOfItems: visible.length,
           itemListElement: visible.slice(0, 50).map((station, index) => ({
@@ -76,17 +79,19 @@ export default async function RadioPage({ searchParams }: Props) {
       />
 
       <nav
-        aria-label="Kategori"
-        className="mb-5 flex flex-wrap gap-px border bg-border [&>*]:bg-background"
+        aria-label={t.pages.radio.all}
+        className="mb-5 flex flex-wrap gap-px border bg-border"
       >
         <Link
           href="/radio"
           className={cn(
             "px-3 py-2 font-mono text-xs uppercase transition-colors",
-            !tag ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent",
+            !tag
+              ? "bg-primary text-primary-foreground font-semibold"
+              : "bg-background hover:bg-accent",
           )}
         >
-          Semua
+          {t.pages.radio.all}
         </Link>
         {tags.map((item) => (
           <Link
@@ -96,7 +101,7 @@ export default async function RadioPage({ searchParams }: Props) {
               "px-3 py-2 font-mono text-xs uppercase transition-colors",
               tag === item.slug
                 ? "bg-primary text-primary-foreground font-semibold"
-                : "hover:bg-accent",
+                : "bg-background hover:bg-accent",
             )}
           >
             {item.slug} <span className="opacity-60">{item.count}</span>
@@ -123,7 +128,7 @@ export default async function RadioPage({ searchParams }: Props) {
                     <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
                       {[station.state, station.tags.slice(0, 2).join(" · ")]
                         .filter(Boolean)
-                        .join(" — ") || "radio"}
+                        .join(" — ") || t.crumbs.radio}
                     </span>
                   </span>
                 </Link>
@@ -135,9 +140,9 @@ export default async function RadioPage({ searchParams }: Props) {
         </>
       ) : (
         <EmptyState
-          title="Tidak ada stasiun"
-          description="Coba kategori lain."
-          action={{ href: "/radio", label: "Lihat semua stasiun" }}
+          title={t.pages.radio.emptyTitle}
+          description={t.pages.radio.emptyBody}
+          action={{ href: "/radio", label: t.pages.radio.seeAll }}
         />
       )}
     </PageShell>

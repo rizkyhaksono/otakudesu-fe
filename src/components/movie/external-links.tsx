@@ -1,5 +1,6 @@
 import type { MovieDetail } from "@/types/api";
 import RateElsewhere, { type RateTarget } from "@/components/media/rate-elsewhere";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 /**
  * Outbound links for people who track what they watch.
@@ -11,9 +12,11 @@ import RateElsewhere, { type RateTarget } from "@/components/media/rate-elsewher
 export default function ExternalLinks({
   detail,
   mediaType,
+  t,
 }: {
   detail: MovieDetail;
   mediaType: "movie" | "tv";
+  t: Dictionary;
 }) {
   const links = [
     // Letterboxd only catalogues films, not series.
@@ -25,7 +28,7 @@ export default function ExternalLinks({
       label: "TMDB",
     },
     detail.imdb_id ? { href: `https://www.imdb.com/title/${detail.imdb_id}/`, label: "IMDb" } : null,
-    detail.homepage ? { href: detail.homepage, label: "Situs resmi" } : null,
+    detail.homepage ? { href: detail.homepage, label: t.pages.movie.officialSite } : null,
   ].filter((link): link is { href: string; label: string } => link !== null);
 
   /*
@@ -39,7 +42,7 @@ export default function ExternalLinks({
           {
             href: `https://letterboxd.com/tmdb/${detail.id}/`,
             label: "Letterboxd",
-            note: "Catat dan beri bintang",
+            note: t.pages.movie.rateLetterboxd,
           },
           { href: `https://www.themoviedb.org/movie/${detail.id}`, label: "TMDB" },
         ]
@@ -47,7 +50,7 @@ export default function ExternalLinks({
           {
             href: `https://www.themoviedb.org/tv/${detail.id}`,
             label: "TMDB",
-            note: "Serial tidak ada di Letterboxd",
+            note: t.pages.movie.rateTmdbNote,
           },
         ];
 
@@ -55,10 +58,10 @@ export default function ExternalLinks({
 
   return (
     <section className="mt-6">
-      <h2 className="eyebrow mb-2">Rating</h2>
-      <RateElsewhere targets={rateTargets} />
+      <h2 className="eyebrow mb-2">{t.pages.movie.rating}</h2>
+      <RateElsewhere targets={rateTargets} label={t.pages.animeDetail.rateOn} />
 
-      <h2 className="eyebrow mt-6 mb-2">Selengkapnya</h2>
+      <h2 className="eyebrow mt-6 mb-2">{t.pages.movie.more}</h2>
       <ul className="flex flex-wrap gap-px bg-border [&>*]:bg-background">
         {links.map((link) => (
           <li key={link.href}>

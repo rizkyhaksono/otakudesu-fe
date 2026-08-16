@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { searchAnime } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
+import { getDictionary } from "@/lib/i18n/server";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
 import EmptyState from "@/components/media/empty-state";
@@ -8,40 +9,45 @@ import SearchForm from "@/components/search/search-form";
 
 export const revalidate = 300;
 
-type Props = { searchParams: Promise<{ q?: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string }>;
+};
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const query = (await searchParams).q?.trim();
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { q }] = await Promise.all([getDictionary(params), searchParams]);
+  const query = q?.trim();
 
   return {
-    title: query ? `Cari “${query}”` : "Cari Anime",
+    title: query ? `${t.crumbs.search} “${query}”` : t.pages.search.title,
     description: query
-      ? `Hasil pencarian anime untuk “${query}” dengan subtitle Indonesia.`
-      : "Cari anime berdasarkan judul.",
+      ? `${t.common.resultsFor} “${query}”.`
+      : t.pages.search.title,
     // Search result pages should not compete with real content in the index.
     robots: { index: false, follow: true },
   };
 }
 
-export default async function SearchPage({ searchParams }: Props) {
-  const query = (await searchParams).q?.trim() ?? "";
+export default async function SearchPage({ params, searchParams }: Props) {
+  const [{ t }, search] = await Promise.all([getDictionary(params), searchParams]);
+  const query = search.q?.trim() ?? "";
   const results = query ? await searchAnime(query) : [];
 
   return (
     <PageShell
-      title="Cari Anime"
+      title={t.pages.search.title}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Cari", href: "/search" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.search, href: "/search" },
       ]}
       wide
     >
-      <SearchForm action="/search" placeholder="Judul anime…" defaultValue={query} />
+      <SearchForm action="/search" placeholder={t.pages.search.placeholder} defaultValue={query} />
 
       {query ? (
         <div className="mt-6">
           <p className="text-muted-foreground mb-3 font-mono text-xs uppercase">
-            {results.length} hasil untuk “{query}”
+            {results.length} {t.common.resultsFor} “{query}”
           </p>
 
           {results.length ? (
@@ -50,7 +56,7 @@ export default async function SearchPage({ searchParams }: Props) {
                 <PosterCard
                   key={item.slug}
                   href={`/anime/${item.slug}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge={item.status}
                   rating={item.rating}
@@ -60,9 +66,9 @@ export default async function SearchPage({ searchParams }: Props) {
             </PosterGrid>
           ) : (
             <EmptyState
-              title="Tidak ada hasil"
-              description="Coba kata kunci lain, atau jelajahi lewat genre."
-              action={{ href: "/genres", label: "Lihat genre" }}
+              title={t.pages.search.emptyTitle}
+              description={t.pages.search.emptyBody}
+              action={{ href: "/genres", label: t.crumbs.genres }}
             />
           )}
         </div>

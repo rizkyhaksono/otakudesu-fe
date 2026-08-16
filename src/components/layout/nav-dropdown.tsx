@@ -99,7 +99,10 @@ export default function NavDropdown({
               >
                 <span className="block text-sm font-medium">{tr(item.key, item.label)}</span>
                 {item.description ? (
-                  <span className="text-muted-foreground block text-xs">{item.description}</span>
+                  <span className="text-muted-foreground block text-xs">
+                    {(item.key && (t.navDesc as Record<string, string>)[item.key]) ||
+                      item.description}
+                  </span>
                 ) : null}
               </Link>
             </li>

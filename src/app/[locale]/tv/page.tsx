@@ -7,25 +7,28 @@ import EmptyState from "@/components/media/empty-state";
 import JsonLd from "@/components/seo/json-ld";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 21_600;
 
-type Props = { searchParams: Promise<{ category?: string; q?: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string; q?: string }>;
+};
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { category } = await searchParams;
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { category }] = await Promise.all([getDictionary(params), searchParams]);
 
   return {
-    title: category ? `TV Indonesia — ${category}` : "TV Indonesia Live Streaming",
-    description:
-      "Nonton siaran TV Indonesia gratis: berita, olahraga, hiburan dan channel daerah, langsung dari browser.",
+    title: category ? `${t.pages.tv.title} — ${category}` : t.pages.tv.title,
+    description: t.tour.moreBody,
     alternates: { canonical: "/tv", languages: localeAlternates("/tv") },
     robots: category ? { index: false, follow: true } : undefined,
   };
 }
 
-export default async function TvPage({ searchParams }: Props) {
-  const { category, q } = await searchParams;
+export default async function TvPage({ params, searchParams }: Props) {
+  const [{ t }, { category, q }] = await Promise.all([getDictionary(params), searchParams]);
   const [{ channels, total }, categories] = await Promise.all([
     getTvChannels({ category, q }),
     getTvCategories(),
@@ -33,11 +36,11 @@ export default async function TvPage({ searchParams }: Props) {
 
   return (
     <PageShell
-      title="TV Indonesia"
-      description={total ? `${total} channel dengan siaran aktif.` : undefined}
+      title={t.pages.tv.title}
+      description={total ? `${total} ${t.pages.tv.channels}` : undefined}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "TV Live", href: "/tv" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.tv, href: "/tv" },
       ]}
       wide
     >
@@ -45,7 +48,7 @@ export default async function TvPage({ searchParams }: Props) {
         data={{
           "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "Channel TV Indonesia",
+          name: t.pages.tv.title,
           url: absoluteUrl("/tv"),
           numberOfItems: channels.length,
           itemListElement: channels.slice(0, 50).map((channel, index) => ({
@@ -57,15 +60,17 @@ export default async function TvPage({ searchParams }: Props) {
         }}
       />
 
-      <nav aria-label="Kategori" className="mb-5 flex flex-wrap gap-px border bg-border [&>*]:bg-background">
+      <nav aria-label={t.pages.tv.categories} className="mb-5 flex flex-wrap gap-px border bg-border">
         <Link
           href="/tv"
           className={cn(
             "px-3 py-2 font-mono text-xs uppercase transition-colors",
-            !category ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent",
+            !category
+              ? "bg-primary text-primary-foreground font-semibold"
+              : "bg-background hover:bg-accent",
           )}
         >
-          Semua
+          {t.pages.tv.all}
         </Link>
         {categories.map((item) => (
           <Link
@@ -75,7 +80,7 @@ export default async function TvPage({ searchParams }: Props) {
               "px-3 py-2 font-mono text-xs uppercase transition-colors",
               category === item.slug
                 ? "bg-primary text-primary-foreground font-semibold"
-                : "hover:bg-accent",
+                : "bg-background hover:bg-accent",
             )}
           >
             {item.slug} <span className="opacity-60">{item.count}</span>
@@ -108,7 +113,7 @@ export default async function TvPage({ searchParams }: Props) {
                     {channel.name}
                   </span>
                   <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
-                    {channel.categories.join(" · ") || "umum"}
+                    {channel.categories.join(" · ") || t.pages.tv.all}
                   </span>
                 </span>
               </Link>
@@ -117,9 +122,9 @@ export default async function TvPage({ searchParams }: Props) {
         </ul>
       ) : (
         <EmptyState
-          title="Tidak ada channel"
-          description="Coba kategori lain."
-          action={{ href: "/tv", label: "Lihat semua channel" }}
+          title={t.pages.tv.emptyTitle}
+          description={t.pages.tv.emptyBody}
+          action={{ href: "/tv", label: t.pages.tv.seeAll }}
         />
       )}
     </PageShell>

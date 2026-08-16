@@ -7,26 +7,33 @@ import EmptyState from "@/components/media/empty-state";
 import JsonLd from "@/components/seo/json-ld";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { formatNewsDate } from "@/lib/date";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 1800;
 
-export const metadata: Metadata = {
-  title: "Berita Anime Terbaru",
-  description:
-    "Kabar terbaru dari dunia anime dan manga: pengumuman adaptasi, jadwal tayang, staf produksi dan rilis industri.",
-  alternates: { canonical: "/berita", languages: localeAlternates("/berita") },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default async function BeritaPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: t.pages.news.title,
+    description: t.pages.news.description,
+    alternates: { canonical: "/berita", languages: localeAlternates("/berita") },
+  };
+}
+
+export default async function BeritaPage({ params }: Props) {
+  const { t } = await getDictionary(params);
   const items = await getNews();
 
   return (
     <PageShell
-      title="Berita Anime"
-      description="Dibaca langsung di sini, sumbernya Anime News Network."
+      title={t.pages.news.title}
+      description={t.pages.news.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Berita", href: "/berita" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.news, href: "/berita" },
       ]}
       wide
     >
@@ -79,9 +86,9 @@ export default async function BeritaPage() {
         </ul>
       ) : (
         <EmptyState
-          title="Berita belum tersedia"
-          description="Sumber berita sedang tidak bisa dihubungi. Coba lagi nanti."
-          action={{ href: "/", label: "Kembali ke beranda" }}
+          title={t.pages.news.emptyTitle}
+          description={t.pages.news.emptyBody}
+          action={{ href: "/", label: t.pages.news.backHome }}
         />
       )}
     </PageShell>

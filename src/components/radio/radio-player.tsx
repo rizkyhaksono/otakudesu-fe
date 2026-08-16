@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, Loader2, Pause, Play, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/client";
 
 type Status = "idle" | "loading" | "playing" | "error";
 
@@ -30,6 +31,7 @@ export default function RadioPlayer({
   apiBase: string;
   stationName: string;
 }) {
+  const { t } = useI18n();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [useProxy, setUseProxy] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
@@ -109,7 +111,7 @@ export default function RadioPlayer({
           className="size-12 shrink-0"
           onClick={toggle}
           disabled={status === "error"}
-          aria-label={status === "playing" ? `Jeda ${stationName}` : `Putar ${stationName}`}
+          aria-label={`${status === "playing" ? t.pages.radio.pause : t.pages.radio.play} ${stationName}`}
         >
           {status === "loading" ? (
             <Loader2 className="size-5 animate-spin" aria-hidden />
@@ -126,14 +128,14 @@ export default function RadioPlayer({
             {status === "playing" ? (
               <span className="text-primary inline-flex items-center gap-1.5">
                 <span className="bg-primary size-1.5 animate-pulse" aria-hidden />
-                Mengudara
+                {t.pages.radio.onAir}
               </span>
             ) : status === "error" ? (
-              "Stream tidak bisa diputar"
+              t.pages.radio.streamError
             ) : status === "loading" ? (
-              "Menyambungkan…"
+              t.pages.radio.connecting
             ) : (
-              "Siap diputar"
+              t.pages.radio.ready
             )}
             {viaProxy && status !== "error" ? " · via proxy" : ""}
           </p>
@@ -141,7 +143,7 @@ export default function RadioPlayer({
 
         <label className="hidden items-center gap-2 sm:flex">
           <Volume2 className="text-muted-foreground size-4" aria-hidden />
-          <span className="sr-only">Volume</span>
+          <span className="sr-only">{t.pages.radio.volume}</span>
           <input
             type="range"
             min={0}
@@ -161,7 +163,7 @@ export default function RadioPlayer({
       {status === "error" ? (
         <p className="text-muted-foreground flex items-center gap-2 border-t p-3 text-xs">
           <AlertTriangle className="size-4 shrink-0" aria-hidden />
-          Stasiun ini sedang tidak mengudara. Coba stasiun lain di daftar.
+          {t.pages.radio.offlineHint}
         </p>
       ) : null}
 

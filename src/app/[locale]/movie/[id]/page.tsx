@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { metaDescription } from "@/lib/seo";
 import { getMovie, getMovieSources } from "@/services/movie";
 import PageShell from "@/components/media/page-shell";
+import { dictionaryFor } from "@/lib/i18n/server";
 import EmbedPlayer from "@/components/movie/embed-player";
 import { MovieCast, MovieFacts } from "@/components/movie/detail-body";
 import ExternalLinks from "@/components/movie/external-links";
@@ -14,7 +15,7 @@ import { absoluteUrl, localeAlternates } from "@/lib/site";
 
 export const revalidate = 3600;
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string; locale: string }> };
 
 function parseId(value: string): number {
   const id = Number.parseInt(value, 10);
@@ -22,11 +23,13 @@ function parseId(value: string): number {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = parseId((await params).id);
+  const { id: raw, locale } = await params;
+  const t = dictionaryFor(locale);
+  const id = parseId(raw);
   if (Number.isNaN(id)) return { robots: { index: false, follow: false } };
 
   const movie = await getMovie(id);
-  if (!movie) return { title: "Film tidak ditemukan", robots: { index: false, follow: false } };
+  if (!movie) return { title: t.crumbs.movie, robots: { index: false, follow: false } };
 
   const description = metaDescription(
     movie.overview,
@@ -48,7 +51,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function MovieDetailPage({ params }: Props) {
-  const id = parseId((await params).id);
+  const { id: raw, locale } = await params;
+  const t = dictionaryFor(locale);
+  const id = parseId(raw);
   if (Number.isNaN(id)) notFound();
 
   const [movie, sources] = await Promise.all([getMovie(id), getMovieSources(id)]);
@@ -59,8 +64,8 @@ export default async function MovieDetailPage({ params }: Props) {
       title={movie.title ?? `Film ${id}`}
       description={movie.tagline ?? undefined}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Film", href: "/movie" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.movie, href: "/movie" },
         { label: movie.title ?? String(id), href: `/movie/${id}` },
       ]}
       wide
@@ -113,7 +118,7 @@ export default async function MovieDetailPage({ params }: Props) {
 
           <MovieCast detail={movie} />
 
-          <ExternalLinks detail={movie} mediaType="movie" />
+          <ExternalLinks detail={movie} mediaType="movie" t={t} />
         </div>
 
         <aside>

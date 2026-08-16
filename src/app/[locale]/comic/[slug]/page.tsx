@@ -6,6 +6,7 @@ import { metaDescription } from "@/lib/seo";
 import { BookOpen } from "lucide-react";
 import { getComic } from "@/services/comic";
 import PageShell from "@/components/media/page-shell";
+import { dictionaryFor } from "@/lib/i18n/server";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
 import Section from "@/components/media/section";
@@ -18,12 +19,13 @@ import { absoluteUrl, localeAlternates } from "@/lib/site";
 
 export const revalidate = 1800;
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = dictionaryFor(locale);
   const comic = await getComic(slug);
-  if (!comic) return { title: "Komik tidak ditemukan", robots: { index: false, follow: false } };
+  if (!comic) return { title: t.crumbs.comic, robots: { index: false, follow: false } };
 
   const description = metaDescription(
     comic.synopsis,
@@ -45,7 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ComicDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = dictionaryFor(locale);
   const comic = await getComic(slug);
   if (!comic) notFound();
 
@@ -67,8 +70,8 @@ export default async function ComicDetailPage({ params }: Props) {
     <PageShell
       title={comic.title ?? slug}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Komik", href: "/comic" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.comic, href: "/comic" },
         { label: comic.title ?? slug, href: `/comic/${slug}` },
       ]}
       wide
@@ -197,13 +200,16 @@ export default async function ComicDetailPage({ params }: Props) {
       </div>
 
       {comic.chapters.length ? (
-        <Section title="Daftar chapter" eyebrow={`${comic.chapters.length} chapter`}>
+        <Section
+          title={t.pages.comic.chapters}
+          eyebrow={`${comic.chapters.length}`}
+        >
           <ChapterList slug={slug} chapters={comic.chapters} />
         </Section>
       ) : null}
 
       {comic.related.length ? (
-        <Section title="Komik serupa" eyebrow="Rekomendasi">
+        <Section title={t.pages.comic.similar} eyebrow={t.pages.comic.similarEyebrow}>
           <PosterGrid>
             {comic.related.map((item) => (
               <PosterCard

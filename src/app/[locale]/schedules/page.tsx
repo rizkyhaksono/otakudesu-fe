@@ -5,28 +5,41 @@ import { getSchedule } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
 import EmptyState from "@/components/media/empty-state";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Jadwal Rilis Anime",
-  description: "Jadwal tayang anime mingguan — tahu persis hari apa episode barunya keluar.",
-  alternates: { canonical: "/schedules", languages: localeAlternates("/schedules") },
-};
+type Props = { params: Promise<{ locale: string }> };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: t.pages.schedule.title,
+    description: t.pages.schedule.description,
+    alternates: { canonical: "/schedules", languages: localeAlternates("/schedules") },
+  };
+}
+
+/*
+ * Stays Indonesian in every locale: these are not labels, they are the keys
+ * used to match today against `day.day` as the upstream spells it. The day
+ * headings themselves are upstream data and are rendered as they arrive.
+ */
 const DAYS = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
-export default async function SchedulesPage() {
+export default async function SchedulesPage({ params }: Props) {
+  const { t } = await getDictionary(params);
   const schedule = await getSchedule();
   const today = DAYS[new Date().getDay()];
 
   return (
     <PageShell
-      title="Jadwal Rilis"
-      description="Hari ini ditandai otomatis."
+      title={t.pages.schedule.title}
+      description={t.pages.schedule.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Jadwal", href: "/schedules" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.schedule, href: "/schedules" },
       ]}
       wide
     >
@@ -44,7 +57,7 @@ export default async function SchedulesPage() {
                 >
                   {day.day}
                   <span className="font-mono text-[0.65rem] font-normal tabular-nums">
-                    {isToday ? "hari ini" : `${day.anime_list.length}`}
+                    {isToday ? t.pages.schedule.today : `${day.anime_list.length}`}
                   </span>
                 </h2>
                 <ul className="divide-y">
@@ -67,7 +80,7 @@ export default async function SchedulesPage() {
           })}
         </div>
       ) : (
-        <EmptyState title="Jadwal belum tersedia" action={{ href: "/", label: "Kembali" }} />
+        <EmptyState title={t.pages.schedule.emptyTitle} action={{ href: "/", label: t.common.back }} />
       )}
     </PageShell>
   );

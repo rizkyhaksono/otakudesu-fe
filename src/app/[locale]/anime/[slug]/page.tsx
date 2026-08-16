@@ -17,18 +17,20 @@ import NewsList from "@/components/news/news-list";
 import RateElsewhere, { malSearchUrl } from "@/components/media/rate-elsewhere";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
+import { dictionaryFor } from "@/lib/i18n/server";
 
 export const revalidate = 1800;
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = dictionaryFor(locale);
   const anime = await getAnime(slug);
 
   // Metadata comes from the real payload, not from prettifying the slug —
   // that is the difference between a useful search result and a generic one.
-  if (!anime) return { title: "Anime tidak ditemukan", robots: { index: false, follow: false } };
+  if (!anime) return { title: t.crumbs.anime, robots: { index: false, follow: false } };
 
   const description = metaDescription(
     anime.synopsis,
@@ -56,7 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function AnimeDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = dictionaryFor(locale);
   const anime = await getAnime(slug);
 
   // Real 404 status, not a client-side soft 404 served with 200.
@@ -71,22 +74,24 @@ export default async function AnimeDetailPage({ params }: Props) {
   const latestEpisode = anime.episode_lists.at(0);
 
   const facts = [
-    ["Tipe", anime.type],
+    // Field names as the upstream labels them; only the ones with a natural
+    // translation are swapped, the rest are proper nouns either way.
+    ["Type", anime.type],
     ["Status", anime.status],
-    ["Episode", anime.episode_count],
-    ["Durasi", anime.duration],
-    ["Rilis", anime.release_date],
+    [t.pages.animeDetail.episodes, anime.episode_count],
+    ["Duration", anime.duration],
+    ["Release", anime.release_date],
     ["Studio", anime.studio],
-    ["Produser", anime.produser],
-    ["Judul Jepang", anime.japanese_title],
+    ["Producer", anime.produser],
+    ["Japanese", anime.japanese_title],
   ].filter(([, value]) => Boolean(value)) as [string, string][];
 
   return (
     <PageShell
       title={anime.title ?? slug}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Anime", href: "/anime-list" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.anime, href: "/anime-list" },
         { label: anime.title ?? slug, href: `/anime/${slug}` },
       ]}
       wide
@@ -139,7 +144,7 @@ export default async function AnimeDetailPage({ params }: Props) {
               <Button asChild className="w-full gap-2">
                 <Link href={`/anime/${slug}/episodes/${firstEpisode.episode_number}`}>
                   <Play className="size-4" aria-hidden />
-                  Tonton episode pertama
+                  {t.pages.animeDetail.watchFirst}
                 </Link>
               </Button>
             ) : null}
@@ -154,20 +159,21 @@ export default async function AnimeDetailPage({ params }: Props) {
               <Button asChild variant="outline" className="w-full gap-2">
                 <Link href={`/batch/${anime.batch.slug}`}>
                   <Download className="size-4" aria-hidden />
-                  Batch download
+                  {t.pages.animeDetail.batchDownload}
                 </Link>
               </Button>
             ) : null}
           </div>
 
           <div className="mt-4">
-            <h2 className="eyebrow mb-2">Rating</h2>
+            <h2 className="eyebrow mb-2">{t.pages.animeDetail.rating}</h2>
             <RateElsewhere
+              label={t.pages.animeDetail.rateOn}
               targets={[
                 {
                   href: malSearchUrl(anime.title ?? slug),
                   label: "MyAnimeList",
-                  note: "Buka entri lalu beri skor",
+                  note: t.pages.animeDetail.rateNote,
                 },
               ]}
             />
@@ -207,7 +213,7 @@ export default async function AnimeDetailPage({ params }: Props) {
 
           {anime.synopsis ? (
             <div className="mt-6">
-              <h2 className="eyebrow">Sinopsis</h2>
+              <h2 className="eyebrow">{t.pages.animeDetail.synopsis}</h2>
               <p className="mt-2 text-sm leading-relaxed whitespace-pre-line">{anime.synopsis}</p>
             </div>
           ) : null}
@@ -215,13 +221,19 @@ export default async function AnimeDetailPage({ params }: Props) {
       </div>
 
       {relatedNews.length ? (
-        <Section title="Berita terkait" eyebrow={`${relatedNews.length} artikel`}>
+        <Section
+          title={t.pages.animeDetail.relatedNews}
+          eyebrow={`${relatedNews.length} ${t.pages.animeDetail.relatedNewsCount}`}
+        >
           <NewsList items={relatedNews} />
         </Section>
       ) : null}
 
       {anime.episode_lists.length ? (
-        <Section title="Daftar episode" eyebrow={`${anime.episode_lists.length} episode`}>
+        <Section
+          title={t.pages.animeDetail.episodes}
+          eyebrow={`${anime.episode_lists.length} ${t.pages.animeDetail.episodeCount}`}
+        >
           <ul className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 lg:grid-cols-4 [&>*]:bg-background">
             {anime.episode_lists.map((episode) => (
               <li key={episode.slug}>
@@ -247,7 +259,10 @@ export default async function AnimeDetailPage({ params }: Props) {
       ) : null}
 
       {anime.recommendations.length ? (
-        <Section title="Rekomendasi" eyebrow="Mirip dengan ini">
+        <Section
+          title={t.pages.animeDetail.recommendations}
+          eyebrow={t.pages.animeDetail.recommendationsEyebrow}
+        >
           <PosterGrid>
             {anime.recommendations.map((item) => (
               <PosterCard

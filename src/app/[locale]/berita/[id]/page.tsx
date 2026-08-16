@@ -1,23 +1,25 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { getNews, getNewsArticle } from "@/services/news";
 import PageShell from "@/components/media/page-shell";
 import ArticleBody from "@/components/news/article-body";
+import PosterImage from "@/components/media/poster-image";
 import JsonLd from "@/components/seo/json-ld";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { formatNewsDate } from "@/lib/date";
+import { dictionaryFor } from "@/lib/i18n/server";
 
 export const revalidate = 86_400;
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string; locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const article = await getNewsArticle(id);
-  if (!article) return { title: "Berita tidak ditemukan", robots: { index: false, follow: false } };
+  if (!article) return { title: t.pages.news.emptyTitle, robots: { index: false, follow: false } };
 
   const description = article.intro ?? article.summary ?? undefined;
 
@@ -40,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArticlePage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const article = await getNewsArticle(id);
   if (!article) notFound();
 
@@ -51,8 +54,8 @@ export default async function ArticlePage({ params }: Props) {
       title={article.title}
       description={article.intro ?? undefined}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Berita", href: "/berita" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.news, href: "/berita" },
         { label: article.title, href: `/berita/${id}` },
       ]}
     >
@@ -82,14 +85,11 @@ export default async function ArticlePage({ params }: Props) {
 
           {article.image ? (
             <figure className="bg-muted relative mb-6 aspect-video border">
-              <Image
+              <PosterImage
                 src={article.image}
                 alt=""
-                fill
                 sizes="(min-width: 1024px) 720px, 100vw"
                 priority
-                className="object-cover"
-                unoptimized
               />
             </figure>
           ) : null}
@@ -98,15 +98,15 @@ export default async function ArticlePage({ params }: Props) {
             <ArticleBody blocks={article.blocks} />
           ) : (
             <p className="text-muted-foreground text-sm">
-              Isi artikel tidak bisa dimuat. Baca versi lengkapnya di {article.source.name}.
+              {t.pages.news.bodyUnavailable} {article.source.name}.
             </p>
           )}
 
           {/* Attribution is not a footnote here — the reporting is theirs. */}
           <div className="mt-8 border p-4">
-            <p className="eyebrow">Sumber</p>
+            <p className="eyebrow">{t.pages.news.sourceHeading}</p>
             <p className="mt-2 text-sm">
-              Artikel ini ditulis dan diterbitkan oleh{" "}
+              {t.pages.news.sourceBodyBefore}{" "}
               <a
                 href={article.source.url}
                 target="_blank"
@@ -115,7 +115,7 @@ export default async function ArticlePage({ params }: Props) {
               >
                 {article.source.name}
               </a>
-              . Natee hanya menampilkannya di sini agar kamu tidak perlu berpindah situs.
+              {t.pages.news.sourceBodyAfter}
             </p>
             <a
               href={article.link}
@@ -123,7 +123,7 @@ export default async function ArticlePage({ params }: Props) {
               rel="noopener noreferrer"
               className="press hover:bg-accent mt-3 inline-flex items-center gap-2 border px-3 py-2 font-mono text-xs uppercase"
             >
-              Buka artikel asli
+              {t.pages.news.openOriginal}
               <ExternalLink className="size-3.5" aria-hidden />
             </a>
           </div>
@@ -132,7 +132,7 @@ export default async function ArticlePage({ params }: Props) {
         {related.length ? (
           <aside>
             <div className="border">
-              <p className="eyebrow border-b p-3">Berita lain</p>
+              <p className="eyebrow border-b p-3">{t.pages.news.otherNews}</p>
               <ul>
                 {related.map((item) => (
                   <li key={item.id} className="border-b last:border-b-0">

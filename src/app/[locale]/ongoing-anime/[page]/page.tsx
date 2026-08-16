@@ -3,6 +3,7 @@ import { localeAlternates } from "@/lib/site";
 import { notFound } from "next/navigation";
 import { getOngoingAnime } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
+import { dictionaryFor } from "@/lib/i18n/server";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
 import Pager from "@/components/media/pager";
@@ -10,7 +11,7 @@ import EmptyState from "@/components/media/empty-state";
 
 export const revalidate = 300;
 
-type Props = { params: Promise<{ page: string }> };
+type Props = { params: Promise<{ page: string; locale: string }> };
 
 function parsePage(value: string): number {
   const page = Number.parseInt(value, 10);
@@ -18,32 +19,37 @@ function parsePage(value: string): number {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = parsePage((await params).page);
+  const { page: raw, locale } = await params;
+  const page = parsePage(raw);
   if (Number.isNaN(page)) return {};
 
-  const suffix = page > 1 ? ` — Halaman ${page}` : "";
+  const t = dictionaryFor(locale);
+  const suffix = page > 1 ? ` — ${t.common.page} ${page}` : "";
   return {
-    title: `Anime Ongoing${suffix}`,
-    description: `Daftar anime yang sedang tayang dengan update episode terbaru, subtitle Indonesia.${suffix}`,
+    title: `${t.pages.ongoing.title}${suffix}`,
+    description: `${t.pages.ongoing.description}${suffix}`,
     alternates: { canonical: `/ongoing-anime/${page}`, languages: localeAlternates(`/ongoing-anime/${page}`) },
     robots: page > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
 export default async function OngoingPage({ params }: Props) {
-  const page = parsePage((await params).page);
+  const { page: raw, locale } = await params;
+  const page = parsePage(raw);
   if (Number.isNaN(page)) notFound();
+
+  const t = dictionaryFor(locale);
 
   const { ongoingAnimeData, paginationData } = await getOngoingAnime(page);
   if (!ongoingAnimeData.length && page > 1) notFound();
 
   return (
     <PageShell
-      title="Anime Ongoing"
-      description="Anime yang sedang tayang, diurutkan dari rilis terbaru."
+      title={t.pages.ongoing.title}
+      description={t.pages.ongoing.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Ongoing", href: "/ongoing-anime/1" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.ongoing, href: "/ongoing-anime/1" },
       ]}
       wide
     >
@@ -53,7 +59,7 @@ export default async function OngoingPage({ params }: Props) {
             <PosterCard
               key={item.slug}
               href={`/anime/${item.slug}`}
-              title={item.title ?? "Tanpa judul"}
+              title={item.title ?? t.common.untitled}
               poster={item.poster}
               badge={item.current_episode?.replace(/episode/i, "Eps")}
               meta={item.release_day}
@@ -64,9 +70,9 @@ export default async function OngoingPage({ params }: Props) {
         </PosterGrid>
       ) : (
         <EmptyState
-          title="Belum ada data"
-          description="Sumber sedang tidak mengembalikan daftar anime ongoing."
-          action={{ href: "/", label: "Kembali ke beranda" }}
+          title={t.pages.ongoing.emptyTitle}
+          description={t.pages.ongoing.emptyBody}
+          action={{ href: "/", label: t.pages.news.backHome }}
         />
       )}
 

@@ -11,39 +11,47 @@ import EmptyState from "@/components/media/empty-state";
 import { isBackendReachable } from "@/lib/api";
 import BackendDown from "@/components/media/backend-down";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/server";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 export const revalidate = 3600;
 
-const CATEGORIES: { value: MovieCategory; label: string; title: string }[] = [
-  { value: "trending", label: "Tren", title: "Sedang Tren" },
-  { value: "popular", label: "Film populer", title: "Film Populer" },
-  { value: "top-rated", label: "Film rating tertinggi", title: "Film Rating Tertinggi" },
-  { value: "tv", label: "Serial populer", title: "Serial Populer" },
-  { value: "tv-top-rated", label: "Serial rating tertinggi", title: "Serial Rating Tertinggi" },
+/** The value is the URL contract; the label is looked up per locale. */
+const CATEGORIES: { value: MovieCategory; key: keyof Dictionary["pages"]["movie"] }[] = [
+  { value: "trending", key: "categoryTrending" },
+  { value: "popular", key: "categoryPopularMovies" },
+  { value: "top-rated", key: "categoryTopRatedMovies" },
+  { value: "tv", key: "categoryPopularSeries" },
+  { value: "tv-top-rated", key: "categoryTopRatedSeries" },
 ];
 
-type Props = { searchParams: Promise<{ category?: string; page?: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
+};
 
 function resolve(value?: string) {
   return CATEGORIES.find((entry) => entry.value === value) ?? CATEGORIES[0]!;
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { category, page } = await searchParams;
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { category, page }] = await Promise.all([getDictionary(params), searchParams]);
   const active = resolve(category);
+  const label = t.pages.movie[active.key];
   const number = Number.parseInt(page ?? "1", 10) || 1;
 
   return {
-    title: number > 1 ? `${active.title} — Halaman ${number}` : active.title,
-    description: `Daftar ${active.title.toLowerCase()} lengkap dengan sinopsis, rating dan pemutar.`,
+    title: number > 1 ? `${label} — ${t.common.page} ${number}` : label,
+    description: t.pages.movie.description,
     alternates: { canonical: `/movie/browse?category=${active.value}`, languages: localeAlternates(`/movie/browse?category=${active.value}`) },
     robots: number > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
-export default async function MovieBrowsePage({ searchParams }: Props) {
-  const { category, page } = await searchParams;
+export default async function MovieBrowsePage({ params, searchParams }: Props) {
+  const [{ t }, { category, page }] = await Promise.all([getDictionary(params), searchParams]);
   const active = resolve(category);
+  const label = t.pages.movie[active.key];
   const number = Number.parseInt(page ?? "1", 10) || 1;
   if (number < 1) notFound();
 
@@ -56,16 +64,16 @@ export default async function MovieBrowsePage({ searchParams }: Props) {
 
   return (
     <PageShell
-      title={active.title}
-      description="Data dari TMDB, pemutar dari beberapa server."
+      title={label}
+      description={t.pages.movie.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Film", href: "/movie" },
-        { label: active.label, href: `/movie/browse?category=${active.value}` },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.movie, href: "/movie" },
+        { label, href: `/movie/browse?category=${active.value}` },
       ]}
       wide
     >
-      <nav aria-label="Kategori" className="mb-6 flex flex-wrap gap-px bg-border [&>*]:bg-background">
+      <nav aria-label={t.pages.tv.categories} className="mb-6 flex flex-wrap gap-px bg-border">
         {CATEGORIES.map((entry) => (
           <Link
             key={entry.value}
@@ -74,10 +82,10 @@ export default async function MovieBrowsePage({ searchParams }: Props) {
               "press px-3 py-1.5 font-mono text-xs uppercase",
               entry.value === active.value
                 ? "bg-primary text-primary-foreground font-semibold"
-                : "hover:bg-accent",
+                : "bg-background hover:bg-accent",
             )}
           >
-            {entry.label}
+            {t.pages.movie[entry.key]}
           </Link>
         ))}
       </nav>
@@ -86,9 +94,9 @@ export default async function MovieBrowsePage({ searchParams }: Props) {
 
       {empty && backendUp ? (
         <EmptyState
-          title="Belum ada data"
-          description="Backend berjalan, tapi TMDB_ACCESS_TOKEN belum diisi."
-          action={{ href: "/", label: "Kembali ke beranda" }}
+          title={t.pages.movie.emptyTitle}
+          description={t.pages.movie.emptyBody}
+          action={{ href: "/", label: t.pages.news.backHome }}
         />
       ) : null}
 
@@ -99,9 +107,9 @@ export default async function MovieBrowsePage({ searchParams }: Props) {
               <PosterCard
                 key={`${item.media_type}-${item.id}`}
                 href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
-                title={item.title ?? "Tanpa judul"}
+                title={item.title ?? t.common.untitled}
                 poster={item.poster}
-                badge={item.media_type === "tv" ? "Serial" : "Film"}
+                badge={item.media_type === "tv" ? t.crumbs.tv : t.crumbs.movie}
                 rating={item.rating ? item.rating.toFixed(1) : null}
                 meta={item.release_year ? String(item.release_year) : null}
                 priority={index < 7}

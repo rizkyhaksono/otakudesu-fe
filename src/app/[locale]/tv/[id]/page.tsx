@@ -10,20 +10,22 @@ import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
 import { apiBaseUrl } from "@/lib/api";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
+import { dictionaryFor } from "@/lib/i18n/server";
 
 export const revalidate = 21_600;
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string; locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const channel = await getTvChannel(id);
-  if (!channel) return { title: "Channel tidak ditemukan", robots: { index: false, follow: false } };
+  if (!channel) return { title: t.pages.tv.emptyTitle, robots: { index: false, follow: false } };
 
-  const title = `Nonton ${channel.name} Live Streaming`;
-  const description = `Siaran langsung ${channel.name}${
-    channel.network ? ` (${channel.network})` : ""
-  } gratis, langsung dari browser tanpa aplikasi tambahan.`;
+  const title = `${channel.name} — ${t.pages.tv.liveBroadcast}`;
+  const description = `${channel.name}${channel.network ? ` (${channel.network})` : ""} — ${
+    t.pages.tv.liveBroadcast
+  }.`;
 
   return {
     title,
@@ -40,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TvChannelPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = dictionaryFor(locale);
   const channel = await getTvChannel(id);
   if (!channel) notFound();
 
@@ -49,19 +52,19 @@ export default async function TvChannelPage({ params }: Props) {
     .slice(0, 10);
 
   const facts = [
-    ["Jaringan", channel.network],
-    ["Pemilik", channel.owners.join(", ") || null],
-    ["Kategori", channel.categories.join(", ") || null],
-    ["Mengudara", channel.launched],
+    [t.pages.tv.network, channel.network],
+    [t.pages.tv.owners, channel.owners.join(", ") || null],
+    [t.pages.tv.categories, channel.categories.join(", ") || null],
+    [t.pages.tv.launched, channel.launched],
   ].filter(([, value]) => Boolean(value)) as [string, string][];
 
   return (
     <PageShell
       title={channel.name}
-      description="Siaran langsung"
+      description={t.pages.tv.liveBroadcast}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "TV Live", href: "/tv" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.tv, href: "/tv" },
         { label: channel.name, href: `/tv/${id}` },
       ]}
       wide
@@ -72,7 +75,7 @@ export default async function TvChannelPage({ params }: Props) {
         title={channel.name}
         href={`/tv/${id}`}
         poster={channel.logo}
-        progress="Live"
+        progress={t.pages.tv.live}
       />
 
       <JsonLd
@@ -125,7 +128,7 @@ export default async function TvChannelPage({ params }: Props) {
               <span className="block truncate font-semibold">{channel.name}</span>
               <span className="text-primary flex items-center gap-1.5 font-mono text-[0.7rem] uppercase">
                 <span className="bg-primary size-1.5 animate-pulse" aria-hidden />
-                Live
+                {t.pages.tv.live}
               </span>
             </span>
           </div>
@@ -140,7 +143,7 @@ export default async function TvChannelPage({ params }: Props) {
 
           {related.length ? (
             <div className="border">
-              <p className="eyebrow border-b p-3">Channel lain</p>
+              <p className="eyebrow border-b p-3">{t.pages.tv.otherChannels}</p>
               <ul>
                 {related.map((item) => (
                   <li key={item.id} className="border-b last:border-b-0">

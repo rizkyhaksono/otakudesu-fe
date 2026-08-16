@@ -9,33 +9,41 @@ import PosterGrid from "@/components/media/poster-grid";
 import Section from "@/components/media/section";
 import EmptyState from "@/components/media/empty-state";
 import SearchForm from "@/components/search/search-form";
+import { getDictionary } from "@/lib/i18n/server";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { MovieSummary } from "@/types/api";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Film & Serial",
-  description:
-    "Nonton film dan serial TV terbaru dengan metadata lengkap — sinopsis, pemeran, rating dan trailer.",
-  alternates: { canonical: "/movie", languages: localeAlternates("/movie") },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-function toCard(item: MovieSummary) {
-  const href = item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`;
-  return (
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: t.pages.movie.title,
+    description: t.pages.movie.description,
+    alternates: { canonical: "/movie", languages: localeAlternates("/movie") },
+  };
+}
+
+/** A mapper, not a component factory — the lint rule for the latter is right. */
+function cards(items: MovieSummary[], t: Dictionary) {
+  return items.map((item) => (
     <PosterCard
       key={`${item.media_type}-${item.id}`}
-      href={href}
-      title={item.title ?? "Tanpa judul"}
+      href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
+      title={item.title ?? "—"}
       poster={item.poster}
-      badge={item.media_type === "tv" ? "Serial" : "Film"}
+      badge={item.media_type === "tv" ? t.crumbs.tv : t.crumbs.movie}
       rating={item.rating ? item.rating.toFixed(1) : null}
       meta={item.release_year ? String(item.release_year) : null}
     />
-  );
+  ));
 }
 
-export default async function MovieHomePage() {
+export default async function MovieHomePage({ params }: Props) {
+  const { t } = await getDictionary(params);
   const home = await getMovieHome();
   const empty =
     home.trending.length + home.popular_movies.length + home.popular_tv.length === 0;
@@ -46,16 +54,16 @@ export default async function MovieHomePage() {
 
   return (
     <PageShell
-      title="Film & Serial"
-      description="Data dari TMDB, pemutar dari beberapa server."
+      title={t.pages.movie.title}
+      description={t.pages.movie.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Film", href: "/movie" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.movie, href: "/movie" },
       ]}
       wide
       actions={
         <div className="w-full sm:w-80">
-          <SearchForm action="/movie/search" placeholder="Cari film atau serial…" />
+          <SearchForm action="/movie/search" placeholder={t.pages.movie.searchPlaceholder} />
         </div>
       }
     >
@@ -63,27 +71,39 @@ export default async function MovieHomePage() {
 
       {empty && backendUp ? (
         <EmptyState
-          title="Sumber film belum dikonfigurasi"
-          description="Backend berjalan, tapi TMDB_ACCESS_TOKEN belum diisi. Tambahkan di otakudesu-be/.env lalu restart backend."
-          action={{ href: "/", label: "Kembali ke beranda" }}
+          title={t.pages.movie.notConfiguredTitle}
+          description={t.pages.movie.notConfiguredBody}
+          action={{ href: "/", label: t.pages.news.backHome }}
         />
       ) : null}
 
       {home.trending.length ? (
-        <Section title="Sedang tren" eyebrow="Minggu ini" href="/movie/browse?category=trending">
-          <PosterGrid>{home.trending.map(toCard)}</PosterGrid>
+        <Section
+          title={t.pages.movie.trending}
+          eyebrow={t.pages.movie.trendingEyebrow}
+          href="/movie/browse?category=trending"
+        >
+          <PosterGrid>{cards(home.trending, t)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.popular_movies.length ? (
-        <Section title="Film populer" eyebrow="Movie" href="/movie/browse?category=popular">
-          <PosterGrid>{home.popular_movies.map(toCard)}</PosterGrid>
+        <Section
+          title={t.pages.movie.popularMovies}
+          eyebrow={t.pages.movie.popularMoviesEyebrow}
+          href="/movie/browse?category=popular"
+        >
+          <PosterGrid>{cards(home.popular_movies, t)}</PosterGrid>
         </Section>
       ) : null}
 
       {home.popular_tv.length ? (
-        <Section title="Serial populer" eyebrow="TV series" href="/movie/browse?category=tv">
-          <PosterGrid>{home.popular_tv.map(toCard)}</PosterGrid>
+        <Section
+          title={t.pages.movie.popularSeries}
+          eyebrow={t.pages.movie.popularSeriesEyebrow}
+          href="/movie/browse?category=tv"
+        >
+          <PosterGrid>{cards(home.popular_tv, t)}</PosterGrid>
         </Section>
       ) : null}
     </PageShell>

@@ -8,26 +8,33 @@ import PosterGrid from "@/components/media/poster-grid";
 import Pager from "@/components/media/pager";
 import EmptyState from "@/components/media/empty-state";
 import SearchForm from "@/components/search/search-form";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 1800;
 
-type Props = { searchParams: Promise<{ page?: string; q?: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ page?: string; q?: string }>;
+};
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { page, q } = await searchParams;
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { page, q }] = await Promise.all([getDictionary(params), searchParams]);
   const number = Number.parseInt(page ?? "1", 10) || 1;
 
   return {
-    title: q ? `Cari novel “${q}”` : number > 1 ? `Novel — Halaman ${number}` : "Baca Novel",
-    description:
-      "Katalog light novel dan web novel bahasa Indonesia, update bab terbaru setiap hari.",
+    title: q
+      ? `${t.crumbs.search} “${q}”`
+      : number > 1
+        ? `${t.pages.comicNovels.title} — ${t.common.page} ${number}`
+        : t.pages.comicNovels.title,
+    description: t.pages.comic.novelsEyebrow,
     alternates: { canonical: "/comic/novels", languages: localeAlternates("/comic/novels") },
     robots: q || number > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
-export default async function NovelsPage({ searchParams }: Props) {
-  const { page, q } = await searchParams;
+export default async function NovelsPage({ params, searchParams }: Props) {
+  const [{ t, locale }, { page, q }] = await Promise.all([getDictionary(params), searchParams]);
   const number = Number.parseInt(page ?? "1", 10) || 1;
   if (number < 1) notFound();
 
@@ -43,21 +50,25 @@ export default async function NovelsPage({ searchParams }: Props) {
 
   return (
     <PageShell
-      title="Novel"
+      title={t.pages.comicNovels.title}
       description={
         data.pagination.total
-          ? `${data.pagination.total.toLocaleString("id-ID")} judul terindeks.`
+          ? `${data.pagination.total.toLocaleString(locale)} ${t.pages.comicBrowse.indexed}`
           : undefined
       }
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Komik", href: "/comic" },
-        { label: "Novel", href: "/comic/novels" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.comic, href: "/comic" },
+        { label: t.crumbs.novels, href: "/comic/novels" },
       ]}
       wide
     >
       <div className="mb-6 max-w-md">
-        <SearchForm action="/comic/novels" placeholder="Cari judul novel…" defaultValue={q} />
+        <SearchForm
+          action="/comic/novels"
+          placeholder={t.pages.comicNovels.searchPlaceholder}
+          defaultValue={q}
+        />
       </div>
 
       {data.comics.length ? (
@@ -67,7 +78,7 @@ export default async function NovelsPage({ searchParams }: Props) {
               <PosterCard
                 key={item.slug}
                 href={`/comic/${item.slug}`}
-                title={item.title ?? "Tanpa judul"}
+                title={item.title ?? t.common.untitled}
                 poster={item.poster}
                 badge={item.type}
                 meta={item.latest_chapter?.title}
@@ -83,7 +94,10 @@ export default async function NovelsPage({ searchParams }: Props) {
           />
         </>
       ) : (
-        <EmptyState title="Tidak ada novel yang cocok" action={{ href: "/comic/novels", label: "Reset" }} />
+        <EmptyState
+          title={t.pages.comicNovels.emptyTitle}
+          action={{ href: "/comic/novels", label: t.pages.comicNovels.reset }}
+        />
       )}
     </PageShell>
   );

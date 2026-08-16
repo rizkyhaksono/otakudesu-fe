@@ -14,23 +14,32 @@ import Hero, { type HeroSlide } from "@/components/media/hero";
 import ContinueRail from "@/components/history/continue-rail";
 import JsonLd from "@/components/seo/json-ld";
 import NewsList from "@/components/news/news-list";
+import { getDictionary } from "@/lib/i18n/server";
 import { SITE, localeAlternates } from "@/lib/site";
 import { absoluteUrl } from "@/lib/site";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: `${SITE.name} — ${SITE.tagline}`,
-  description: SITE.description,
-  alternates: { canonical: "/", languages: localeAlternates("/") },
-};
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: `${SITE.name} — ${t.tour.introTitle}`,
+    description: t.tour.introBody,
+    alternates: { canonical: "/", languages: localeAlternates("/") },
+  };
+}
 
 /** Poster width inside a rail. Fixed so every row scrolls in even steps. */
 const CARD =
   "w-[44vw] shrink-0 snap-start pr-2 sm:w-[30vw] md:w-[23vw] lg:w-[17vw] xl:w-[13.5vw]";
 const RAIL_SIZES = "(min-width: 1280px) 13vw, (min-width: 1024px) 16vw, (min-width: 768px) 22vw, (min-width: 640px) 30vw, 42vw";
 
-export default async function HomePage() {
+export default async function HomePage({ params }: Props) {
+  const { t } = await getDictionary(params);
+
   // Six independent domains, one render pass. A failure in any one of them
   // degrades that row only — the services already return empty on error.
   const [anime, comic, movie, tv, radio, news] = await Promise.all([
@@ -46,7 +55,7 @@ export default async function HomePage() {
   const heroSlides: HeroSlide[] = [
     ...anime.ongoing_anime.slice(0, 3).map((item) => ({
       href: `/anime/${item.slug}`,
-      title: item.title ?? "Tanpa judul",
+      title: item.title ?? t.common.untitled,
       poster: item.poster ?? null,
       backdrop: null,
       kind: "Anime",
@@ -55,7 +64,7 @@ export default async function HomePage() {
     })),
     ...movie.trending.slice(0, 2).map((item) => ({
       href: item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`,
-      title: item.title ?? "Tanpa judul",
+      title: item.title ?? t.common.untitled,
       poster: item.poster ?? null,
       // TMDB is the one source with proper wide artwork — use it when present.
       backdrop: item.backdrop ?? null,
@@ -67,7 +76,7 @@ export default async function HomePage() {
     })),
     ...comic.latest_manga.slice(0, 1).map((item) => ({
       href: `/comic/${item.slug}`,
-      title: item.title ?? "Tanpa judul",
+      title: item.title ?? t.common.untitled,
       poster: item.poster ?? null,
       backdrop: null,
       kind: "Komik",
@@ -99,15 +108,16 @@ export default async function HomePage() {
         <ContinueRail />
 
         <Shelf
-          title="Anime sedang tayang"
-          eyebrow="Update terbaru"
+          seeAll={t.common.seeAll}
+          title={t.pages.home.ongoing}
+          eyebrow={t.pages.home.ongoingEyebrow}
           href="/ongoing-anime/1"
         >
           {anime.ongoing_anime.slice(0, 18).map((item, index) => (
             <div key={item.slug} className={CARD}>
               <PosterCard
                 href={`/anime/${item.slug}`}
-                title={item.title ?? "Tanpa judul"}
+                title={item.title ?? t.common.untitled}
                 poster={item.poster}
                 badge={item.current_episode}
                 accent="ongoing"
@@ -119,12 +129,17 @@ export default async function HomePage() {
           ))}
         </Shelf>
 
-        <Shelf title="Anime tamat" eyebrow="Selesai tayang" href="/completed-anime/1">
+        <Shelf
+          seeAll={t.common.seeAll}
+          title={t.pages.home.completed}
+          eyebrow={t.pages.home.completedEyebrow}
+          href="/completed-anime/1"
+        >
           {anime.complete_anime.slice(0, 18).map((item) => (
             <div key={item.slug} className={CARD}>
               <PosterCard
                 href={`/anime/${item.slug}`}
-                title={item.title ?? "Tanpa judul"}
+                title={item.title ?? t.common.untitled}
                 poster={item.poster}
                 badge={item.episode_count ? `${item.episode_count} eps` : null}
                 accent="completed"
@@ -136,12 +151,17 @@ export default async function HomePage() {
         </Shelf>
 
         {comic.latest_manga.length ? (
-          <Shelf title="Komik terbaru" eyebrow="Manga · Manhwa · Manhua" href="/comic/browse?sort=latest">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.comicLatest}
+            eyebrow={t.pages.home.comicLatestEyebrow}
+            href="/comic/browse?sort=latest"
+          >
             {comic.latest_manga.slice(0, 18).map((item) => (
               <div key={`${item.slug}-latest`} className={CARD}>
                 <PosterCard
                   href={`/comic/${item.slug}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge={item.type}
                   meta={item.latest_chapter?.title}
@@ -154,12 +174,17 @@ export default async function HomePage() {
         ) : null}
 
         {comic.popular_manga.length ? (
-          <Shelf title="Komik populer" eyebrow="Paling banyak dibaca" href="/comic/browse?sort=popular">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.comicPopular}
+            eyebrow={t.pages.home.comicPopularEyebrow}
+            href="/comic/browse?sort=popular"
+          >
             {comic.popular_manga.slice(0, 18).map((item) => (
               <div key={`${item.slug}-popular`} className={CARD}>
                 <PosterCard
                   href={`/comic/${item.slug}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge={item.type}
                   meta={item.latest_chapter?.title}
@@ -172,12 +197,17 @@ export default async function HomePage() {
         ) : null}
 
         {comic.latest_novels.length ? (
-          <Shelf title="Novel terbaru" eyebrow="Light novel · Web novel" href="/comic/novels">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.comic.novels}
+            eyebrow={t.pages.comic.novelsEyebrow}
+            href="/comic/novels"
+          >
             {comic.latest_novels.slice(0, 18).map((item) => (
               <div key={`${item.slug}-novel`} className={CARD}>
                 <PosterCard
                   href={`/comic/${item.slug}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge="Novel"
                   meta={item.latest_chapter?.title}
@@ -190,12 +220,17 @@ export default async function HomePage() {
         ) : null}
 
         {movie.trending.length ? (
-          <Shelf title="Sedang tren" eyebrow="Film & serial" href="/movie/browse?category=trending">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.movie.trending}
+            eyebrow={t.pages.movie.trendingEyebrow}
+            href="/movie/browse?category=trending"
+          >
             {movie.trending.slice(0, 18).map((item) => (
               <div key={`${item.media_type}-${item.id}`} className={CARD}>
                 <PosterCard
                   href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge={item.media_type === "tv" ? "Serial" : "Film"}
                   rating={item.rating ? item.rating.toFixed(1) : null}
@@ -208,12 +243,17 @@ export default async function HomePage() {
         ) : null}
 
         {movie.popular_movies.length ? (
-          <Shelf title="Film populer" eyebrow="Movie" href="/movie/browse?category=popular">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.movies}
+            eyebrow={t.pages.home.moviesEyebrow}
+            href="/movie/browse?category=popular"
+          >
             {movie.popular_movies.slice(0, 18).map((item) => (
               <div key={`movie-${item.id}`} className={CARD}>
                 <PosterCard
                   href={`/movie/${item.id}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge="Film"
                   rating={item.rating ? item.rating.toFixed(1) : null}
@@ -226,12 +266,17 @@ export default async function HomePage() {
         ) : null}
 
         {movie.popular_tv.length ? (
-          <Shelf title="Serial populer" eyebrow="TV series" href="/movie/browse?category=tv">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.series}
+            eyebrow={t.pages.home.seriesEyebrow}
+            href="/movie/browse?category=tv"
+          >
             {movie.popular_tv.slice(0, 18).map((item) => (
               <div key={`series-${item.id}`} className={CARD}>
                 <PosterCard
                   href={`/movie/tv/${item.id}`}
-                  title={item.title ?? "Tanpa judul"}
+                  title={item.title ?? t.common.untitled}
                   poster={item.poster}
                   badge="Serial"
                   rating={item.rating ? item.rating.toFixed(1) : null}
@@ -244,7 +289,12 @@ export default async function HomePage() {
         ) : null}
 
         {tv.channels.length ? (
-          <Shelf title="TV Indonesia" eyebrow={`${tv.total} channel live`} href="/tv">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.tv}
+            eyebrow={`${tv.total} ${t.pages.home.tvEyebrow}`}
+            href="/tv"
+          >
             {tv.channels.slice(0, 20).map((channel) => (
               <Link
                 key={channel.id}
@@ -268,7 +318,7 @@ export default async function HomePage() {
                 </span>
                 <span className="text-primary flex items-center gap-1.5 font-mono text-[0.65rem] uppercase">
                   <span className="bg-primary size-1.5 animate-pulse" aria-hidden />
-                  Live
+                  {t.pages.tv.live}
                 </span>
               </Link>
             ))}
@@ -276,7 +326,12 @@ export default async function HomePage() {
         ) : null}
 
         {radio.stations.length ? (
-          <Shelf title="Radio Indonesia" eyebrow={`${radio.total} stasiun`} href="/radio">
+          <Shelf
+            seeAll={t.common.seeAll}
+            title={t.pages.home.radio}
+            eyebrow={`${radio.total} ${t.pages.home.radioEyebrow}`}
+            href="/radio"
+          >
             {radio.stations.slice(0, 20).map((station) => (
               <Link
                 key={station.id}
@@ -291,7 +346,7 @@ export default async function HomePage() {
                     {station.name}
                   </span>
                   <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
-                    {station.state ?? "Indonesia"}
+                    {station.state ?? t.pages.radio.title}
                   </span>
                 </span>
               </Link>
@@ -303,16 +358,16 @@ export default async function HomePage() {
           <section className="mt-10">
             <div className="mb-3 flex items-baseline justify-between gap-4">
               <div>
-                <p className="eyebrow">Dari dunia anime</p>
+                <p className="eyebrow">{t.pages.news.latestEyebrow}</p>
                 <h2 className="font-display text-xl leading-none font-extrabold tracking-tight uppercase sm:text-2xl">
-                  Berita terbaru
+                  {t.pages.news.latest}
                 </h2>
               </div>
               <Link
                 href="/berita"
                 className="text-muted-foreground hover:text-primary press shrink-0 font-mono text-xs uppercase"
               >
-                Lihat semua →
+                {t.common.seeAll} →
               </Link>
             </div>
             <NewsList items={news} />
@@ -328,11 +383,13 @@ function Shelf({
   title,
   eyebrow,
   href,
+  seeAll,
   children,
 }: {
   title: string;
   eyebrow?: string;
   href?: string;
+  seeAll: string;
   children: React.ReactNode;
 }) {
   return (
@@ -349,7 +406,7 @@ function Shelf({
             href={href}
             className="text-muted-foreground hover:text-primary press shrink-0 font-mono text-xs uppercase"
           >
-            Lihat semua →
+            {seeAll} →
           </Link>
         ) : null}
       </div>

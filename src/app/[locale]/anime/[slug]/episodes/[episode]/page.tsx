@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ChevronLeft, ChevronRight, List } from "lucide-react";
 import { getAnime, getEpisode, getEpisodeMirror, getMuseFallback } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
+import { dictionaryFor } from "@/lib/i18n/server";
 import DownloadTable from "@/components/media/download-table";
 import EpisodePlayer from "@/components/anime/episode-player";
 import EpisodePicker from "@/components/anime/episode-picker";
@@ -14,7 +15,7 @@ import { absoluteUrl, localeAlternates } from "@/lib/site";
 
 export const revalidate = 600;
 
-type Props = { params: Promise<{ slug: string; episode: string }> };
+type Props = { params: Promise<{ slug: string; episode: string; locale: string }> };
 
 function parseEpisode(value: string): number {
   const episode = Number.parseInt(value, 10);
@@ -22,15 +23,16 @@ function parseEpisode(value: string): number {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug, episode } = await params;
+  const { slug, episode, locale } = await params;
+  const t = dictionaryFor(locale);
   const number = parseEpisode(episode);
   if (Number.isNaN(number)) return { robots: { index: false, follow: false } };
 
   const anime = await getAnime(slug);
-  if (!anime) return { title: "Episode tidak ditemukan", robots: { index: false, follow: false } };
+  if (!anime) return { title: t.crumbs.anime, robots: { index: false, follow: false } };
 
   const title = `${anime.title} Episode ${number}`;
-  const description = `Nonton ${anime.title} episode ${number} subtitle Indonesia, kualitas HD, plus link download.`;
+  const description = `${anime.title} — ${title}.`;
 
   return {
     title,
@@ -47,7 +49,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function EpisodePage({ params }: Props) {
-  const { slug, episode } = await params;
+  const { slug, episode, locale } = await params;
+  const t = dictionaryFor(locale);
   const number = parseEpisode(episode);
   if (Number.isNaN(number)) notFound();
 
@@ -87,7 +90,7 @@ export default async function EpisodePage({ params }: Props) {
     <PageShell
       title={data.episode || `${anime.title} Episode ${number}`}
       crumbs={[
-        { label: "Beranda", href: "/" },
+        { label: t.crumbs.home, href: "/" },
         { label: anime.title ?? slug, href: `/anime/${slug}` },
         { label: `Episode ${number}`, href: `/anime/${slug}/episodes/${number}` },
       ]}
@@ -167,8 +170,8 @@ export default async function EpisodePage({ params }: Props) {
           </div>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            <DownloadTable title="Download MP4" groups={data.download_urls.mp4} />
-            <DownloadTable title="Download MKV" groups={data.download_urls.mkv} />
+            <DownloadTable title={t.pages.episode.downloadMp4} groups={data.download_urls.mp4} />
+            <DownloadTable title={t.pages.episode.downloadMkv} groups={data.download_urls.mkv} />
           </div>
         </div>
 

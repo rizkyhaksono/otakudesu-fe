@@ -3,27 +3,35 @@ import type { Metadata } from "next";
 import { localeAlternates } from "@/lib/site";
 import { getComicGenres } from "@/services/comic";
 import PageShell from "@/components/media/page-shell";
+import { getDictionary } from "@/lib/i18n/server";
 import EmptyState from "@/components/media/empty-state";
 
 export const revalidate = 86_400;
 
-export const metadata: Metadata = {
-  title: "Genre Komik",
-  description: "Jelajahi manga, manhwa dan manhua berdasarkan genre.",
-  alternates: { canonical: "/comic/genres", languages: localeAlternates("/comic/genres") },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default async function ComicGenresPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: t.pages.comicGenres.title,
+    description: t.pages.comicGenres.description,
+    alternates: { canonical: "/comic/genres", languages: localeAlternates("/comic/genres") },
+  };
+}
+
+export default async function ComicGenresPage({ params }: Props) {
+  const { t } = await getDictionary(params);
   const genres = await getComicGenres();
 
   return (
     <PageShell
-      title="Genre Komik"
-      description="Pilih genre untuk melihat seluruh judulnya."
+      title={t.pages.comicGenres.title}
+      description={t.pages.comicGenres.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Komik", href: "/comic" },
-        { label: "Genre", href: "/comic/genres" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.comic, href: "/comic" },
+        { label: t.crumbs.genres, href: "/comic/genres" },
       ]}
     >
       {genres.length ? (
@@ -41,7 +49,7 @@ export default async function ComicGenresPage() {
           ))}
         </ul>
       ) : (
-        <EmptyState title="Genre belum tersedia" action={{ href: "/comic", label: "Kembali" }} />
+        <EmptyState title={t.pages.comicGenres.emptyTitle} action={{ href: "/comic", label: t.common.back }} />
       )}
     </PageShell>
   );

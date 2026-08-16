@@ -3,26 +3,34 @@ import type { Metadata } from "next";
 import { localeAlternates } from "@/lib/site";
 import { getGenres } from "@/services/anime";
 import PageShell from "@/components/media/page-shell";
+import { getDictionary } from "@/lib/i18n/server";
 import EmptyState from "@/components/media/empty-state";
 
 export const revalidate = 86_400;
 
-export const metadata: Metadata = {
-  title: "Genre Anime",
-  description: "Jelajahi anime berdasarkan genre — action, romance, isekai, dan lainnya.",
-  alternates: { canonical: "/genres", languages: localeAlternates("/genres") },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default async function GenresPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { t } = await getDictionary(params);
+
+  return {
+    title: t.pages.genres.title,
+    description: t.pages.genres.description,
+    alternates: { canonical: "/genres", languages: localeAlternates("/genres") },
+  };
+}
+
+export default async function GenresPage({ params }: Props) {
+  const { t } = await getDictionary(params);
   const genres = await getGenres();
 
   return (
     <PageShell
-      title="Genre"
-      description="Pilih genre untuk melihat semua anime di dalamnya."
+      title={t.pages.genres.title}
+      description={t.pages.genres.description}
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Genre", href: "/genres" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.genres, href: "/genres" },
       ]}
     >
       {genres.length ? (
@@ -39,7 +47,7 @@ export default async function GenresPage() {
           ))}
         </ul>
       ) : (
-        <EmptyState title="Genre belum tersedia" action={{ href: "/", label: "Kembali" }} />
+        <EmptyState title={t.pages.genres.emptyTitle} action={{ href: "/", label: t.common.back }} />
       )}
     </PageShell>
   );

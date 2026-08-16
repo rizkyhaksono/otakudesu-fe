@@ -9,7 +9,14 @@ export type RateTarget = { href: string; label: string; note?: string };
  * already keep them: MyAnimeList for anime, Letterboxd for film. These are
  * plain outbound links — no API keys, no accounts here, nothing to sync.
  */
-export default function RateElsewhere({ targets }: { targets: RateTarget[] }) {
+export default function RateElsewhere({
+  targets,
+  label,
+}: {
+  targets: RateTarget[];
+  /** "Rate on …" — supplied by the page so this stays a server component. */
+  label: string;
+}) {
   if (!targets.length) return null;
 
   return (
@@ -27,7 +34,9 @@ export default function RateElsewhere({ targets }: { targets: RateTarget[] }) {
             aria-hidden
           />
           <span className="min-w-0 flex-1">
-            <span className="block truncate font-medium">Beri rating di {target.label}</span>
+            <span className="block truncate font-medium">
+              {label} {target.label}
+            </span>
             {target.note ? (
               <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
                 {target.note}

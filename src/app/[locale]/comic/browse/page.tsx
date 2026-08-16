@@ -8,34 +8,38 @@ import PosterGrid from "@/components/media/poster-grid";
 import Pager from "@/components/media/pager";
 import EmptyState from "@/components/media/empty-state";
 import CatalogueFilters from "@/components/comic/catalogue-filters";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const revalidate = 1800;
 
 type Props = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ page?: string; genre?: string; q?: string; type?: string; sort?: string }>;
 };
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { page, genre, q } = await searchParams;
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ t }, { page, genre, q }] = await Promise.all([getDictionary(params), searchParams]);
   const number = Number.parseInt(page ?? "1", 10) || 1;
 
   const title = q
-    ? `Cari komik “${q}”`
+    ? `${t.crumbs.search} “${q}”`
     : genre
-      ? `Komik ${genre.replace(/-/g, " ")}`
-      : "Jelajahi Komik";
+      ? `${t.crumbs.comic} ${genre.replace(/-/g, " ")}`
+      : t.pages.comicBrowse.title;
 
   return {
-    title: number > 1 ? `${title} — Halaman ${number}` : title,
-    description:
-      "Katalog lengkap manga, manhwa dan manhua bahasa Indonesia — filter genre, cari judul, update tiap hari.",
+    title: number > 1 ? `${title} — ${t.common.page} ${number}` : title,
+    description: t.pages.comic.description,
     alternates: { canonical: "/comic/browse", languages: localeAlternates("/comic/browse") },
     robots: q || number > 1 ? { index: false, follow: true } : undefined,
   };
 }
 
-export default async function ComicBrowsePage({ searchParams }: Props) {
-  const { page, genre, q, type, sort } = await searchParams;
+export default async function ComicBrowsePage({ params, searchParams }: Props) {
+  const [{ t, locale }, { page, genre, q, type, sort }] = await Promise.all([
+    getDictionary(params),
+    searchParams,
+  ]);
   const number = Number.parseInt(page ?? "1", 10) || 1;
   if (number < 1) notFound();
 
@@ -54,16 +58,16 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
 
   return (
     <PageShell
-      title="Jelajahi Komik"
+      title={t.pages.comicBrowse.title}
       description={
         data.pagination.total
-          ? `${data.pagination.total.toLocaleString("id-ID")} judul terindeks.`
+          ? `${data.pagination.total.toLocaleString(locale)} ${t.pages.comicBrowse.indexed}`
           : undefined
       }
       crumbs={[
-        { label: "Beranda", href: "/" },
-        { label: "Komik", href: "/comic" },
-        { label: "Jelajahi", href: "/comic/browse" },
+        { label: t.crumbs.home, href: "/" },
+        { label: t.crumbs.comic, href: "/comic" },
+        { label: t.crumbs.browse, href: "/comic/browse" },
       ]}
       wide
     >
@@ -76,7 +80,7 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
               <PosterCard
                 key={item.slug}
                 href={`/comic/${item.slug}`}
-                title={item.title ?? "Tanpa judul"}
+                title={item.title ?? t.common.untitled}
                 poster={item.poster}
                 badge={item.type}
                 meta={item.latest_chapter?.title}
@@ -94,9 +98,9 @@ export default async function ComicBrowsePage({ searchParams }: Props) {
         </>
       ) : (
         <EmptyState
-          title="Tidak ada komik yang cocok"
-          description="Coba genre lain atau kata kunci yang berbeda."
-          action={{ href: "/comic/browse", label: "Reset filter" }}
+          title={t.pages.comicBrowse.emptyTitle}
+          description={t.pages.comicBrowse.emptyBody}
+          action={{ href: "/comic/browse", label: t.pages.comicBrowse.reset }}
         />
       )}
     </PageShell>

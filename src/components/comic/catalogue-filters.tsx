@@ -1,13 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import type { ComicGenre } from "@/types/api";
 import SearchForm from "@/components/search/search-form";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/client";
 
 const TYPES = ["Manga", "Manhwa", "Manhua"] as const;
-const SORTS = [
-  { value: "latest", label: "Terbaru" },
-  { value: "popular", label: "Populer" },
-] as const;
+const SORTS = ["latest", "popular"] as const;
+
+/*
+ * The hairline grid paints `bg-border` on the container and a background on
+ * each cell. The background must come from the cell's own class list, not a
+ * `[&>*]:bg-background` on the container: that compiles to `.parent > *`, which
+ * outranks `bg-primary` on the child and silently repainted every active chip
+ * with the page background — the selected filter turned invisible.
+ */
 
 /**
  * Plain links, not client-side state: every combination is its own crawlable
@@ -20,6 +28,9 @@ export default function CatalogueFilters({
   genres: ComicGenre[];
   active: { genre?: string; type?: string; sort?: string; q?: string };
 }) {
+  const { t } = useI18n();
+  const sortLabel = { latest: t.pages.comicBrowse.newest, popular: t.pages.comicBrowse.mostPopular };
+
   const href = (patch: Partial<typeof active>) => {
     const next = { ...active, ...patch };
     const params = new URLSearchParams();
@@ -34,24 +45,28 @@ export default function CatalogueFilters({
   return (
     <div className="mb-6 space-y-3">
       <div className="max-w-md">
-        <SearchForm action="/comic/browse" placeholder="Cari judul komik…" defaultValue={active.q} />
+        <SearchForm
+          action="/comic/browse"
+          placeholder={t.pages.comicBrowse.searchPlaceholder}
+          defaultValue={active.q}
+        />
       </div>
 
       <div className="flex flex-wrap gap-4">
-        <Row label="Urutkan">
+        <Row label={t.pages.comicBrowse.sort}>
           <Chip href={href({ sort: undefined })} on={!active.sort}>
-            Default
+            {t.pages.comicBrowse.default}
           </Chip>
           {SORTS.map((sort) => (
-            <Chip key={sort.value} href={href({ sort: sort.value })} on={active.sort === sort.value}>
-              {sort.label}
+            <Chip key={sort} href={href({ sort })} on={active.sort === sort}>
+              {sortLabel[sort]}
             </Chip>
           ))}
         </Row>
 
-        <Row label="Tipe">
+        <Row label={t.pages.comicBrowse.type}>
           <Chip href={href({ type: undefined })} on={!active.type}>
-            Semua
+            {t.pages.comicBrowse.all}
           </Chip>
           {TYPES.map((type) => (
             <Chip key={type} href={href({ type })} on={active.type === type}>
@@ -59,15 +74,15 @@ export default function CatalogueFilters({
             </Chip>
           ))}
           <Chip href="/comic/novels" on={false}>
-            Novel
+            {t.crumbs.novels}
           </Chip>
         </Row>
       </div>
 
       {genres.length ? (
-        <Row label="Genre">
+        <Row label={t.pages.comicBrowse.genre}>
           <Chip href={href({ genre: undefined })} on={!active.genre}>
-            Semua
+            {t.pages.comicBrowse.all}
           </Chip>
           {genres.map((genre) => (
             <Chip key={genre.slug} href={href({ genre: genre.slug })} on={active.genre === genre.slug}>
@@ -85,7 +100,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   return (
     <div className="min-w-0">
       <p className="eyebrow mb-1.5">{label}</p>
-      <div className="flex flex-wrap gap-px bg-border [&>*]:bg-background">{children}</div>
+      <div className="flex flex-wrap gap-px bg-border">{children}</div>
     </div>
   );
 }
@@ -104,7 +119,9 @@ function Chip({
       href={href}
       className={cn(
         "press flex items-center gap-1 px-3 py-1.5 font-mono text-xs uppercase",
-        on ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent",
+        on
+          ? "bg-primary text-primary-foreground font-semibold"
+          : "bg-background hover:bg-accent",
       )}
     >
       {children}

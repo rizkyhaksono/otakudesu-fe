@@ -7,17 +7,19 @@ import PosterGrid from "@/components/media/poster-grid";
 import EmptyState from "@/components/media/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import EntryThumb from "@/components/history/entry-thumb";
-
-const KIND_LABEL: Record<BookmarkEntry["kind"], string> = {
-  anime: "Anime",
-  comic: "Komik",
-  movie: "Film",
-  tv: "TV",
-  radio: "Radio",
-};
+import { useI18n } from "@/lib/i18n/client";
 
 export default function BookmarkList() {
+  const { t } = useI18n();
   const [bookmarks, mounted] = useStoredValue<BookmarkEntry[]>(getBookmarks, []);
+
+  const kindLabel: Record<BookmarkEntry["kind"], string> = {
+    anime: t.crumbs.anime,
+    comic: t.crumbs.comic,
+    movie: t.crumbs.movie,
+    tv: t.crumbs.tv,
+    radio: t.crumbs.radio,
+  };
 
   if (!mounted) {
     return (
@@ -35,9 +37,9 @@ export default function BookmarkList() {
   if (!bookmarks.length) {
     return (
       <EmptyState
-        title="Belum ada bookmark"
-        description="Simpan anime, komik atau film lewat tombol Bookmark di halaman detailnya."
-        action={{ href: "/", label: "Mulai jelajahi" }}
+        title={t.pages.bookmark.emptyTitle}
+        description={t.pages.bookmark.emptyBody}
+        action={{ href: "/", label: t.pages.bookmark.start }}
       />
     );
   }
@@ -50,7 +52,7 @@ export default function BookmarkList() {
           href={entry.href}
           title={entry.title}
           poster={entry.poster}
-          badge={KIND_LABEL[entry.kind]}
+          badge={kindLabel[entry.kind]}
           fallback={<EntryThumb kind={entry.kind} poster={null} title={entry.title} />}
         />
       ))}
