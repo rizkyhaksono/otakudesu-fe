@@ -6,6 +6,8 @@ import PageShell from "@/components/media/page-shell";
 import EmptyState from "@/components/media/empty-state";
 import { cn } from "@/lib/utils";
 import { getDictionary } from "@/lib/i18n/server";
+import { CalendarPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const revalidate = 3600;
 
@@ -42,6 +44,19 @@ export default async function SchedulesPage({ params }: Props) {
         { label: t.crumbs.schedule, href: "/schedules" },
       ]}
       wide
+      actions={
+        <div>
+          <Button asChild variant="outline" className="gap-2">
+            <a href="/api/schedule.ics">
+              <CalendarPlus className="size-4" aria-hidden />
+              {t.pages.schedule.subscribe}
+            </a>
+          </Button>
+          <p className="text-muted-foreground mt-1.5 max-w-xs text-right text-xs">
+            {t.pages.schedule.subscribeHint}
+          </p>
+        </div>
+      }
     >
       {schedule.length ? (
         <div className="grid gap-px border bg-border md:grid-cols-2 xl:grid-cols-4 [&>*]:bg-background">

@@ -15,6 +15,7 @@ import ContinueRail from "@/components/history/continue-rail";
 import JsonLd from "@/components/seo/json-ld";
 import NewsList from "@/components/news/news-list";
 import { getDictionary } from "@/lib/i18n/server";
+import QuoteWidget from "@/components/anime/quote-widget";
 import { SITE, localeAlternates } from "@/lib/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -105,6 +106,10 @@ export default async function HomePage({ params }: Props) {
       <Hero slides={heroSlides} />
 
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6">
+        <div className="mt-8">
+          <QuoteWidget params={params} />
+        </div>
+
         <ContinueRail />
 
         <Shelf

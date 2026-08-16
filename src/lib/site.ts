@@ -56,6 +56,12 @@ export const NAV: readonly NavEntry[] = [
       { href: "/tv", label: "TV Live", key: "tv", description: "Siaran TV Indonesia" },
       { href: "/radio", label: "Radio", key: "radio", description: "Stasiun radio Indonesia" },
       { href: "/berita", label: "Berita", key: "news", description: "Kabar terbaru dunia anime" },
+      {
+        href: "/cari-screenshot",
+        label: "Cari dari Screenshot",
+        key: "identify",
+        description: "Temukan anime dari cuplikan gambar",
+      },
     ],
   },
 ];
@@ -69,6 +75,7 @@ export const NAV_FLAT: readonly NavLink[] = [
   { href: "/tv", label: "TV Live", key: "tv" },
   { href: "/radio", label: "Radio", key: "radio" },
   { href: "/berita", label: "Berita", key: "news" },
+  { href: "/cari-screenshot", label: "Cari dari Screenshot", key: "identify" },
   { href: "/bookmark", label: "Bookmark", key: "bookmark" },
 ];
 

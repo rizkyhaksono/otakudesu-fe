@@ -6,6 +6,7 @@ import { metaDescription } from "@/lib/seo";
 import { Download, Play } from "lucide-react";
 import { getAnime } from "@/services/anime";
 import { getNews } from "@/services/news";
+import { getQuotesFor } from "@/services/quotes";
 import PageShell from "@/components/media/page-shell";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
@@ -68,7 +69,10 @@ export default async function AnimeDetailPage({ params }: Props) {
   // Headlines about this specific title. The matcher demands near-complete
   // coverage of the title's words, so an unrelated article never slips in —
   // an empty result is the correct answer far more often than a loose one.
-  const relatedNews = anime.title ? await getNews({ q: anime.title, limit: 5 }) : [];
+  const [relatedNews, quotes] = await Promise.all([
+    anime.title ? getNews({ q: anime.title, limit: 5 }) : Promise.resolve([]),
+    anime.title ? getQuotesFor(anime.title) : Promise.resolve(null),
+  ]);
 
   const firstEpisode = anime.episode_lists.at(-1);
   const latestEpisode = anime.episode_lists.at(0);
@@ -227,6 +231,22 @@ export default async function AnimeDetailPage({ params }: Props) {
         >
           <NewsList items={relatedNews} />
         </Section>
+      ) : null}
+
+      {quotes?.length ? (
+        <section className="mt-10">
+          <p className="eyebrow mb-3">{t.pages.identify.quoteSource}</p>
+          <ul className="grid gap-px border bg-border sm:grid-cols-2 [&>*]:bg-background">
+            {quotes.map((quote, index) => (
+              <li key={index} className="p-4">
+                <p className="text-sm leading-relaxed">“{quote.content}”</p>
+                <p className="text-muted-foreground mt-2 font-mono text-[0.65rem] uppercase">
+                  {quote.character}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
 
       {anime.episode_lists.length ? (

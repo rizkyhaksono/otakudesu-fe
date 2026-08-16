@@ -343,3 +343,47 @@ export type NewsArticle = NewsItem & {
   blocks: NewsBlock[];
   source: { name: string; url: string };
 };
+
+// ── Cross-domain search ──────────────────────────────────────────────────────
+
+export type SearchHit = {
+  kind: "anime" | "comic" | "movie" | "tv_series" | "radio";
+  title: string;
+  href: string;
+  poster: string | null;
+  meta: string | null;
+};
+
+export type SearchResult = {
+  query: string;
+  total: number;
+  hits: SearchHit[];
+  counts: Record<SearchHit["kind"], number>;
+};
+
+// ── AnimeChan quotes ──────────────────────────────────────────────────────────
+
+export type AnimeQuote = {
+  content: string;
+  anime: string;
+  character: string;
+};
+
+// ── trace.moe scene search ─────────────────────────────────────────────────────
+
+export type SceneMatch = {
+  similarity: number;
+  anilistId: number | null;
+  title: string;
+  titleNative: string | null;
+  episode: string | null;
+  from: number;
+  to: number;
+  preview: string | null;
+  image: string | null;
+};
+
+export type SceneSearchResult = {
+  matches: SceneMatch[];
+  quotaRemaining: number | null;
+};
