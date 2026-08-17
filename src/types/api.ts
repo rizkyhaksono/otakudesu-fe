@@ -387,3 +387,21 @@ export type SceneSearchResult = {
   matches: SceneMatch[];
   quotaRemaining: number | null;
 };
+
+// ── Anime theme songs (AnimeThemes.moe) ────────────────────────────────────────
+
+export type AnimeTheme = {
+  id: number;
+  type: "OP" | "ED";
+  sequence: number;
+  title: string | null;
+  artists: string[];
+  audioUrl: string | null;
+  episodes: string | null;
+};
+
+export type AnimeThemeSet = {
+  matchedTitle: string;
+  cover: string | null;
+  themes: AnimeTheme[];
+};

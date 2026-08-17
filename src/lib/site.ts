@@ -62,6 +62,7 @@ export const NAV: readonly NavEntry[] = [
         key: "identify",
         description: "Temukan anime dari cuplikan gambar",
       },
+      { href: "/musik", label: "Musik Anime", key: "music", description: "Opening & ending, diputar langsung" },
     ],
   },
 ];
@@ -76,6 +77,7 @@ export const NAV_FLAT: readonly NavLink[] = [
   { href: "/radio", label: "Radio", key: "radio" },
   { href: "/berita", label: "Berita", key: "news" },
   { href: "/cari-screenshot", label: "Cari dari Screenshot", key: "identify" },
+  { href: "/musik", label: "Musik Anime", key: "music" },
   { href: "/bookmark", label: "Bookmark", key: "bookmark" },
 ];
 

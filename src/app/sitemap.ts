@@ -52,6 +52,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/tv"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: url("/radio"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: url("/berita"), lastModified: now, changeFrequency: "hourly", priority: 0.7 },
+    { url: url("/cari-screenshot"), lastModified: now, changeFrequency: "monthly", priority: 0.4 },
+    { url: url("/musik"), lastModified: now, changeFrequency: "daily", priority: 0.5 },
   ];
 
   // A failure in any one source must not take the whole sitemap down.

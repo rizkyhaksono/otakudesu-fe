@@ -16,6 +16,7 @@ import JsonLd from "@/components/seo/json-ld";
 import NewsList from "@/components/news/news-list";
 import { getDictionary } from "@/lib/i18n/server";
 import QuoteWidget from "@/components/anime/quote-widget";
+import Reveal from "@/components/media/reveal";
 import { SITE, localeAlternates } from "@/lib/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -156,227 +157,245 @@ export default async function HomePage({ params }: Props) {
         </Shelf>
 
         {comic.latest_manga.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.comicLatest}
-            eyebrow={t.pages.home.comicLatestEyebrow}
-            href="/comic/browse?sort=latest"
-          >
-            {comic.latest_manga.slice(0, 18).map((item) => (
-              <div key={`${item.slug}-latest`} className={CARD}>
-                <PosterCard
-                  href={`/comic/${item.slug}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge={item.type}
-                  meta={item.latest_chapter?.title}
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.comicLatest}
+              eyebrow={t.pages.home.comicLatestEyebrow}
+              href="/comic/browse?sort=latest"
+            >
+              {comic.latest_manga.slice(0, 18).map((item) => (
+                <div key={`${item.slug}-latest`} className={CARD}>
+                  <PosterCard
+                    href={`/comic/${item.slug}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge={item.type}
+                    meta={item.latest_chapter?.title}
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {comic.popular_manga.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.comicPopular}
-            eyebrow={t.pages.home.comicPopularEyebrow}
-            href="/comic/browse?sort=popular"
-          >
-            {comic.popular_manga.slice(0, 18).map((item) => (
-              <div key={`${item.slug}-popular`} className={CARD}>
-                <PosterCard
-                  href={`/comic/${item.slug}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge={item.type}
-                  meta={item.latest_chapter?.title}
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.comicPopular}
+              eyebrow={t.pages.home.comicPopularEyebrow}
+              href="/comic/browse?sort=popular"
+            >
+              {comic.popular_manga.slice(0, 18).map((item) => (
+                <div key={`${item.slug}-popular`} className={CARD}>
+                  <PosterCard
+                    href={`/comic/${item.slug}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge={item.type}
+                    meta={item.latest_chapter?.title}
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {comic.latest_novels.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.comic.novels}
-            eyebrow={t.pages.comic.novelsEyebrow}
-            href="/comic/novels"
-          >
-            {comic.latest_novels.slice(0, 18).map((item) => (
-              <div key={`${item.slug}-novel`} className={CARD}>
-                <PosterCard
-                  href={`/comic/${item.slug}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge="Novel"
-                  meta={item.latest_chapter?.title}
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.comic.novels}
+              eyebrow={t.pages.comic.novelsEyebrow}
+              href="/comic/novels"
+            >
+              {comic.latest_novels.slice(0, 18).map((item) => (
+                <div key={`${item.slug}-novel`} className={CARD}>
+                  <PosterCard
+                    href={`/comic/${item.slug}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge="Novel"
+                    meta={item.latest_chapter?.title}
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {movie.trending.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.movie.trending}
-            eyebrow={t.pages.movie.trendingEyebrow}
-            href="/movie/browse?category=trending"
-          >
-            {movie.trending.slice(0, 18).map((item) => (
-              <div key={`${item.media_type}-${item.id}`} className={CARD}>
-                <PosterCard
-                  href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge={item.media_type === "tv" ? "Serial" : "Film"}
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  meta={item.release_year ? String(item.release_year) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.movie.trending}
+              eyebrow={t.pages.movie.trendingEyebrow}
+              href="/movie/browse?category=trending"
+            >
+              {movie.trending.slice(0, 18).map((item) => (
+                <div key={`${item.media_type}-${item.id}`} className={CARD}>
+                  <PosterCard
+                    href={item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge={item.media_type === "tv" ? "Serial" : "Film"}
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    meta={item.release_year ? String(item.release_year) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {movie.popular_movies.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.movies}
-            eyebrow={t.pages.home.moviesEyebrow}
-            href="/movie/browse?category=popular"
-          >
-            {movie.popular_movies.slice(0, 18).map((item) => (
-              <div key={`movie-${item.id}`} className={CARD}>
-                <PosterCard
-                  href={`/movie/${item.id}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge="Film"
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  meta={item.release_year ? String(item.release_year) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.movies}
+              eyebrow={t.pages.home.moviesEyebrow}
+              href="/movie/browse?category=popular"
+            >
+              {movie.popular_movies.slice(0, 18).map((item) => (
+                <div key={`movie-${item.id}`} className={CARD}>
+                  <PosterCard
+                    href={`/movie/${item.id}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge="Film"
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    meta={item.release_year ? String(item.release_year) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {movie.popular_tv.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.series}
-            eyebrow={t.pages.home.seriesEyebrow}
-            href="/movie/browse?category=tv"
-          >
-            {movie.popular_tv.slice(0, 18).map((item) => (
-              <div key={`series-${item.id}`} className={CARD}>
-                <PosterCard
-                  href={`/movie/tv/${item.id}`}
-                  title={item.title ?? t.common.untitled}
-                  poster={item.poster}
-                  badge="Serial"
-                  rating={item.rating ? item.rating.toFixed(1) : null}
-                  meta={item.release_year ? String(item.release_year) : null}
-                  sizes={RAIL_SIZES}
-                />
-              </div>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.series}
+              eyebrow={t.pages.home.seriesEyebrow}
+              href="/movie/browse?category=tv"
+            >
+              {movie.popular_tv.slice(0, 18).map((item) => (
+                <div key={`series-${item.id}`} className={CARD}>
+                  <PosterCard
+                    href={`/movie/tv/${item.id}`}
+                    title={item.title ?? t.common.untitled}
+                    poster={item.poster}
+                    badge="Serial"
+                    rating={item.rating ? item.rating.toFixed(1) : null}
+                    meta={item.release_year ? String(item.release_year) : null}
+                    sizes={RAIL_SIZES}
+                  />
+                </div>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {tv.channels.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.tv}
-            eyebrow={`${tv.total} ${t.pages.home.tvEyebrow}`}
-            href="/tv"
-          >
-            {tv.channels.slice(0, 20).map((channel) => (
-              <Link
-                key={channel.id}
-                href={`/tv/${channel.id}`}
-                className="press hover:border-primary group mr-2 w-40 shrink-0 snap-start border p-3 sm:w-44"
-              >
-                <span className="bg-muted relative block aspect-video w-full">
-                  {channel.logo ? (
-                    <Image
-                      src={channel.logo}
-                      alt=""
-                      fill
-                      sizes="176px"
-                      className="object-contain p-2"
-                      unoptimized
-                    />
-                  ) : null}
-                </span>
-                <span className="group-hover:text-primary mt-2 block truncate text-sm font-semibold">
-                  {channel.name}
-                </span>
-                <span className="text-primary flex items-center gap-1.5 font-mono text-[0.65rem] uppercase">
-                  <span className="bg-primary size-1.5 animate-pulse" aria-hidden />
-                  {t.pages.tv.live}
-                </span>
-              </Link>
-            ))}
-          </Shelf>
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.tv}
+              eyebrow={`${tv.total} ${t.pages.home.tvEyebrow}`}
+              href="/tv"
+            >
+              {tv.channels.slice(0, 20).map((channel) => (
+                <Link
+                  key={channel.id}
+                  href={`/tv/${channel.id}`}
+                  className="press hover:border-primary group mr-2 w-40 shrink-0 snap-start border p-3 sm:w-44"
+                >
+                  <span className="bg-muted relative block aspect-video w-full">
+                    {channel.logo ? (
+                      <Image
+                        src={channel.logo}
+                        alt=""
+                        fill
+                        sizes="176px"
+                        className="object-contain p-2"
+                        unoptimized
+                      />
+                    ) : null}
+                  </span>
+                  <span className="group-hover:text-primary mt-2 block truncate text-sm font-semibold">
+                    {channel.name}
+                  </span>
+                  <span className="text-primary flex items-center gap-1.5 font-mono text-[0.65rem] uppercase">
+                    <span className="bg-primary size-1.5 animate-pulse" aria-hidden />
+                    {t.pages.tv.live}
+                  </span>
+                </Link>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {radio.stations.length ? (
-          <Shelf
-            seeAll={t.common.seeAll}
-            title={t.pages.home.radio}
-            eyebrow={`${radio.total} ${t.pages.home.radioEyebrow}`}
-            href="/radio"
-          >
-            {radio.stations.slice(0, 20).map((station) => (
-              <Link
-                key={station.id}
-                href={`/radio/${station.id}`}
-                className="press hover:border-primary group mr-2 flex w-44 shrink-0 snap-start items-center gap-3 border p-3 sm:w-52"
-              >
-                <span className="bg-muted text-muted-foreground flex size-11 shrink-0 items-center justify-center border">
-                  <RadioIcon className="size-5" aria-hidden />
-                </span>
-                <span className="min-w-0">
-                  <span className="group-hover:text-primary block truncate text-sm font-semibold">
-                    {station.name}
+          <Reveal>
+            <Shelf
+              seeAll={t.common.seeAll}
+              title={t.pages.home.radio}
+              eyebrow={`${radio.total} ${t.pages.home.radioEyebrow}`}
+              href="/radio"
+            >
+              {radio.stations.slice(0, 20).map((station) => (
+                <Link
+                  key={station.id}
+                  href={`/radio/${station.id}`}
+                  className="press hover:border-primary group mr-2 flex w-44 shrink-0 snap-start items-center gap-3 border p-3 sm:w-52"
+                >
+                  <span className="bg-muted text-muted-foreground flex size-11 shrink-0 items-center justify-center border">
+                    <RadioIcon className="size-5" aria-hidden />
                   </span>
-                  <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
-                    {station.state ?? t.pages.radio.title}
+                  <span className="min-w-0">
+                    <span className="group-hover:text-primary block truncate text-sm font-semibold">
+                      {station.name}
+                    </span>
+                    <span className="text-muted-foreground block truncate font-mono text-[0.65rem] uppercase">
+                      {station.state ?? t.pages.radio.title}
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ))}
-          </Shelf>
+                </Link>
+              ))}
+            </Shelf>
+          </Reveal>
         ) : null}
 
         {news.length ? (
-          <section className="mt-10">
-            <div className="mb-3 flex items-baseline justify-between gap-4">
-              <div>
-                <p className="eyebrow">{t.pages.news.latestEyebrow}</p>
-                <h2 className="font-display text-xl leading-none font-extrabold tracking-tight uppercase sm:text-2xl">
-                  {t.pages.news.latest}
-                </h2>
+          <Reveal>
+            <section className="mt-10">
+              <div className="mb-3 flex items-baseline justify-between gap-4">
+                <div>
+                  <p className="eyebrow">{t.pages.news.latestEyebrow}</p>
+                  <h2 className="font-display text-xl leading-none font-extrabold tracking-tight uppercase sm:text-2xl">
+                    {t.pages.news.latest}
+                  </h2>
+                </div>
+                <Link
+                  href="/berita"
+                  className="text-muted-foreground hover:text-primary press shrink-0 font-mono text-xs uppercase"
+                >
+                  {t.common.seeAll} →
+                </Link>
               </div>
-              <Link
-                href="/berita"
-                className="text-muted-foreground hover:text-primary press shrink-0 font-mono text-xs uppercase"
-              >
-                {t.common.seeAll} →
-              </Link>
-            </div>
-            <NewsList items={news} />
-          </section>
+              <NewsList items={news} />
+            </section>
+          </Reveal>
         ) : null}
       </div>
     </div>

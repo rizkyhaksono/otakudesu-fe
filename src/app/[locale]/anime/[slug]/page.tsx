@@ -7,6 +7,8 @@ import { Download, Play } from "lucide-react";
 import { getAnime } from "@/services/anime";
 import { getNews } from "@/services/news";
 import { getQuotesFor } from "@/services/quotes";
+import { getAnimeThemes } from "@/services/themes";
+import PlaylistPlayer, { type MusicTrack } from "@/components/music/playlist-player";
 import PageShell from "@/components/media/page-shell";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
@@ -69,10 +71,25 @@ export default async function AnimeDetailPage({ params }: Props) {
   // Headlines about this specific title. The matcher demands near-complete
   // coverage of the title's words, so an unrelated article never slips in —
   // an empty result is the correct answer far more often than a loose one.
-  const [relatedNews, quotes] = await Promise.all([
+  const [relatedNews, quotes, themeSet] = await Promise.all([
     anime.title ? getNews({ q: anime.title, limit: 5 }) : Promise.resolve([]),
     anime.title ? getQuotesFor(anime.title) : Promise.resolve(null),
+    anime.title ? getAnimeThemes(anime.title) : Promise.resolve(null),
   ]);
+
+  const themeTracks: MusicTrack[] =
+    themeSet?.themes.map((theme) => ({
+      id: String(theme.id),
+      title: theme.title ?? `${theme.type}${theme.sequence}`,
+      subtitle: [
+        `${theme.type}${theme.sequence}`,
+        theme.artists.join(", ") || null,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      audioUrl: theme.audioUrl!,
+      cover: themeSet.cover,
+    })) ?? [];
 
   const firstEpisode = anime.episode_lists.at(-1);
   const latestEpisode = anime.episode_lists.at(0);
@@ -247,6 +264,12 @@ export default async function AnimeDetailPage({ params }: Props) {
             ))}
           </ul>
         </section>
+      ) : null}
+
+      {themeTracks.length ? (
+        <Section title={t.pages.music.themeSongs} eyebrow={`${themeTracks.length}`}>
+          <PlaylistPlayer tracks={themeTracks} compact />
+        </Section>
       ) : null}
 
       {anime.episode_lists.length ? (

@@ -254,6 +254,55 @@
       }
     }
 
+    /* Slow drift on the hero's active backdrop — reads as intentional
+       cinematography, not a static photo, without drawing the eye away from
+       the foreground content. */
+    @keyframes ken-burns {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.08);
+      }
+    }
+
+    .animate-ken-burns {
+      animation: ken-burns 8s var(--ease-out) both;
+    }
+
+    /* Hero slide indicator fill — width is driven by an inline style set from
+       JS in step with the actual rotation timer, so it never drifts out of
+       sync with when the slide really changes. */
+    @keyframes fill-bar {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    .animate-fill-bar {
+      animation-name: fill-bar;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    /* Scroll-triggered section reveal — see `Reveal`. `.reveal` on its own
+       starts hidden; only armed once JS confirms an observer is watching, so
+       a section can never get stuck invisible. */
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 28px, 0);
+      transition:
+        opacity var(--dur-slow) var(--ease-out),
+        transform var(--dur-slow) var(--ease-out);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
     .animate-rise {
       animation: rise var(--dur-slow) var(--ease-out) both;
     }
