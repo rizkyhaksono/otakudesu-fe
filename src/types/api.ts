@@ -405,3 +405,18 @@ export type AnimeThemeSet = {
   cover: string | null;
   themes: AnimeTheme[];
 };
+
+// ── Source mirrors (Shinigami) ───────────────────────────────────────────────
+
+export type MirrorLink = {
+  title: string;
+  href: string;
+  icon: string | null;
+};
+
+export type MirrorStatus = {
+  /** The current site URL — always the first entry the upstream publishes. */
+  current: string | null;
+  links: MirrorLink[];
+  checkedAt: string;
+};

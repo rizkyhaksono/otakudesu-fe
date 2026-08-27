@@ -18,6 +18,7 @@ import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
 import NewsList from "@/components/news/news-list";
 import RateElsewhere, { malSearchUrl } from "@/components/media/rate-elsewhere";
+import SupportCard from "@/components/support/support-card";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { dictionaryFor } from "@/lib/i18n/server";
@@ -198,6 +199,10 @@ export default async function AnimeDetailPage({ params }: Props) {
                 },
               ]}
             />
+          </div>
+
+          <div className="mt-4">
+            <SupportCard params={params} />
           </div>
         </div>
 

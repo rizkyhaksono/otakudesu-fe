@@ -8,6 +8,8 @@ import PosterGrid from "@/components/media/poster-grid";
 import Section from "@/components/media/section";
 import EmptyState from "@/components/media/empty-state";
 import { getDictionary } from "@/lib/i18n/server";
+import ShinigamiCard from "@/components/comic/shinigami-card";
+import SupportCard from "@/components/support/support-card";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { ComicSummary } from "@/types/api";
 
@@ -73,6 +75,14 @@ export default async function ComicHomePage({ params }: Props) {
           action={{ href: "/", label: t.pages.news.backHome }}
         />
       ) : null}
+
+      {/* Two standing cards above the shelves: Shinigami's current domain
+          (which rotates constantly, so a hardcoded link would rot) and the
+          donation ask. Side by side on desktop, stacked on a phone. */}
+      <div className="mb-8 grid gap-4 lg:grid-cols-2">
+        <ShinigamiCard params={params} />
+        <SupportCard params={params} />
+      </div>
 
       {home.latest_manga.length ? (
         <Section

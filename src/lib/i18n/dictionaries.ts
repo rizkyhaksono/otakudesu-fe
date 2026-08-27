@@ -72,6 +72,10 @@ const id = {
     fork: "Fork repo",
     later: "Nanti saja",
     docked: "Dukung proyek ini",
+    cardTitle: "Dukung proyek ini",
+    cardBody:
+      "Natee gratis dan open source, tanpa iklan. Kalau situs ini membantu, traktir seikhlasnya lewat Saweria — itu yang menutup biaya server dan menjaga semuanya tetap jalan.",
+    donate: "Traktir via Saweria",
   },
   tour: {
     title: "Panduan",
@@ -343,6 +347,11 @@ const id = {
       body: "Frontend berjalan, tapi backend-nya belum hidup. Jalankan servis API lebih dulu, lalu muat ulang halaman ini.",
       hint: "Default: http://localhost:3000 · atur lewat API_BASE_URL",
     },
+    shinigami: {
+      title: "Shinigami",
+      live: "Domain aktif",
+      body: "Shinigami sering ganti domain. Tautan ini diambil langsung dari portal resmi mereka, jadi selalu yang terbaru.",
+    },
     music: {
       title: "Musik Anime",
       description: "Opening dan ending dari berbagai anime, diputar langsung — datanya dari AnimeThemes.moe.",
@@ -457,6 +466,10 @@ const en: Dictionary = {
     fork: "Fork it",
     later: "Maybe later",
     docked: "Support this project",
+    cardTitle: "Support this project",
+    cardBody:
+      "Natee is free, open source and ad-free. If it helps you, a small tip on Saweria covers the server bill and keeps it all running.",
+    donate: "Tip via Saweria",
   },
   tour: {
     title: "Tour",
@@ -726,6 +739,11 @@ const en: Dictionary = {
       body: "The frontend is running but the backend is not. Start the API service, then reload this page.",
       hint: "Default: http://localhost:3000 · set it with API_BASE_URL",
     },
+    shinigami: {
+      title: "Shinigami",
+      live: "Live domain",
+      body: "Shinigami rotates its domain often. This link is read straight from their own official portal, so it is always the current one.",
+    },
     music: {
       title: "Anime Music",
       description: "Openings and endings from across anime, playable right here — data from AnimeThemes.moe.",
@@ -833,6 +851,10 @@ const ja: Dictionary = {
     fork: "フォークする",
     later: "あとで",
     docked: "プロジェクトを支援",
+    cardTitle: "このプロジェクトを支援",
+    cardBody:
+      "Natee は無料・オープンソース・広告なしで運営しています。役に立ったら Saweria から少額の支援をいただけると、サーバー代をまかなえます。",
+    donate: "Saweria で支援",
   },
   tour: {
     title: "ガイド",
@@ -1101,6 +1123,11 @@ const ja: Dictionary = {
       title: "API に接続できません",
       body: "フロントエンドは動作していますが、バックエンドが起動していません。API サービスを起動してからページを再読み込みしてください。",
       hint: "既定: http://localhost:3000 · API_BASE_URL で変更できます",
+    },
+    shinigami: {
+      title: "Shinigami",
+      live: "現在のドメイン",
+      body: "Shinigami はドメインを頻繁に変更します。このリンクは公式ポータルから直接取得しているため、常に最新です。",
     },
     music: {
       title: "アニメ音楽",

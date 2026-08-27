@@ -38,3 +38,6 @@ export const REPOS = {
   frontend: "https://github.com/rizkyhaksono/otakudesu-fe",
   backend: "https://github.com/rizkyhaksono/otakudesu-be",
 };
+
+/** Where donations go. Kept next to REPOS so "support" has one home. */
+export const SAWERIA = "https://saweria.co/natee";
