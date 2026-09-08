@@ -28,7 +28,7 @@
     "disqus-react": "^1.1.7",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
-    "hls.js": "^1.7.0",
+    "hls.js": "^1.7.2",
     "lucide-react": "^1.41.0",
     "next": "16.3.2",
     "next-themes": "^0.4.6",
