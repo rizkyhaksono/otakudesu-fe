@@ -18,7 +18,7 @@ export default function DownloadTable({
   return (
     <div>
       <h3 className="eyebrow mb-2">{title}</h3>
-      <div className="grid gap-px border bg-border [&>*]:bg-background">
+      <div className="grid-hairline">
         {usable.map((group, index) => (
           <div
             key={`${group.resolution}-${index}`}

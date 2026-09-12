@@ -15,11 +15,13 @@ services:
     environment:
       API_BASE_URL: ${API_BASE_URL:-http://otakudesu-be-v3:3000}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://otakudesu.natee.my.id}
+      TMPDIR: /tmp
     restart: always
 
     read_only: true
     tmpfs:
       - /tmp
+      - /app/.next/cache
     cap_drop:
       - ALL
     security_opt:

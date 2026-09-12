@@ -156,6 +156,7 @@ export default async function AnimeDetailPage({ params }: Props) {
                 fill
                 sizes="260px"
                 priority
+                unoptimized
                 className="object-cover"
               />
             ) : null}
@@ -228,7 +229,7 @@ export default async function AnimeDetailPage({ params }: Props) {
             </ul>
           ) : null}
 
-          <dl className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-4 [&>*]:bg-background">
+          <dl className="grid-hairline grid-cols-2 sm:grid-cols-4">
             {facts.map(([label, value]) => (
               <div key={label} className="p-3">
                 <dt className="eyebrow">{label}</dt>
@@ -258,7 +259,7 @@ export default async function AnimeDetailPage({ params }: Props) {
       {quotes?.length ? (
         <section className="mt-10">
           <p className="eyebrow mb-3">{t.pages.identify.quoteSource}</p>
-          <ul className="grid gap-px border bg-border sm:grid-cols-2 [&>*]:bg-background">
+          <ul className="grid-hairline sm:grid-cols-2">
             {quotes.map((quote, index) => (
               <li key={index} className="p-4">
                 <p className="text-sm leading-relaxed">“{quote.content}”</p>
@@ -282,7 +283,7 @@ export default async function AnimeDetailPage({ params }: Props) {
           title={t.pages.animeDetail.episodes}
           eyebrow={`${anime.episode_lists.length} ${t.pages.animeDetail.episodeCount}`}
         >
-          <ul className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 lg:grid-cols-4 [&>*]:bg-background">
+          <ul className="grid-hairline grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
             {anime.episode_lists.map((episode) => (
               <li key={episode.slug}>
                 <Link

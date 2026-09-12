@@ -58,7 +58,7 @@ export default async function ComicHomePage({ params }: Props) {
       ]}
       wide
       actions={
-        <div className="flex gap-px bg-border [&>*]:bg-background">
+        <div className="flex-hairline [&>*]:bg-background">
           <Link href="/comic/browse" className="press hover:bg-accent px-3 py-2 text-sm font-medium">
             {t.nav.browse}
           </Link>

@@ -22,7 +22,7 @@ export default function DetailSkeleton() {
               <Skeleton key={index} className="h-6 w-16" />
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-4 [&>*]:bg-background">
+          <div className="grid-hairline grid-cols-2 sm:grid-cols-4">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} className="p-3">
                 <Skeleton className="h-3 w-12" />

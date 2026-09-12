@@ -163,7 +163,7 @@ export default function SceneSearch() {
           {result.matches.length ? (
             <>
               <p className="eyebrow mb-2">{t.pages.identify.resultsTitle}</p>
-              <ul className="grid gap-px border bg-border sm:grid-cols-2 [&>*]:bg-background">
+              <ul className="grid-hairline sm:grid-cols-2">
                 {result.matches.slice(0, 6).map((match) => (
                   <MatchCard key={`${match.anilistId}-${match.from}`} match={match} t={t} />
                 ))}

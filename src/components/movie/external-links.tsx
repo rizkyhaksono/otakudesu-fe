@@ -62,7 +62,7 @@ export default function ExternalLinks({
       <RateElsewhere targets={rateTargets} label={t.pages.animeDetail.rateOn} />
 
       <h2 className="eyebrow mt-6 mb-2">{t.pages.movie.more}</h2>
-      <ul className="flex flex-wrap gap-px bg-border [&>*]:bg-background">
+      <ul className="flex-hairline [&>*]:bg-background">
         {links.map((link) => (
           <li key={link.href}>
             <a

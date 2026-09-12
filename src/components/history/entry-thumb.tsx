@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BookOpen, Clapperboard, Play, Radio, Tv } from "lucide-react";
+import { skipImageOptimizer } from "@/lib/image";
 import type { MediaKind } from "@/lib/storage";
 
 const ICON: Record<MediaKind, typeof Play> = {
@@ -37,7 +38,7 @@ export default function EntryThumb({
         fill
         sizes={sizes}
         className="object-cover transition group-hover:brightness-110"
-        unoptimized={kind === "radio" || kind === "tv"}
+        unoptimized={kind === "radio" || kind === "tv" || skipImageOptimizer(poster)}
       />
     );
   }

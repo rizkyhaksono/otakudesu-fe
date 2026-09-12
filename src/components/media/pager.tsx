@@ -27,7 +27,7 @@ export default function Pager({
 
   return (
     <nav aria-label="Pagination" className="mt-6 flex items-center justify-center">
-      <ul className="flex max-w-full items-center gap-px overflow-x-auto border bg-border [&>*]:bg-background">
+      <ul className="flex w-fit max-w-full items-center overflow-x-auto border-t border-l [&>*]:border-r [&>*]:border-b [&>*]:bg-background">
         <li>
           <PagerLink href={href(current - 1)} disabled={current <= 1} label="Sebelumnya">
             <ChevronLeft className="size-4" aria-hidden />

@@ -42,7 +42,7 @@ export default async function AnimeListPage({ params }: Props) {
     >
       {groups.length ? (
         <>
-          <nav aria-label={t.crumbs.directory} className="mb-6 flex flex-wrap gap-px border bg-border [&>*]:bg-background">
+          <nav aria-label={t.crumbs.directory} className="flex-hairline mb-6 [&>*]:bg-background">
             {groups.map((group) => (
               <a
                 key={group.letter}
@@ -60,7 +60,7 @@ export default async function AnimeListPage({ params }: Props) {
                 <h2 className="font-display bg-foreground text-background inline-block px-2 py-0.5 text-lg font-extrabold uppercase">
                   {group.letter}
                 </h2>
-                <ul className="mt-2 grid gap-px border bg-border sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>*]:bg-background">
+                <ul className="grid-hairline mt-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {group.anime_list.map((anime) => (
                     <li key={anime.slug}>
                       <Link

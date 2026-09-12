@@ -69,7 +69,7 @@ export default function MobileNav() {
           aria-label={t.nav.menu}
           className="scrollbar-thin min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]"
         >
-          <ul className="grid grid-cols-2 gap-px border-b bg-border [&>*]:bg-background">
+          <ul className="grid-hairline grid-cols-2">
             <li>
               <Link
                 href="/"

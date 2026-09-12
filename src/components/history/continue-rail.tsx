@@ -44,7 +44,7 @@ export default function ContinueRail() {
         </Button>
       </div>
 
-      <ul className="scrollbar-thin flex gap-px overflow-x-auto border bg-border [&>*]:bg-background">
+      <ul className="scrollbar-thin flex overflow-x-auto border-t border-l [&>*]:border-r [&>*]:border-b [&>*]:bg-background">
         {history.slice(0, 18).map((entry) => (
           <li key={entry.id} className="w-36 shrink-0 sm:w-40">
             <Link href={entry.href} className="group block">

@@ -16,7 +16,7 @@ export function MovieFacts({ detail }: { detail: MovieDetail }) {
   if (!rows.length) return null;
 
   return (
-    <dl className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 [&>*]:bg-background">
+    <dl className="grid-hairline grid-cols-2 sm:grid-cols-3">
       {rows.map(([label, value]) => (
         <div key={label} className="p-3">
           <dt className="eyebrow">{label}</dt>
@@ -33,7 +33,7 @@ export function MovieCast({ detail }: { detail: MovieDetail }) {
   return (
     <section className="mt-8">
       <h2 className="eyebrow mb-3">Pemeran</h2>
-      <ul className="scrollbar-thin flex gap-px overflow-x-auto border bg-border [&>*]:bg-background">
+      <ul className="scrollbar-thin flex overflow-x-auto border-t border-l [&>*]:border-r [&>*]:border-b [&>*]:bg-background">
         {detail.cast.map((person) => (
           <li key={`${person.name}-${person.character}`} className="w-28 shrink-0 p-2">
             <div className="bg-muted relative aspect-[2/3] border">

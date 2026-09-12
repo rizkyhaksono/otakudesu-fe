@@ -60,7 +60,7 @@ export default async function TvPage({ params, searchParams }: Props) {
         }}
       />
 
-      <nav aria-label={t.pages.tv.categories} className="mb-5 flex flex-wrap gap-px border bg-border">
+      <nav aria-label={t.pages.tv.categories} className="flex-hairline mb-5">
         <Link
           href="/tv"
           className={cn(
@@ -89,7 +89,7 @@ export default async function TvPage({ params, searchParams }: Props) {
       </nav>
 
       {channels.length ? (
-        <ul className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 [&>*]:bg-background">
+        <ul className="grid-hairline grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {channels.map((channel) => (
             <li key={channel.id}>
               <Link

@@ -14,7 +14,7 @@ export default function GridSkeleton({ count = 14 }: { count?: number }) {
         <Skeleton className="mt-2 h-4 w-80" />
       </div>
 
-      <div className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 [&>*]:bg-background">
+      <div className="grid-hairline grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7">
         {Array.from({ length: count }, (_, index) => (
           <div key={index} className="p-2">
             <Skeleton className="aspect-[2/3] w-full" />

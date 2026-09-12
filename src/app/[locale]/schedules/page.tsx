@@ -59,7 +59,7 @@ export default async function SchedulesPage({ params }: Props) {
       }
     >
       {schedule.length ? (
-        <div className="grid gap-px border bg-border md:grid-cols-2 xl:grid-cols-4 [&>*]:bg-background">
+        <div className="grid-hairline md:grid-cols-2 xl:grid-cols-4">
           {schedule.map((day) => {
             const isToday = day.day.toLowerCase() === today?.toLowerCase();
             return (

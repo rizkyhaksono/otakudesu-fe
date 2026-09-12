@@ -76,21 +76,41 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: imageHosts.map((hostname) => ({ protocol: "https" as const, hostname })),
     formats: ["image/avif", "image/webp"],
+    // Poster rails and TMDB stills never need 2k/4k variants. The default
+    // 2048/3840 widths made `/_next/image` srcsets that the optimizer then
+    // tried to fetch from Cloudflare-fronted CDNs, which is what timed out.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 7,
   },
 
   async headers() {
-    return [
+    const security = [
+      { key: "Content-Security-Policy", value: csp },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       {
-        source: "/:path*",
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+      },
+      { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+    ];
+
+    return [
+      { source: "/:path*", headers: security },
+      // Hashed assets are immutable. Cloudflare caches these by extension.
+      {
+        source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      // Extensionless, so Cloudflare ignores it unless a Cache Rule exists.
+      // CDN-Cache-Control is what Cloudflare actually honors when the rule
+      // is "Eligible for cache".
+      {
+        source: "/_next/image",
         headers: [
-          { key: "Content-Security-Policy", value: csp },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
-          },
-          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+          { key: "CDN-Cache-Control", value: "public, max-age=604800" },
         ],
       },
     ];

@@ -10,11 +10,8 @@ const TYPES = ["Manga", "Manhwa", "Manhua"] as const;
 const SORTS = ["latest", "popular"] as const;
 
 /*
- * The hairline grid paints `bg-border` on the container and a background on
- * each cell. The background must come from the cell's own class list, not a
- * `[&>*]:bg-background` on the container: that compiles to `.parent > *`, which
- * outranks `bg-primary` on the child and silently repainted every active chip
- * with the page background — the selected filter turned invisible.
+ * Selected chips paint `bg-primary` themselves. Do not add `[&>*]:bg-background`
+ * here — that selector outranks the chip and hides the active state.
  */
 
 /**
@@ -100,7 +97,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   return (
     <div className="min-w-0">
       <p className="eyebrow mb-1.5">{label}</p>
-      <div className="flex flex-wrap gap-px bg-border">{children}</div>
+      <div className="flex-hairline">{children}</div>
     </div>
   );
 }

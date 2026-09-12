@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
+import { skipImageOptimizer } from "@/lib/image";
 import { cn } from "@/lib/utils";
 
 /**
@@ -56,6 +57,7 @@ export default function PosterImage({
       fill
       sizes={sizes}
       priority={priority}
+      unoptimized={skipImageOptimizer(src)}
       onError={() => setFailed(true)}
       onLoad={() => setLoaded(true)}
       className={cn(

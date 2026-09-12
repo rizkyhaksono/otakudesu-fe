@@ -5,10 +5,11 @@ import { getDictionary } from "@/lib/i18n/server";
 /**
  * A random line from AnimeChan's open quote dataset.
  *
- * Rendered server-side with `revalidate: 0` so every homepage load — not
- * every visitor's first load — gets a different quote, the way a "quote of
- * the moment" widget should feel. It degrades to nothing if the upstream is
- * unreachable; a missing quote is not worth an error state on the homepage.
+ * Cached for five minutes on purpose: `revalidate: 0` opted the entire
+ * homepage out of ISR and forced a full SSR of six backends on every visit,
+ * which is what turned origin timeouts into Cloudflare 500s. A quote that
+ * rotates every few minutes is close enough; an empty slot is fine if the
+ * upstream is unreachable.
  */
 export default async function QuoteWidget({ params }: { params: Promise<{ locale: string }> }) {
   const [quote, { t }] = await Promise.all([getRandomQuote(), getDictionary(params)]);

@@ -52,7 +52,7 @@ export default function ChapterList({
         className="mb-3 h-9"
       />
 
-      <ul className="scrollbar-thin grid max-h-[32rem] gap-px overflow-y-auto border bg-border sm:grid-cols-2 lg:grid-cols-3 [&>*]:bg-background">
+      <ul className="scrollbar-thin grid-hairline max-h-[32rem] overflow-y-auto sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((chapter) => {
           const read =
             chapter.chapter_number !== null && readParts.has(chapter.chapter_number);

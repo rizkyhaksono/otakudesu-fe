@@ -53,7 +53,7 @@ export default async function BeritaPage({ params }: Props) {
       />
 
       {items.length ? (
-        <ul className="grid gap-px border bg-border md:grid-cols-2 [&>*]:bg-background">
+        <ul className="grid-hairline md:grid-cols-2">
           {items.map((item) => (
             <li key={item.id}>
               <Link

@@ -34,7 +34,7 @@ export default async function GenresPage({ params }: Props) {
       ]}
     >
       {genres.length ? (
-        <ul className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-3 lg:grid-cols-4 [&>*]:bg-background">
+        <ul className="grid-hairline grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {genres.map((genre) => (
             <li key={genre.slug}>
               <Link

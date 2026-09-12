@@ -180,6 +180,18 @@
     @apply bg-background border-r border-b;
   }
 
+  /*
+   * Same idea for wrapping chip rows. Children keep their own background so a
+   * selected `bg-primary` chip is not overwritten.
+   */
+  .flex-hairline {
+    @apply flex flex-wrap border-t border-l;
+  }
+
+  .flex-hairline > * {
+    @apply border-r border-b;
+  }
+
   /* Section label: small, uppercase, wide-tracked. */
   .eyebrow {
     @apply text-muted-foreground text-[0.7rem] font-medium tracking-[0.18em] uppercase;

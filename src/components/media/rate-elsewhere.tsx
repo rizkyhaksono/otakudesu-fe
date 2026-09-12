@@ -20,7 +20,7 @@ export default function RateElsewhere({
   if (!targets.length) return null;
 
   return (
-    <div className="grid gap-px bg-border [&>*]:bg-background">
+    <div className="grid-hairline">
       {targets.map((target) => (
         <a
           key={target.href}

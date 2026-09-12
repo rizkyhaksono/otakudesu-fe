@@ -73,7 +73,7 @@ export default async function MovieBrowsePage({ params, searchParams }: Props) {
       ]}
       wide
     >
-      <nav aria-label={t.pages.tv.categories} className="mb-6 flex flex-wrap gap-px bg-border">
+      <nav aria-label={t.pages.tv.categories} className="flex-hairline mb-6">
         {CATEGORIES.map((entry) => (
           <Link
             key={entry.value}

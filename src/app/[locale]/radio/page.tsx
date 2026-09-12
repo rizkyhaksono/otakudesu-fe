@@ -80,7 +80,7 @@ export default async function RadioPage({ params, searchParams }: Props) {
 
       <nav
         aria-label={t.pages.radio.all}
-        className="mb-5 flex flex-wrap gap-px border bg-border"
+        className="flex-hairline mb-5"
       >
         <Link
           href="/radio"
@@ -111,7 +111,7 @@ export default async function RadioPage({ params, searchParams }: Props) {
 
       {visible.length ? (
         <>
-          <ul className="grid grid-cols-1 gap-px border bg-border sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>*]:bg-background">
+          <ul className="grid-hairline grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visible.map((station) => (
               <li key={station.id}>
                 <Link

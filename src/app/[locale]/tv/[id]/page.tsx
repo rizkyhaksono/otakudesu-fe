@@ -99,7 +99,7 @@ export default async function TvChannelPage({ params }: Props) {
           <HlsPlayer streams={channel.streams} apiBase={apiBaseUrl()} channelName={channel.name} />
 
           {facts.length ? (
-            <dl className="mt-6 grid grid-cols-2 gap-px border bg-border sm:grid-cols-4 [&>*]:bg-background">
+            <dl className="grid-hairline mt-6 grid-cols-2 sm:grid-cols-4">
               {facts.map(([label, value]) => (
                 <div key={label} className="p-3">
                   <dt className="eyebrow">{label}</dt>

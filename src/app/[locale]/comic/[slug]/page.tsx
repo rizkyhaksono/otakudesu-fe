@@ -119,6 +119,7 @@ export default async function ComicDetailPage({ params }: Props) {
                 fill
                 sizes="240px"
                 priority
+                unoptimized
                 className="object-cover"
               />
             ) : null}
@@ -181,7 +182,7 @@ export default async function ComicDetailPage({ params }: Props) {
             </ul>
           ) : null}
 
-          <dl className="grid grid-cols-2 gap-px border bg-border sm:grid-cols-4 [&>*]:bg-background">
+          <dl className="grid-hairline grid-cols-2 sm:grid-cols-4">
             {facts.map(([label, value]) => (
               <div key={label} className="p-3">
                 <dt className="eyebrow">{label}</dt>
