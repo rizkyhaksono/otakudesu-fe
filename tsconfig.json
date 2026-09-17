@@ -21,6 +21,7 @@
         "name": "next"
       }
     ],
+    "types": ["bun-types"],
     "paths": {
       "@/*": [
         "./src/*"
