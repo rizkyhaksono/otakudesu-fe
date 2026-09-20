@@ -66,8 +66,12 @@ const id = {
     episodesShort: "eps",
   },
   support: {
-    title: "Proyek ini open source",
-    body: "Natee dibangun terbuka dan gratis selamanya. Kalau membantu, satu bintang di GitHub sangat berarti — itu yang membuat proyek ini terus diperbarui.",
+    eyebrow: "Gratis · Tanpa iklan · Open source",
+    title: "Dukung Natee",
+    body:
+      "Natee gratis dan open source, tanpa iklan. Kalau situs ini membantu, traktir seikhlasnya lewat Saweria — itu yang menutup biaya server dan menjaga semuanya tetap jalan.",
+    banner:
+      "Dukung Natee lewat Saweria — bantu biaya server · Klik di sini untuk traktir · ",
     star: "Beri bintang",
     fork: "Fork repo",
     later: "Nanti saja",
@@ -460,8 +464,12 @@ const en: Dictionary = {
     episodesShort: "eps",
   },
   support: {
-    title: "This project is open source",
-    body: "Natee is built in the open and free forever. If it helps you, a star on GitHub goes a long way — it is what keeps the project maintained.",
+    eyebrow: "Free · Ad-free · Open source",
+    title: "Support Natee",
+    body:
+      "Natee is free, open source and ad-free. If it helps you, a small tip on Saweria covers the server bill and keeps it all running.",
+    banner:
+      "Support Natee on Saweria — help cover server costs · Click here to tip · ",
     star: "Star the repo",
     fork: "Fork it",
     later: "Maybe later",
@@ -845,8 +853,12 @@ const ja: Dictionary = {
     episodesShort: "話",
   },
   support: {
-    title: "このプロジェクトはオープンソースです",
-    body: "Natee は公開開発で、ずっと無料です。役に立ったら GitHub でスターをいただけると、開発を続ける大きな力になります。",
+    eyebrow: "無料 · 広告なし · オープンソース",
+    title: "Natee を支援",
+    body:
+      "Natee は無料・オープンソース・広告なしで運営しています。役に立ったら Saweria から少額の支援をいただけると、サーバー代をまかなえます。",
+    banner:
+      "Saweria で Natee を支援 — サーバー代のご協力を · こちらをクリック · ",
     star: "スターを付ける",
     fork: "フォークする",
     later: "あとで",

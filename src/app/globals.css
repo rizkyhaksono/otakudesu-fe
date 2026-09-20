@@ -300,6 +300,19 @@
       animation-fill-mode: forwards;
     }
 
+    @keyframes support-marquee {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .animate-support-marquee {
+      animation: support-marquee 28s linear infinite;
+    }
+
     /* Scroll-triggered section reveal — see `Reveal`. `.reveal` on its own
        starts hidden; only armed once JS confirms an observer is watching, so
        a section can never get stuck invisible. */

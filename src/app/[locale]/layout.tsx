@@ -8,7 +8,7 @@ import {
   isLocale,
   LOCALES,
 } from "@/lib/i18n/dictionaries";
-import Onboarding from "@/components/onboarding/onboarding";
+import SupportOnboarding from "@/components/onboarding/onboarding";
 import Providers from "./providers";
 import SiteHeader from "@/components/layout/site-header";
 import SiteFooter from "@/components/layout/site-footer";
@@ -163,20 +163,21 @@ export default async function RootLayout({
           }}
         />
         <Providers locale={locale}>
-          <a
-            href="#main"
-            className="bg-primary text-primary-foreground sr-only px-4 py-2 focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50"
-          >
-            {t.common.skipToContent}
-          </a>
-          <div className="flex min-h-dvh flex-col">
-            <SiteHeader />
-            <main id="main" className="flex-1">
-              {children}
-            </main>
-            <SiteFooter />
-          </div>
-          <Onboarding />
+          <SupportOnboarding>
+            <a
+              href="#main"
+              className="bg-primary text-primary-foreground sr-only px-4 py-2 focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50"
+            >
+              {t.common.skipToContent}
+            </a>
+            <div className="flex min-h-dvh flex-col">
+              <SiteHeader />
+              <main id="main" className="flex-1">
+                {children}
+              </main>
+              <SiteFooter />
+            </div>
+          </SupportOnboarding>
         </Providers>
       </body>
     </html>
