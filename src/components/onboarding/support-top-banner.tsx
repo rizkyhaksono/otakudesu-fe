@@ -3,15 +3,28 @@
 import { ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n/client";
 import { SAWERIA } from "@/lib/onboarding";
-import { cn } from "@/lib/utils";
+
+const REPEATS_PER_GROUP = 8;
+
+function MarqueeGroup({ text, duplicate }: { text: string; duplicate?: boolean }) {
+  return (
+    <div className="flex shrink-0 items-center" aria-hidden={duplicate || undefined}>
+      {Array.from({ length: REPEATS_PER_GROUP }, (_, i) => (
+        <span key={i} className="inline-flex shrink-0 items-center text-sm font-medium leading-none">
+          <span>{text}</span>
+          <span className="mx-5 opacity-75" aria-hidden>·</span>
+        </span>
+      ))}
+    </div>
+  );
+}
 
 /**
- * Permanent Saweria strip after the one-time support modal has been dismissed.
- * Sits above the header so every return visit still has a quiet path to donate.
+ * Permanent Saweria strip — calm, centered marquee like saweria.co’s own promo bar.
  */
 export default function SupportTopBanner() {
   const { t } = useI18n();
-  const label = t.support.banner;
+  const label = t.support.banner.trim();
 
   return (
     <div
@@ -23,23 +36,27 @@ export default function SupportTopBanner() {
         href={SAWERIA}
         target="_blank"
         rel="noopener noreferrer"
-        className="press flex h-9 items-center gap-2 hover:opacity-95 motion-reduce:justify-center sm:h-8"
+        className="press group relative flex h-10 items-center hover:opacity-95 sm:h-9"
       >
         <span className="sr-only">{t.support.donate}</span>
-        <div className="flex min-w-0 flex-1 overflow-hidden motion-reduce:hidden">
-          <div className={cn("flex w-max shrink-0 animate-support-marquee items-center whitespace-nowrap")}>
-            <span className="font-mono text-[0.7rem] tracking-wide uppercase sm:text-xs">{label}</span>
-            <span className="font-mono text-[0.7rem] tracking-wide uppercase sm:text-xs" aria-hidden>
-              {label}
-            </span>
+
+        <div className="flex min-h-0 min-w-0 flex-1 items-center overflow-hidden pr-11 motion-reduce:hidden">
+          <div className="flex w-max animate-support-marquee items-center py-0.5">
+            <MarqueeGroup text={label} />
+            <MarqueeGroup text={label} duplicate />
           </div>
         </div>
+
         <span
-          className="hidden min-w-0 flex-1 truncate px-4 text-center font-mono text-[0.7rem] tracking-wide uppercase motion-reduce:inline sm:text-xs"
+          className="pointer-events-none absolute inset-y-0 right-0 flex w-11 items-center justify-center bg-primary pl-1"
+          aria-hidden
         >
-          {label.trim()}
+          <ExternalLink className="size-3.5 opacity-90 transition-opacity group-hover:opacity-100" />
         </span>
-        <ExternalLink className="mx-3 size-3.5 shrink-0 motion-reduce:inline sm:mx-4" aria-hidden />
+
+        <p className="hidden w-full truncate px-4 text-center text-sm font-medium motion-reduce:block">
+          {label}
+        </p>
       </a>
     </div>
   );

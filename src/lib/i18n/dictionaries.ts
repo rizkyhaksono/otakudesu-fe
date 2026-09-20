@@ -70,8 +70,7 @@ const id = {
     title: "Dukung Natee",
     body:
       "Natee gratis dan open source, tanpa iklan. Kalau situs ini membantu, traktir seikhlasnya lewat Saweria — itu yang menutup biaya server dan menjaga semuanya tetap jalan.",
-    banner:
-      "Dukung Natee lewat Saweria — bantu biaya server · Klik di sini untuk traktir · ",
+    banner: "Dukung Natee lewat Saweria — bantu biaya server",
     star: "Beri bintang",
     fork: "Fork repo",
     later: "Nanti saja",
@@ -468,8 +467,7 @@ const en: Dictionary = {
     title: "Support Natee",
     body:
       "Natee is free, open source and ad-free. If it helps you, a small tip on Saweria covers the server bill and keeps it all running.",
-    banner:
-      "Support Natee on Saweria — help cover server costs · Click here to tip · ",
+    banner: "Support Natee on Saweria — help cover server costs",
     star: "Star the repo",
     fork: "Fork it",
     later: "Maybe later",
@@ -857,8 +855,7 @@ const ja: Dictionary = {
     title: "Natee を支援",
     body:
       "Natee は無料・オープンソース・広告なしで運営しています。役に立ったら Saweria から少額の支援をいただけると、サーバー代をまかなえます。",
-    banner:
-      "Saweria で Natee を支援 — サーバー代のご協力を · こちらをクリック · ",
+    banner: "Saweria で Natee を支援 — サーバー代のご協力を",
     star: "スターを付ける",
     fork: "フォークする",
     later: "あとで",

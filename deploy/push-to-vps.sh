@@ -22,7 +22,7 @@ source "$ENV_FILE"
 : "${VPS_PASS:?}"
 
 BE_TAG="${BE_IMAGE_TAG:-otakudesu-be:v3.8.3}"
-FE_TAG="${FE_IMAGE_TAG:-otakudesu-fe:v3.14.1}"
+FE_TAG="${FE_IMAGE_TAG:-otakudesu-fe:v3.14.4}"
 API_BUILD_URL="${API_BUILD_URL:-https://api.otakudesu.natee.my.id}"
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://otakudesu.natee.my.id}"
 ARCHIVE="/tmp/otakudesu-images-$$.tar.gz"

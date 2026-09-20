@@ -310,7 +310,8 @@
     }
 
     .animate-support-marquee {
-      animation: support-marquee 28s linear infinite;
+      animation: support-marquee 120s linear infinite;
+      will-change: transform;
     }
 
     /* Scroll-triggered section reveal — see `Reveal`. `.reveal` on its own

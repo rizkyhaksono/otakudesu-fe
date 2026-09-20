@@ -15,12 +15,11 @@ import ProductTour from "./product-tour";
 export default function SupportOnboarding({ children }: { children: ReactNode }) {
   const mounted = useMounted();
   const [supportDone, setSupportDone] = useState(false);
-  const showBanner = mounted && (hasSeenSupport() || supportDone);
   const tourActive = mounted && (hasSeenSupport() || supportDone);
 
   return (
     <>
-      {showBanner ? <SupportTopBanner /> : null}
+      {mounted ? <SupportTopBanner /> : null}
       {children}
       <SupportPrompt onDismiss={() => setSupportDone(true)} />
       <ProductTour active={tourActive} />
