@@ -1,21 +1,30 @@
 import { api, apiOr } from "@/lib/api";
 import type { TvCategory, TvChannel } from "@/types/api";
 
-export const getTvChannels = (params: { category?: string; q?: string } = {}) => {
+function hasPlayableStream(channel: TvChannel): boolean {
+  return channel.streams.some((stream) => Boolean(stream.url || stream.proxy_url));
+}
+
+export const getTvChannels = async (params: { category?: string; q?: string } = {}) => {
   const search = new URLSearchParams();
   if (params.category) search.set("category", params.category);
   if (params.q) search.set("q", params.q);
   const query = search.toString();
 
-  return apiOr<{ total: number; channels: TvChannel[] }>(
+  const response = await apiOr<{ total: number; channels: TvChannel[] }>(
     `/api/v1/tv/channels${query ? `?${query}` : ""}`,
     { total: 0, channels: [] },
     { revalidate: 21_600 },
   );
+
+  const channels = response.channels.filter(hasPlayableStream);
+  return { total: channels.length, channels };
 };
 
-export const getTvChannel = (id: string) =>
-  api<TvChannel>(`/api/v1/tv/channels/${id}`, { revalidate: 21_600 });
+export const getTvChannel = async (id: string) => {
+  const channel = await api<TvChannel>(`/api/v1/tv/channels/${id}`, { revalidate: 21_600 });
+  return channel && hasPlayableStream(channel) ? channel : null;
+};
 
 export const getTvCategories = () =>
   apiOr<TvCategory[]>("/api/v1/tv/categories", [], { revalidate: 21_600 });

@@ -21,8 +21,9 @@ source "$ENV_FILE"
 : "${VPS_USER:?}"
 : "${VPS_PASS:?}"
 
-BE_TAG="${BE_IMAGE_TAG:-otakudesu-be:v3.8.3}"
-FE_TAG="${FE_IMAGE_TAG:-otakudesu-fe:v3.14.4}"
+RELEASE_TAG="${RELEASE_TAG:-$(git -C "$ROOT/otakudesu-fe" rev-parse --short HEAD)}"
+BE_TAG="${BE_IMAGE_TAG:-otakudesu-be:${RELEASE_TAG}}"
+FE_TAG="${FE_IMAGE_TAG:-otakudesu-fe:${RELEASE_TAG}}"
 API_BUILD_URL="${API_BUILD_URL:-https://api.otakudesu.natee.my.id}"
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://otakudesu.natee.my.id}"
 ARCHIVE="/tmp/otakudesu-images-$$.tar.gz"
@@ -63,14 +64,26 @@ docker service update --image "${BE_TAG}" --detach=false otakudesu_be
 echo "Updating otakudesu_fe -> ${FE_TAG}"
 docker service update --image "${FE_TAG}" --detach=false otakudesu_fe
 
+BE_STATE="$(docker service inspect otakudesu_be --format '{{.UpdateStatus.State}}' 2>/dev/null || true)"
+FE_STATE="$(docker service inspect otakudesu_fe --format '{{.UpdateStatus.State}}' 2>/dev/null || true)"
+[[ "$BE_STATE" == "completed" || -z "$BE_STATE" ]] || { echo "Backend update state: $BE_STATE" >&2; exit 1; }
+[[ "$FE_STATE" == "completed" || -z "$FE_STATE" ]] || { echo "Frontend update state: $FE_STATE" >&2; exit 1; }
+
+for attempt in {1..12}; do
+  if curl -fsS --max-time 10 https://otakudesu.natee.my.id/ >/dev/null \
+    && curl -fsS --max-time 10 https://api.otakudesu.natee.my.id/api/health >/dev/null; then
+    break
+  fi
+  [[ "$attempt" == 12 ]] && { echo "Production health check failed" >&2; exit 1; }
+  sleep 5
+done
+
 docker service ps otakudesu_be otakudesu_fe --no-trunc | head -6
 
 for img in "$OLD_BE" "$OLD_FE"; do
   [[ -z "$img" ]] && continue
   docker image rm "$img" 2>/dev/null || true
 done
-docker image prune -f
-
 echo "Services:"
 docker service ls | grep otakudesu
 REMOTE
@@ -79,6 +92,5 @@ rm -f "$ARCHIVE"
 
 echo "==> Removing local images to free disk..."
 docker rmi "${BE_TAG}" "${FE_TAG}" 2>/dev/null || true
-docker image prune -f
 
 echo "Done. Check https://otakudesu.natee.my.id"
