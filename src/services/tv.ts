@@ -14,7 +14,7 @@ export const getTvChannels = async (params: { category?: string; q?: string } = 
   const response = await apiOr<{ total: number; channels: TvChannel[] }>(
     `/api/v1/tv/channels${query ? `?${query}` : ""}`,
     { total: 0, channels: [] },
-    { revalidate: 21_600 },
+    { revalidate: 300 },
   );
 
   const channels = response.channels.filter(hasPlayableStream);
@@ -22,9 +22,9 @@ export const getTvChannels = async (params: { category?: string; q?: string } = 
 };
 
 export const getTvChannel = async (id: string) => {
-  const channel = await api<TvChannel>(`/api/v1/tv/channels/${id}`, { revalidate: 21_600 });
+  const channel = await api<TvChannel>(`/api/v1/tv/channels/${id}`, { revalidate: 300 });
   return channel && hasPlayableStream(channel) ? channel : null;
 };
 
 export const getTvCategories = () =>
-  apiOr<TvCategory[]>("/api/v1/tv/categories", [], { revalidate: 21_600 });
+  apiOr<TvCategory[]>("/api/v1/tv/categories", [], { revalidate: 300 });
