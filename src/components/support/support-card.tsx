@@ -5,7 +5,8 @@ import { getDictionary } from "@/lib/i18n/server";
 /**
  * "Support this project" sidebar card.
  *
- * Distinct from the one-time `SupportPrompt` modal and its docked tab: this is
+ * Distinct from the one-time `SupportPrompt` modal and the top Saweria banner:
+ * this is
  * a quiet, permanent card that sits in a page's aside column, for someone who
  * is already reading and might choose to give back. Donation first, star
  * second — a Saweria link is the ask this card exists for; the repo link is

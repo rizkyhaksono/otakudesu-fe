@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { skipImageOptimizer } from "@/lib/image";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +32,14 @@ export default function PosterImage({
 }) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Images often finish before hydration; `onLoad` never fires and posters stay
+  // at opacity-0 over the gray tile. A one-time DOM check fixes that race.
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) setLoaded(true);
+  }, [src]);
 
   if (!src || failed) {
     if (fallback) return <>{fallback}</>;
@@ -52,12 +60,14 @@ export default function PosterImage({
 
   return (
     <Image
+      ref={imgRef}
       src={src}
       alt={alt}
       fill
       sizes={sizes}
       priority={priority}
       unoptimized={skipImageOptimizer(src)}
+      referrerPolicy="no-referrer"
       onError={() => setFailed(true)}
       onLoad={() => setLoaded(true)}
       className={cn(
