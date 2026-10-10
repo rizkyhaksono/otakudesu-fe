@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -9,6 +8,7 @@ import PageShell from "@/components/media/page-shell";
 import { dictionaryFor } from "@/lib/i18n/server";
 import PosterCard from "@/components/media/poster-card";
 import PosterGrid from "@/components/media/poster-grid";
+import PosterImage from "@/components/media/poster-image";
 import Section from "@/components/media/section";
 import JsonLd from "@/components/seo/json-ld";
 import RecordView from "@/components/history/record-view";
@@ -112,17 +112,13 @@ export default async function ComicDetailPage({ params }: Props) {
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
         <div>
           <div className="bg-muted relative aspect-[2/3] border">
-            {comic.poster ? (
-              <Image
-                src={comic.poster}
-                alt={comic.title ?? ""}
-                fill
-                sizes="240px"
-                priority
-                unoptimized
-                className="object-cover"
-              />
-            ) : null}
+            <PosterImage
+              src={comic.poster}
+              alt={comic.title ?? ""}
+              sizes="240px"
+              priority
+              className="object-cover"
+            />
           </div>
 
           <div className="mt-3 flex flex-col gap-2">

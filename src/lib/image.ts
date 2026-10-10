@@ -4,7 +4,7 @@
  * which is what produced the Cloudflare 500s on this site.
  */
 const SKIP_OPTIMIZER =
-  /(^|\.)(otakudesu\.(blog|best|cloud)|komiku\.(org|to|id)|kiryuuid\.net|uqni\.net)$/i;
+  /(^|\.)(otakudesu\.(blog|best|cloud)|komiku\.(org|to|id)|uqni\.net)$/i;
 
 export function skipImageOptimizer(src: string | null | undefined): boolean {
   if (!src) return false;

@@ -9,7 +9,7 @@ import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { getDictionary } from "@/lib/i18n/server";
 
-export const revalidate = 21_600;
+export const revalidate = 300;
 
 type Props = {
   params: Promise<{ locale: string }>;

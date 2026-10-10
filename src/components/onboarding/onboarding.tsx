@@ -1,21 +1,28 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
+import { hasSeenSupport } from "@/lib/onboarding";
 import SupportPrompt from "./support-prompt";
+import SupportTopBanner from "./support-top-banner";
 import ProductTour from "./product-tour";
 
 /**
- * Sequences the two one-time overlays: support prompt first, the product tour only once it
- * has been dismissed. Showing both at once would stack two dialogs on a
- * first-time visitor.
+ * Sequences support UI and the product tour: modal first (once), then a top
+ * Saweria banner, then the tour only after support is out of the way.
  */
-export default function Onboarding() {
+export default function SupportOnboarding({ children }: { children: ReactNode }) {
+  const mounted = useMounted();
   const [supportDone, setSupportDone] = useState(false);
+  const tourActive = mounted && (hasSeenSupport() || supportDone);
 
   return (
     <>
+      {mounted ? <SupportTopBanner /> : null}
+      {children}
       <SupportPrompt onDismiss={() => setSupportDone(true)} />
-      <ProductTour active={supportDone} />
+      <ProductTour active={tourActive} />
     </>
   );
 }
