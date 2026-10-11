@@ -14,8 +14,8 @@ Nonton anime, baca komik, streaming film & serial, dan siaran TV Indonesia — d
   download tables, batch downloads, genres, weekly schedule, search
 - **Komik** — a real reader: vertical-strip and paged modes, adjustable width, keyboard navigation,
   reading progress, chapter picker, and read-chapter markers
-- **Film & serial** — TMDB metadata with a multi-provider player and a "Server 1 / 2 / 3" switcher;
-  season and episode selection for series
+- **Film & serial** *(self-host only — off on the public site)* — TMDB metadata with a
+  multi-provider player and a "Server 1 / 2 / 3" switcher; season and episode selection for series
 - **TV Indonesia** — live HLS streaming with category filtering, quality selection, and automatic
   fallback to the backend proxy for channels without CORS
 - **Cross-domain** — "Lanjutkan" history rail and bookmarks, stored locally, no account needed
@@ -67,6 +67,19 @@ The backend must be running for content to appear. See
 | `API_BASE_URL` | ✅ | Backend origin. Server-side only — no `NEXT_PUBLIC_` prefix, because it never reaches the browser. |
 | `NEXT_PUBLIC_SITE_URL` | | Public origin used for canonical URLs, sitemap and OpenGraph tags. |
 | `NEXT_PUBLIC_ENABLE_MOVIE` | | `true` turns on the Movies section (nav, home rails, search hits, `/movie` routes). Off by default — the public deployment hides it. Build-time, so it needs a rebuild. |
+
+### Film (self-host)
+
+The public deployment hides the movie section. To turn it on in your own instance:
+
+1. Set `TMDB_ACCESS_TOKEN` on the backend — without it the movie endpoints return empty results.
+2. Build the frontend with `NEXT_PUBLIC_ENABLE_MOVIE=true`, either in `.env` or as a build arg:
+   ```bash
+   docker build --build-arg NEXT_PUBLIC_ENABLE_MOVIE=true --build-arg API_BASE_URL=https://your-api -t otakudesu-fe .
+   ```
+
+The flag is read at build time, so changing it needs a rebuild. With it on, Film shows up in the
+nav, home rails, search results and sitemap, and the `/movie` routes come back.
 
 ## Scripts
 
