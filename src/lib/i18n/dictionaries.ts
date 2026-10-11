@@ -86,13 +86,13 @@ const id = {
     replay: "Lihat panduan lagi",
     introTitle: "Selamat datang di Natee",
     introBody:
-      "Satu tempat untuk anime, komik, film, TV dan radio Indonesia. Panduan singkat ini menunjukkan letak tiap fitur — sekitar 30 detik.",
+      "Satu tempat untuk anime, komik, TV dan radio Indonesia. Panduan singkat ini menunjukkan letak tiap fitur — sekitar 30 detik.",
     animeTitle: "Menu Anime",
     animeBody:
       "Sedang tayang, sudah tamat, jadwal rilis, genre dan daftar A–Z. Tiap episode punya beberapa server, jadi kalau satu mati tinggal ganti.",
     comicTitle: "Menu Komik",
     comicBody:
-      "Manga, manhwa, manhua dan novel. Pembaca bawaan punya mode gulir dan halaman, plus penanda chapter yang sudah dibaca.",
+      "Manga, manhwa dan manhua. Pembaca bawaan punya mode gulir dan halaman, plus penanda chapter yang sudah dibaca.",
     movieTitle: "Menu Film",
     movieBody:
       "Metadata dari TMDB dengan beberapa pemutar yang bisa ditukar, plus tautan Letterboxd untuk yang suka mencatat tontonan.",
@@ -196,7 +196,7 @@ const id = {
     batch: { description: "Semua episode dalam satu paket unduhan.", pack: "Paket download" },
     comic: {
       title: "Komik",
-      description: "Manga, manhwa, manhua dan novel — update terbaru.",
+      description: "Manga, manhwa dan manhua yang baru update.",
       downTitle: "Sumber komik sedang tidak tersedia",
       downBody: "Coba lagi beberapa saat lagi.",
       latest: "Update terbaru",
@@ -483,13 +483,13 @@ const en: Dictionary = {
     replay: "Replay the tour",
     introTitle: "Welcome to Natee",
     introBody:
-      "One place for anime, comics, films, Indonesian TV and radio. This short tour shows where everything lives — about 30 seconds.",
+      "One place for anime, comics, Indonesian TV and radio. This short tour shows where everything lives — about 30 seconds.",
     animeTitle: "The Anime menu",
     animeBody:
       "Currently airing, finished, the release schedule, genres and the A–Z directory. Every episode has several servers, so a dead one is just a click away from a working one.",
     comicTitle: "The Comics menu",
     comicBody:
-      "Manga, manhwa, manhua and novels. The built-in reader does strip and paged modes, and marks the chapters you have already read.",
+      "Manga, manhwa and manhua. The built-in reader does strip and paged modes, and marks the chapters you have already read.",
     movieTitle: "The Movies menu",
     movieBody:
       "TMDB metadata with several interchangeable players, plus Letterboxd links if you keep a watch log.",
@@ -591,7 +591,7 @@ const en: Dictionary = {
     batch: { description: "Every episode in a single download.", pack: "Download pack" },
     comic: {
       title: "Comics",
-      description: "Manga, manhwa, manhua and novels — freshly updated.",
+      description: "Manga, manhwa and manhua, as they update.",
       downTitle: "The comic source is unavailable",
       downBody: "Please try again in a moment.",
       latest: "Latest updates",
@@ -871,13 +871,13 @@ const ja: Dictionary = {
     replay: "ガイドをもう一度見る",
     introTitle: "Natee へようこそ",
     introBody:
-      "アニメ・マンガ・映画・インドネシアのTVとラジオがひとつに。この短いガイドで各機能の場所を確認できます（約30秒）。",
+      "アニメ・マンガ・インドネシアのTVとラジオがひとつに。この短いガイドで各機能の場所を確認できます（約30秒）。",
     animeTitle: "アニメメニュー",
     animeBody:
       "放送中・放送終了・スケジュール・ジャンル・A–Z 一覧。各話に複数のサーバーがあるので、繋がらないときは切り替えられます。",
     comicTitle: "マンガメニュー",
     comicBody:
-      "マンガ・マンファ・マンフア・小説。内蔵ビューアは縦スクロールとページ送りに対応し、既読の話数も記録します。",
+      "マンガ・マンファ・マンフア。内蔵ビューアは縦スクロールとページ送りに対応し、既読の話数も記録します。",
     movieTitle: "映画メニュー",
     movieBody:
       "TMDB のメタデータと切り替え可能な複数プレーヤー、さらに Letterboxd へのリンク。",
@@ -979,7 +979,7 @@ const ja: Dictionary = {
     batch: { description: "全話をまとめて1つのダウンロードに。", pack: "ダウンロードパック" },
     comic: {
       title: "マンガ",
-      description: "マンガ・マンファ・マンフア・小説の最新更新。",
+      description: "マンガ・マンファ・マンフアの最新更新。",
       downTitle: "マンガの配信元に接続できません",
       downBody: "しばらくしてからもう一度お試しください。",
       latest: "最新の更新",

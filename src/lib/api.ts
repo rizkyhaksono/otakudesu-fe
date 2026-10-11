@@ -30,9 +30,18 @@ type Options = {
   tags?: string[];
 };
 
+// The build prerenders pages against the live API; a flaky upstream then must
+// not fail the whole deploy. ISR replaces that page on its first revalidation.
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
+
 /**
  * Returns `null` for 404 so pages can call `notFound()` themselves and emit a
  * real HTTP 404 rather than a soft 404 with status 200.
+ *
+ * Any other failure (unreachable, timeout, 429, 5xx, error payload) throws.
+ * Returning empty data there let ISR cache an empty page — or a fake 404 — as
+ * a success, so visitors saw blank pages until a refresh. A throw during
+ * revalidation keeps serving the last good page instead.
  */
 export async function api<T>(path: string, options: Options = {}): Promise<T | null> {
   const { revalidate = 300, tags } = options;
@@ -48,27 +57,29 @@ export async function api<T>(path: string, options: Options = {}): Promise<T | n
       },
       signal: AbortSignal.timeout(20_000),
     });
-  } catch {
-    // The backend being unreachable must not crash the whole page tree.
-    return null;
+  } catch (error) {
+    return failed(0, path, error instanceof Error ? error.message : "fetch failed");
   }
 
-  if (response.status === 404) return null;
-
-  if (!response.ok) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(`[api] ${response.status} ${path}`);
-    }
-    return null;
-  }
+  // 400 is bad input from the URL (e.g. `?page=abc`): treat it as not found, not as an outage.
+  if (response.status === 404 || response.status === 400) return null;
+  if (!response.ok) return failed(response.status, path, response.statusText);
 
   const payload = (await response.json()) as { data?: T; error?: string };
-  if (payload.error !== undefined) return null;
+  if (payload.error !== undefined) return failed(response.status, path, payload.error);
 
   return (payload.data ?? null) as T | null;
 }
 
-/** Same as `api` but falls back to a value instead of `null`. */
+function failed(status: number, path: string, reason: string): null {
+  if (IS_BUILD) {
+    console.warn(`[api] build fallback ${status} ${path}: ${reason}`);
+    return null;
+  }
+  throw new ApiError(status, `[api] ${status} ${path}: ${reason}`);
+}
+
+/** Same as `api` but falls back to a value instead of `null` (404 or no data). Failures still throw. */
 export async function apiOr<T>(path: string, fallback: T, options: Options = {}): Promise<T> {
   return (await api<T>(path, options)) ?? fallback;
 }

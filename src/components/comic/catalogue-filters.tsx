@@ -51,11 +51,13 @@ export default function CatalogueFilters({
 
       <div className="flex flex-wrap gap-4">
         <Row label={t.pages.comicBrowse.sort}>
-          <Chip href={href({ sort: undefined })} on={!active.sort}>
-            {t.pages.comicBrowse.default}
-          </Chip>
+          {/* "latest" is the default order, so it keeps the bare URL. */}
           {SORTS.map((sort) => (
-            <Chip key={sort} href={href({ sort })} on={active.sort === sort}>
+            <Chip
+              key={sort}
+              href={href({ sort: sort === "latest" ? undefined : sort })}
+              on={(active.sort ?? "latest") === sort}
+            >
               {sortLabel[sort]}
             </Chip>
           ))}
@@ -73,18 +75,27 @@ export default function CatalogueFilters({
         </Row>
       </div>
 
+      {/* 100+ genre chips pushed the results off a phone screen; folded by
+          default, open while a genre is selected. Native <details>, no JS. */}
       {genres.length ? (
-        <Row label={t.pages.comicBrowse.genre}>
-          <Chip href={href({ genre: undefined })} on={!active.genre}>
-            {t.pages.comicBrowse.all}
-          </Chip>
-          {genres.map((genre) => (
-            <Chip key={genre.slug} href={href({ genre: genre.slug })} on={active.genre === genre.slug}>
-              {genre.icon ? <span aria-hidden>{genre.icon}</span> : null}
-              {genre.name}
+        <details open={Boolean(active.genre)}>
+          <summary className="eyebrow hover:text-foreground w-fit cursor-pointer py-2">
+            {t.pages.comicBrowse.genre}:{" "}
+            {genres.find((genre) => genre.slug === active.genre)?.name ?? t.pages.comicBrowse.all} (
+            {genres.length})
+          </summary>
+          <div className="flex-hairline mt-1.5">
+            <Chip href={href({ genre: undefined })} on={!active.genre}>
+              {t.pages.comicBrowse.all}
             </Chip>
-          ))}
-        </Row>
+            {genres.map((genre) => (
+              <Chip key={genre.slug} href={href({ genre: genre.slug })} on={active.genre === genre.slug}>
+                {genre.icon ? <span aria-hidden>{genre.icon}</span> : null}
+                {genre.name}
+              </Chip>
+            ))}
+          </div>
+        </details>
       ) : null}
     </div>
   );

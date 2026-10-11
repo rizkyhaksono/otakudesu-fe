@@ -190,7 +190,7 @@ export default async function ComicDetailPage({ params }: Props) {
           {comic.synopsis ? (
             <div className="mt-6">
               <h2 className="eyebrow">Sinopsis</h2>
-              <p className="mt-2 text-sm leading-relaxed whitespace-pre-line">{comic.synopsis}</p>
+              <p className="mt-2 max-w-[75ch] text-sm leading-relaxed whitespace-pre-line">{comic.synopsis}</p>
             </div>
           ) : null}
         </div>

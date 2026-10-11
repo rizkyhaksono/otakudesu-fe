@@ -193,8 +193,9 @@
   }
 
   /* Section label: small, uppercase, wide-tracked. */
+  /* Sentence case: a tracked-out caps label over every heading read as template chrome. */
   .eyebrow {
-    @apply text-muted-foreground text-[0.7rem] font-medium tracking-[0.18em] uppercase;
+    @apply text-muted-foreground text-xs font-medium;
   }
 
   /* Flat block badge — no pill shapes anywhere. */
@@ -312,21 +313,6 @@
     .animate-support-marquee {
       animation: support-marquee 120s linear infinite;
       will-change: transform;
-    }
-
-    /* Scroll-triggered section reveal — see `Reveal`. `.reveal` on its own
-       starts hidden; only armed once JS confirms an observer is watching, so
-       a section can never get stuck invisible. */
-    .reveal {
-      opacity: 0;
-      transform: translate3d(0, 28px, 0);
-      transition:
-        opacity var(--dur-slow) var(--ease-out),
-        transform var(--dur-slow) var(--ease-out);
-    }
-    .reveal.is-visible {
-      opacity: 1;
-      transform: none;
     }
 
     .animate-rise {

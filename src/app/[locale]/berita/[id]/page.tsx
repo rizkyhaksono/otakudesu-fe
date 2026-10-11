@@ -47,7 +47,7 @@ export default async function ArticlePage({ params }: Props) {
   const article = await getNewsArticle(id);
   if (!article) notFound();
 
-  const related = (await getNews({ limit: 8 })).filter((item) => item.id !== id).slice(0, 6);
+  const related = (await getNews({ limit: 8 }).catch(() => [])).filter((item) => item.id !== id).slice(0, 6);
 
   return (
     <PageShell

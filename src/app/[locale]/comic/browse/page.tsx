@@ -36,7 +36,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 }
 
 export default async function ComicBrowsePage({ params, searchParams }: Props) {
-  const [{ t, locale }, { page, genre, q, type, sort }] = await Promise.all([
+  const [{ t }, { page, genre, q, type, sort }] = await Promise.all([
     getDictionary(params),
     searchParams,
   ]);
@@ -59,11 +59,6 @@ export default async function ComicBrowsePage({ params, searchParams }: Props) {
   return (
     <PageShell
       title={t.pages.comicBrowse.title}
-      description={
-        data.pagination.total
-          ? `${data.pagination.total.toLocaleString(locale)} ${t.pages.comicBrowse.indexed}`
-          : undefined
-      }
       crumbs={[
         { label: t.crumbs.home, href: "/" },
         { label: t.crumbs.comic, href: "/comic" },

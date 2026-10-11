@@ -73,7 +73,8 @@ export default async function AnimeDetailPage({ params }: Props) {
   // coverage of the title's words, so an unrelated article never slips in —
   // an empty result is the correct answer far more often than a loose one.
   const [relatedNews, quotes, themeSet] = await Promise.all([
-    anime.title ? getNews({ q: anime.title, limit: 5 }) : Promise.resolve([]),
+    // Related news is a side panel; its outage must not take the anime page down.
+    anime.title ? getNews({ q: anime.title, limit: 5 }).catch(() => []) : Promise.resolve([]),
     anime.title ? getQuotesFor(anime.title) : Promise.resolve(null),
     anime.title ? getAnimeThemes(anime.title) : Promise.resolve(null),
   ]);
@@ -241,7 +242,7 @@ export default async function AnimeDetailPage({ params }: Props) {
           {anime.synopsis ? (
             <div className="mt-6">
               <h2 className="eyebrow">{t.pages.animeDetail.synopsis}</h2>
-              <p className="mt-2 text-sm leading-relaxed whitespace-pre-line">{anime.synopsis}</p>
+              <p className="mt-2 max-w-[75ch] text-sm leading-relaxed whitespace-pre-line">{anime.synopsis}</p>
             </div>
           ) : null}
         </div>

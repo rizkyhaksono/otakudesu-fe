@@ -76,19 +76,11 @@ export default async function ComicHomePage({ params }: Props) {
         />
       ) : null}
 
-      {/* Two standing cards above the shelves: Shinigami's current domain
-          (which rotates constantly, so a hardcoded link would rot) and the
-          donation ask. Side by side on desktop, stacked on a phone. */}
-      <div className="mb-8 grid gap-4 lg:grid-cols-2">
-        <ShinigamiCard params={params} />
-        <SupportCard params={params} />
-      </div>
-
       {home.latest_manga.length ? (
         <Section
           title={t.pages.comic.latest}
           eyebrow={t.pages.comic.latestEyebrow}
-          href="/comic/browse?sort=latest"
+          href="/comic/browse"
         >
           <PosterGrid>{cards(home.latest_manga, t)}</PosterGrid>
         </Section>
@@ -123,6 +115,12 @@ export default async function ComicHomePage({ params }: Props) {
           <PosterGrid>{cards(home.latest_novels, t)}</PosterGrid>
         </Section>
       ) : null}
+      {/* After the shelves, not above them: comics are why people open this
+          page. Shinigami's domain rotates, so it is fetched, not hardcoded. */}
+      <div className="mt-12 grid gap-4 lg:grid-cols-2">
+        <ShinigamiCard params={params} />
+        <SupportCard params={params} />
+      </div>
     </PageShell>
   );
 }

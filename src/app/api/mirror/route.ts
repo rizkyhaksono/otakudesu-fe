@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid mirror token" }, { status: 400 });
   }
 
-  const data = await getEpisodeMirror(content);
+  const data = await getEpisodeMirror(content).catch(() => null);
 
   if (!data) {
     return NextResponse.json({ error: "Mirror unavailable" }, { status: 502 });

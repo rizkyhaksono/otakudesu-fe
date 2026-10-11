@@ -12,7 +12,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid query" }, { status: 400 });
   }
 
-  const data = await omniSearch(query);
+  let data;
+  try {
+    data = await omniSearch(query);
+  } catch {
+    return NextResponse.json({ error: "Search unavailable" }, { status: 502 });
+  }
   return NextResponse.json(
     { data },
     { headers: { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=120" } },

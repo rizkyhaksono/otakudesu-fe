@@ -16,7 +16,6 @@ import JsonLd from "@/components/seo/json-ld";
 import NewsList from "@/components/news/news-list";
 import { getDictionary } from "@/lib/i18n/server";
 import QuoteWidget from "@/components/anime/quote-widget";
-import Reveal from "@/components/media/reveal";
 import { SITE, localeAlternates } from "@/lib/site";
 import { absoluteUrl } from "@/lib/site";
 
@@ -157,7 +156,7 @@ export default async function HomePage({ params }: Props) {
         </Shelf>
 
         {comic.latest_manga.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.comicLatest}
@@ -178,11 +177,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {comic.popular_manga.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.comicPopular}
@@ -203,11 +202,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {comic.latest_novels.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.comic.novels}
@@ -228,11 +227,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {movie.trending.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.movie.trending}
@@ -253,11 +252,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {movie.popular_movies.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.movies}
@@ -278,11 +277,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {movie.popular_tv.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.series}
@@ -303,11 +302,11 @@ export default async function HomePage({ params }: Props) {
                 </div>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {tv.channels.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.tv}
@@ -342,11 +341,11 @@ export default async function HomePage({ params }: Props) {
                 </Link>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {radio.stations.length ? (
-          <Reveal>
+          <div>
             <Shelf
               seeAll={t.common.seeAll}
               title={t.pages.home.radio}
@@ -373,11 +372,11 @@ export default async function HomePage({ params }: Props) {
                 </Link>
               ))}
             </Shelf>
-          </Reveal>
+          </div>
         ) : null}
 
         {news.length ? (
-          <Reveal>
+          <div>
             <section className="mt-10">
               <div className="mb-3 flex items-baseline justify-between gap-4">
                 <div>
@@ -395,7 +394,7 @@ export default async function HomePage({ params }: Props) {
               </div>
               <NewsList items={news} />
             </section>
-          </Reveal>
+          </div>
         ) : null}
       </div>
     </div>
