@@ -66,6 +66,7 @@ The backend must be running for content to appear. See
 | --- | --- | --- |
 | `API_BASE_URL` | ✅ | Backend origin. Server-side only — no `NEXT_PUBLIC_` prefix, because it never reaches the browser. |
 | `NEXT_PUBLIC_SITE_URL` | | Public origin used for canonical URLs, sitemap and OpenGraph tags. |
+| `INTERNAL_API_TOKEN` | | Same value as the backend's. Sent on server-side API calls so page renders skip the backend's per-IP rate limit. Runtime, server-only. |
 | `NEXT_PUBLIC_ENABLE_MOVIE` | | `true` turns on the Movies section (nav, home rails, search hits, `/movie` routes). Off by default — the public deployment hides it. Build-time, so it needs a rebuild. |
 
 ### Film (self-host)

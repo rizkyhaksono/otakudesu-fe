@@ -10,6 +10,10 @@ import "server-only";
 
 const BASE_URL = (process.env.API_BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
+// Every render reaches the backend from this server's one IP; the token keeps
+// those renders out of the backend's per-IP rate limit.
+const INTERNAL_TOKEN = process.env.INTERNAL_API_TOKEN;
+
 export class ApiError extends Error {
   constructor(
     readonly status: number,
@@ -38,7 +42,10 @@ export async function api<T>(path: string, options: Options = {}): Promise<T | n
   try {
     response = await fetch(url, {
       next: { revalidate, ...(tags?.length ? { tags } : {}) },
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        ...(INTERNAL_TOKEN ? { "x-internal-token": INTERNAL_TOKEN } : {}),
+      },
       signal: AbortSignal.timeout(20_000),
     });
   } catch {
