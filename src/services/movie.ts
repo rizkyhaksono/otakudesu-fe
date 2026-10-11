@@ -1,4 +1,5 @@
 import { api, apiOr } from "@/lib/api";
+import { FEATURES } from "@/lib/site";
 import type {
   MovieDetail,
   MovieEpisode,
@@ -8,12 +9,11 @@ import type {
   MovieSummary,
 } from "@/types/api";
 
-export const getMovieHome = () =>
-  apiOr<MovieHome>(
-    "/api/v1/movie/home",
-    { trending: [], popular_movies: [], popular_tv: [] },
-    { revalidate: 3600 },
-  );
+const EMPTY_HOME: MovieHome = { trending: [], popular_movies: [], popular_tv: [] };
+
+// With movies off, the home page gets empty rails and skips the request entirely.
+export const getMovieHome = async () =>
+  FEATURES.movie ? apiOr<MovieHome>("/api/v1/movie/home", EMPTY_HOME, { revalidate: 3600 }) : EMPTY_HOME;
 
 export const getMovie = (id: number) =>
   api<MovieDetail>(`/api/v1/movie/${id}`, { revalidate: 3600 });

@@ -7,11 +7,14 @@ import { useStoredValue } from "@/hooks/use-storage";
 import { Button } from "@/components/ui/button";
 import EntryThumb from "@/components/history/entry-thumb";
 import { useI18n } from "@/lib/i18n/client";
+import { FEATURES } from "@/lib/site";
 
 /** Combined "continue watching / continue reading" rail across every domain. */
 export default function ContinueRail() {
   const { t } = useI18n();
-  const [history, mounted] = useStoredValue<HistoryEntry[]>(getHistory, []);
+  const [stored, mounted] = useStoredValue<HistoryEntry[]>(getHistory, []);
+  // Filtered here, not in the snapshot reader: a new array per snapshot would loop.
+  const history = FEATURES.movie ? stored : stored.filter((entry) => entry.kind !== "movie");
 
   const kindLabel: Record<HistoryEntry["kind"], string> = {
     anime: t.crumbs.anime,

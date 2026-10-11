@@ -13,7 +13,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # at build time for a complete first render. Both self-heal via ISR if not.
 ARG API_BASE_URL=http://localhost:3000
 ARG NEXT_PUBLIC_SITE_URL=https://otakudesu.natee.my.id
-ENV API_BASE_URL=$API_BASE_URL NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+# Movies are off on the public build; pass `true` when self-hosting.
+ARG NEXT_PUBLIC_ENABLE_MOVIE=false
+ENV API_BASE_URL=$API_BASE_URL NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    NEXT_PUBLIC_ENABLE_MOVIE=$NEXT_PUBLIC_ENABLE_MOVIE
 RUN bun run build
 
 FROM node:24-alpine AS runner

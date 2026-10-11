@@ -1,32 +1,6 @@
 import type { NextConfig } from "next";
 import { LOCALE_REWRITE_HEADER } from "./src/lib/i18n/internal";
-
-/**
- * Only the hosts that actually serve images we render. `next/image` treats this
- * as an allowlist, so it doubles as protection against being used as an open
- * image proxy.
- */
-const imageHosts = [
-  // Anime posters
-  "otakudesu.blog",
-  "otakudesu.best",
-  "otakudesu.cloud",
-  // Comic covers and page images. Wildcards on purpose: these CDNs move between
-  // subdomains (thumbnail./img./novel.) and a fixed list silently breaks images
-  // every time they do — which is exactly what happened with novel.kiryuuid.net.
-  "**.komiku.org",
-  "**.komiku.to",
-  "**.komiku.id",
-  "**.kiryuuid.net",
-  "**.uqni.net",
-  // TMDB stills and posters
-  "image.tmdb.org",
-  // Article images from the news source
-  "**.animenewsnetwork.com",
-  // Live TV channel logos
-  "i.imgur.com",
-  "**.iptv-org.github.io",
-];
+import { IMAGE_HOSTS } from "./src/lib/image";
 
 /*
  * Video hosts cannot be a fixed allowlist.
@@ -74,7 +48,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   images: {
-    remotePatterns: imageHosts.map((hostname) => ({ protocol: "https" as const, hostname })),
+    remotePatterns: IMAGE_HOSTS.map((hostname) => ({ protocol: "https" as const, hostname })),
     formats: ["image/avif", "image/webp"],
     // Poster rails and TMDB stills never need 2k/4k variants. The default
     // 2048/3840 widths made `/_next/image` srcsets that the optimizer then

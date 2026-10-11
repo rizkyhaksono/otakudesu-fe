@@ -8,10 +8,13 @@ import EmptyState from "@/components/media/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import EntryThumb from "@/components/history/entry-thumb";
 import { useI18n } from "@/lib/i18n/client";
+import { FEATURES } from "@/lib/site";
 
 export default function BookmarkList() {
   const { t } = useI18n();
-  const [bookmarks, mounted] = useStoredValue<BookmarkEntry[]>(getBookmarks, []);
+  const [stored, mounted] = useStoredValue<BookmarkEntry[]>(getBookmarks, []);
+  // Filtered here, not in the snapshot reader: a new array per snapshot would loop.
+  const bookmarks = FEATURES.movie ? stored : stored.filter((entry) => entry.kind !== "movie");
 
   const kindLabel: Record<BookmarkEntry["kind"], string> = {
     anime: t.crumbs.anime,

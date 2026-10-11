@@ -70,9 +70,6 @@ export default function CatalogueFilters({
               {type}
             </Chip>
           ))}
-          <Chip href="/comic/novels" on={false}>
-            {t.crumbs.novels}
-          </Chip>
         </Row>
       </div>
 

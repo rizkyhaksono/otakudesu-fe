@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { FEATURES } from "@/lib/site";
 
 /**
  * Product tour steps.
@@ -23,7 +24,7 @@ export type TourStep = {
 
 export const TOUR_EVENT = "natee:tour";
 
-export const TOUR_STEPS: readonly TourStep[] = [
+const ALL_STEPS: readonly TourStep[] = [
   {
     id: "intro",
     target: null,
@@ -84,6 +85,11 @@ export const TOUR_STEPS: readonly TourStep[] = [
     body: (t) => t.tour.outroBody,
   },
 ];
+
+// The movie step points at a nav entry that only exists when movies are on.
+export const TOUR_STEPS: readonly TourStep[] = ALL_STEPS.filter(
+  (step) => step.id !== "movie" || FEATURES.movie,
+);
 
 /** Ask the tour to start, from anywhere in the tree. */
 export function startTour(): void {

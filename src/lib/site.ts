@@ -1,9 +1,21 @@
+/**
+ * Build-time feature flags. `NEXT_PUBLIC_` because the nav and search also
+ * render in client components, so the value has to be inlined into the bundle.
+ *
+ * Movies are off on the public deployment; self-hosters opt in with
+ * `NEXT_PUBLIC_ENABLE_MOVIE=true`.
+ */
+export const FEATURES = {
+  movie: process.env.NEXT_PUBLIC_ENABLE_MOVIE === "true",
+} as const;
+
 export const SITE = {
   name: "Natee",
   shortName: "Natee",
-  tagline: "Anime, komik, film & TV Indonesia",
-  description:
-    "Nonton anime sub Indo, baca komik dan manhwa, streaming film & serial, plus siaran TV Indonesia — semuanya gratis dalam satu tempat.",
+  tagline: FEATURES.movie ? "Anime, komik, film & TV Indonesia" : "Anime, komik & TV Indonesia",
+  description: FEATURES.movie
+    ? "Nonton anime sub Indo, baca komik dan manhwa, streaming film & serial, plus siaran TV Indonesia — semuanya gratis dalam satu tempat."
+    : "Nonton anime sub Indo, baca komik dan manhwa, plus siaran TV dan radio Indonesia — semuanya gratis dalam satu tempat.",
   locale: "id_ID",
   lang: "id",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://otakudesu.natee.my.id").replace(/\/+$/, ""),
@@ -48,7 +60,7 @@ export const COMIC_LINKS: readonly NavLink[] = [
 export const NAV: readonly NavEntry[] = [
   { label: "Anime", key: "anime", items: ANIME_LINKS },
   { label: "Komik", key: "comic", items: COMIC_LINKS },
-  { href: "/movie", label: "Film", key: "movie" },
+  ...(FEATURES.movie ? [{ href: "/movie", label: "Film", key: "movie" }] : []),
   {
     label: "Lainnya",
     key: "more",
@@ -72,7 +84,7 @@ export const NAV_FLAT: readonly NavLink[] = [
   { href: "/", label: "Beranda" },
   ...ANIME_LINKS,
   ...COMIC_LINKS,
-  { href: "/movie", label: "Film", key: "movie" },
+  ...(FEATURES.movie ? [{ href: "/movie", label: "Film", key: "movie" }] : []),
   { href: "/tv", label: "TV Live", key: "tv" },
   { href: "/radio", label: "Radio", key: "radio" },
   { href: "/berita", label: "Berita", key: "news" },
