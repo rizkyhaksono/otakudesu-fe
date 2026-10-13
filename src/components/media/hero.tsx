@@ -55,7 +55,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
 
     const timer = window.setInterval(
       () => setIndex((value) => (value + 1) % slides.length),
-      INTERVAL_MS,
+      INTERVAL_MS
     );
     return () => window.clearInterval(timer);
   }, [paused, autoPlay, slides.length]);
@@ -71,7 +71,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      <div className="relative h-[62vh] max-h-[620px] min-h-[380px] w-full overflow-hidden">
+      <div className="relative h-[55svh] max-h-[620px] min-h-[320px] w-full overflow-hidden sm:h-[62vh] sm:min-h-[380px]">
         {slides.map((slide, slideIndex) => {
           const active = slideIndex === index;
           const wide = slide.backdrop ?? null;
@@ -82,7 +82,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
               aria-hidden={!active}
               className={cn(
                 "absolute inset-0 transition-opacity duration-700 ease-[var(--ease-out)]",
-                active ? "opacity-100" : "pointer-events-none opacity-0",
+                active ? "opacity-100" : "pointer-events-none opacity-0"
               )}
             >
               {/* Blurred bed: fills the stage regardless of source aspect ratio.
@@ -102,16 +102,20 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                   sizes="100vw"
                   className={cn(
                     "object-cover",
-                    wide ? (active ? "animate-ken-burns" : "scale-100") : "scale-110 blur-2xl brightness-[0.35]",
+                    wide
+                      ? active
+                        ? "animate-ken-burns"
+                        : "scale-100"
+                      : "scale-110 blur-2xl brightness-[0.35]"
                   )}
                   unoptimized={!wide}
                 />
               ) : null}
 
-              <div className="from-background via-background/85 absolute inset-0 bg-gradient-to-r to-transparent" />
-              <div className="from-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-              <div className="relative mx-auto flex h-full max-w-[1600px] items-end px-4 pb-10 sm:px-6">
+              <div className="relative mx-auto flex h-full max-w-[1600px] items-end px-4 pb-12 sm:px-6 sm:pb-10">
                 <div className="flex items-end gap-6">
                   {/* Sharp poster in front of its own blur. */}
                   {slide.poster ? (
@@ -131,19 +135,19 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                       every time this slide becomes active, not just on the
                       component's first mount. */}
                   <div key={active ? slide.href : undefined} className="max-w-2xl">
-                    <span className="chip bg-primary text-primary-foreground border-primary animate-rise">
+                    <span className="chip animate-rise border-primary bg-primary text-primary-foreground">
                       {slide.kind}
                     </span>
-                    <h2 className="font-display animate-rise mt-3 text-3xl leading-[0.95] font-extrabold tracking-tighter uppercase [animation-delay:60ms] sm:text-5xl lg:text-6xl">
+                    <h2 className="animate-rise mt-3 line-clamp-3 font-display text-2xl leading-[1.05] font-extrabold tracking-tighter uppercase [animation-delay:60ms] sm:line-clamp-none sm:text-5xl lg:text-6xl">
                       {slide.title}
                     </h2>
                     {slide.meta ? (
-                      <p className="text-muted-foreground animate-rise mt-2 font-mono text-xs tabular-nums [animation-delay:100ms]">
+                      <p className="animate-rise mt-2 font-mono text-xs text-muted-foreground tabular-nums [animation-delay:100ms]">
                         {slide.meta}
                       </p>
                     ) : null}
                     {slide.synopsis ? (
-                      <p className="text-muted-foreground animate-rise mt-3 line-clamp-2 max-w-xl text-sm [animation-delay:140ms] sm:line-clamp-3">
+                      <p className="animate-rise mt-3 line-clamp-2 max-w-xl text-sm text-muted-foreground [animation-delay:140ms] sm:line-clamp-3">
                         {slide.synopsis}
                       </p>
                     ) : null}
@@ -151,7 +155,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                     <Link
                       href={slide.href}
                       tabIndex={active ? 0 : -1}
-                      className="press bg-foreground text-background hover:bg-primary hover:text-primary-foreground animate-rise mt-5 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold [animation-delay:180ms]"
+                      className="press animate-rise mt-5 inline-flex items-center gap-2 bg-foreground px-5 py-2.5 text-sm font-semibold text-background [animation-delay:180ms] hover:bg-primary hover:text-primary-foreground"
                     >
                       <Play className="size-4 fill-current" aria-hidden />
                       Tonton sekarang
@@ -176,8 +180,8 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                 aria-label={`Tampilkan ${slide.title}`}
                 aria-current={current}
                 className={cn(
-                  "bg-foreground/30 hover:bg-foreground/60 relative h-1 overflow-hidden transition-[width] duration-300 ease-[var(--ease-out)]",
-                  current ? "w-8" : "w-4",
+                  "relative h-1 overflow-hidden bg-foreground/30 transition-[width] duration-300 ease-[var(--ease-out)] hover:bg-foreground/60",
+                  current ? "w-8" : "w-4"
                 )}
               >
                 {/* The fill only plays while autoplay is actually advancing —
@@ -187,11 +191,11 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                   <span
                     key={slide.href}
                     aria-hidden
-                    className="bg-primary animate-fill-bar absolute inset-y-0 left-0"
+                    className="animate-fill-bar absolute inset-y-0 left-0 bg-primary"
                     style={{ animationDuration: `${INTERVAL_MS}ms` }}
                   />
                 ) : current ? (
-                  <span aria-hidden className="bg-primary absolute inset-0" />
+                  <span aria-hidden className="absolute inset-0 bg-primary" />
                 ) : null}
               </button>
             );

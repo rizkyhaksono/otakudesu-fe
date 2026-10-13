@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/layout/theme-provider";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMounted } from "@/hooks/use-mounted";
@@ -14,11 +14,15 @@ export default function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      aria-label={isDark ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={!mounted ? "Ganti tema" : isDark ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
+      onClick={() => {
+        if (mounted) {
+          setTheme(isDark ? "light" : "dark");
+        }
+      }}
+      disabled={!mounted}
       className="size-9"
     >
-      {/* The server cannot know the resolved theme, so hold a blank slot until hydration. */}
       {mounted ? (
         isDark ? (
           <Sun className="size-4" aria-hidden />
@@ -26,7 +30,7 @@ export default function ThemeToggle() {
           <Moon className="size-4" aria-hidden />
         )
       ) : (
-        <span className="size-4" />
+        <span className="size-4" aria-hidden />
       )}
     </Button>
   );

@@ -14,10 +14,13 @@ import NavLinkItem from "@/components/layout/nav-link";
  */
 export default function SiteHeader() {
   return (
-    <header className="bg-background/90 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-40 border-b backdrop-blur-xl">
-      <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-1 px-4 sm:px-6">
-        <Link href="/" className="press mr-3 flex items-center whitespace-nowrap">
-          <span className="font-display text-xl leading-none font-extrabold tracking-tight uppercase">
+    <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+      <div className="mx-auto flex h-14 max-w-[1600px] min-w-0 items-center gap-0 px-3 min-[400px]:gap-1 sm:px-6">
+        <Link
+          href="/"
+          className="press mr-1 flex min-w-0 shrink items-center whitespace-nowrap sm:mr-3"
+        >
+          <span className="font-display text-lg leading-none font-extrabold tracking-tight uppercase sm:text-xl">
             {SITE.name}
           </span>
         </Link>
@@ -33,12 +36,12 @@ export default function SiteHeader() {
                 <li key={entry.href} data-tour={entry.key ? `nav-${entry.key}` : undefined}>
                   <NavLinkItem href={entry.href} label={entry.label} navKey={entry.key} />
                 </li>
-              ),
+              )
             )}
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-0 min-[400px]:gap-1">
           <span data-tour="search">
             <SearchTrigger />
           </span>
@@ -47,11 +50,11 @@ export default function SiteHeader() {
             data-tour="bookmark"
             aria-label="Bookmark"
             title="Bookmark"
-            className="press hover:bg-accent hidden size-9 items-center justify-center sm:inline-flex"
+            className="press hidden size-9 items-center justify-center hover:bg-accent sm:inline-flex"
           >
             <Bookmark className="size-4" aria-hidden />
           </Link>
-          <span data-tour="language">
+          <span data-tour="language" className="hidden min-[400px]:inline-flex">
             <LanguageSwitcher />
           </span>
           <ThemeToggle />
