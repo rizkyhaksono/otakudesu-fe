@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { LocaleProvider } from "@/lib/i18n/client";
 import type { Locale } from "@/lib/i18n/dictionaries";
@@ -25,7 +25,7 @@ export default function Providers({
 }) {
   return (
     <LocaleProvider locale={locale}>
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <ThemeProvider>
         {children}
         <Toaster position="bottom-right" />
       </ThemeProvider>

@@ -127,7 +127,7 @@ export default function ComicReader({ slug, chapter }: { slug: string; chapter: 
 
   const chapterOptions = useMemo(
     () => chapter.chapters.filter((entry) => entry.chapter_number != null),
-    [chapter.chapters],
+    [chapter.chapters]
   );
 
   return (
@@ -135,27 +135,27 @@ export default function ComicReader({ slug, chapter }: { slug: string; chapter: 
       {/* Reading progress: thin, unobtrusive, only in strip mode. */}
       {mode === "strip" ? (
         <div
-          className="bg-primary fixed top-0 left-0 z-50 h-0.5 transition-[width] duration-150"
+          className="fixed top-0 left-0 z-50 h-0.5 bg-primary transition-[width] duration-150"
           style={{ width: `${progress}%` }}
           aria-hidden
         />
       ) : null}
 
-      <header className="bg-background sticky top-14 z-30 border-b">
+      <header className="sticky top-14 z-30 border-b bg-background">
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-2 px-4 py-2 sm:px-6">
           <div className="min-w-0 flex-1">
             <Link
               href={`/comic/${slug}`}
-              className="hover:text-primary block truncate text-sm font-semibold"
+              className="block truncate text-sm font-semibold hover:text-primary"
             >
               {chapter.comic.title}
             </Link>
-            <p className="text-muted-foreground font-mono text-[0.7rem] tabular-nums">
+            <p className="font-mono text-[0.7rem] text-muted-foreground tabular-nums">
               {chapter.title ?? `Chapter ${chapter.chapter_number}`} · {total} halaman
             </p>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex max-w-full flex-wrap items-center justify-end gap-1">
             <Button
               variant="ghost"
               size="icon"
@@ -190,7 +190,7 @@ export default function ComicReader({ slug, chapter }: { slug: string; chapter: 
               value={String(chapter.chapter_number ?? "")}
               onValueChange={(value) => router.push(`/comic/${slug}/chapter/${value}`)}
             >
-              <SelectTrigger className="h-8 w-36" aria-label="Pilih chapter">
+              <SelectTrigger className="h-8 w-28 min-w-0 sm:w-36" aria-label="Pilih chapter">
                 <SelectValue placeholder="Chapter" />
               </SelectTrigger>
               <SelectContent className="max-h-72">
@@ -249,12 +249,7 @@ export default function ComicReader({ slug, chapter }: { slug: string; chapter: 
               <span className="font-mono text-xs tabular-nums">
                 {page + 1} / {total}
               </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={goNextPage}
-                disabled={page >= total - 1}
-              >
+              <Button variant="outline" size="sm" onClick={goNextPage} disabled={page >= total - 1}>
                 <ChevronRight className="size-4" aria-hidden />
               </Button>
             </div>
@@ -282,9 +277,7 @@ export default function ComicReader({ slug, chapter }: { slug: string; chapter: 
             </Link>
           </Button>
         ) : (
-          <span className="text-muted-foreground font-mono text-xs uppercase">
-            Chapter terbaru
-          </span>
+          <span className="font-mono text-xs text-muted-foreground uppercase">Chapter terbaru</span>
         )}
       </nav>
     </div>

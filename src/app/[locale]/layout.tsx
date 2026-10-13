@@ -2,12 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
 import { cn } from "@/lib/utils";
-import {
-  DEFAULT_LOCALE,
-  DICTIONARIES,
-  isLocale,
-  LOCALES,
-} from "@/lib/i18n/dictionaries";
+import { DEFAULT_LOCALE, DICTIONARIES, isLocale, LOCALES } from "@/lib/i18n/dictionaries";
 import SupportOnboarding from "@/components/onboarding/onboarding";
 import Providers from "./providers";
 import SiteHeader from "@/components/layout/site-header";
@@ -133,16 +128,11 @@ export default async function RootLayout({
   const t = DICTIONARIES[locale];
 
   return (
-    // next-themes mutates <html>, so the hydration suppression belongs here —
-    // not on <body>, where it was before and did nothing.
-    <html lang={locale} suppressHydrationWarning>
+    // The server paints dark by default; the client restores saved preferences.
+    // Suppress the expected class change when a saved light theme is applied.
+    <html lang={locale} className="dark" suppressHydrationWarning>
       <body
-        className={cn(
-          "min-h-dvh antialiased",
-          inter.variable,
-          archivo.variable,
-          mono.variable,
-        )}
+        className={cn("min-h-dvh antialiased", inter.variable, archivo.variable, mono.variable)}
       >
         <JsonLd
           data={{
@@ -166,7 +156,7 @@ export default async function RootLayout({
           <SupportOnboarding>
             <a
               href="#main"
-              className="bg-primary text-primary-foreground sr-only px-4 py-2 focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50"
+              className="sr-only bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50"
             >
               {t.common.skipToContent}
             </a>

@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { isNavGroup, NAV, SITE, type NavLink } from "@/lib/site";
 import { useI18n } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
+import LanguageSwitcher from "@/components/layout/language-switcher";
 
 /**
  * The mobile menu.
@@ -44,7 +45,7 @@ export default function MobileNav() {
   const linkClass = (href: string) =>
     cn(
       "press hover:bg-accent flex items-center justify-between gap-2 px-4 py-3 text-sm",
-      isActive(href) ? "text-primary font-semibold" : "font-medium",
+      isActive(href) ? "text-primary font-semibold" : "font-medium"
     );
 
   return (
@@ -55,11 +56,19 @@ export default function MobileNav() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="flex w-72 flex-col gap-0 p-0 sm:w-80">
-        <SheetHeader className="shrink-0 border-b p-4">
-          <SheetTitle className="font-display text-left text-lg font-extrabold uppercase">
-            {SITE.name}
-          </SheetTitle>
+      <SheetContent
+        side="right"
+        className="flex w-[min(20rem,calc(100vw-1rem))] flex-col gap-0 p-0"
+      >
+        <SheetHeader className="shrink-0 border-b p-4 pr-12">
+          <div className="flex items-center justify-between gap-2">
+            <SheetTitle className="text-left font-display text-lg font-extrabold uppercase">
+              {SITE.name}
+            </SheetTitle>
+            <div className="min-[400px]:hidden">
+              <LanguageSwitcher />
+            </div>
+          </div>
         </SheetHeader>
 
         {/* The scrollable region: `min-h-0` is what makes `overflow-y-auto`
@@ -67,7 +76,7 @@ export default function MobileNav() {
             stops a scroll-to-the-end from also dragging the page behind it. */}
         <nav
           aria-label={t.nav.menu}
-          className="scrollbar-thin min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]"
+          className="min-h-0 flex-1 scrollbar-thin overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]"
         >
           <ul className="grid-hairline grid-cols-2">
             <li>
@@ -75,8 +84,8 @@ export default function MobileNav() {
                 href="/"
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "press hover:bg-accent flex items-center gap-2 px-4 py-3 text-sm",
-                  isActive("/") ? "text-primary font-semibold" : "font-medium",
+                  "press flex items-center gap-2 px-4 py-3 text-sm hover:bg-accent",
+                  isActive("/") ? "font-semibold text-primary" : "font-medium"
                 )}
               >
                 <Home className="size-4 shrink-0" aria-hidden />
@@ -88,8 +97,8 @@ export default function MobileNav() {
                 href="/bookmark"
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "press hover:bg-accent flex items-center gap-2 px-4 py-3 text-sm",
-                  isActive("/bookmark") ? "text-primary font-semibold" : "font-medium",
+                  "press flex items-center gap-2 px-4 py-3 text-sm hover:bg-accent",
+                  isActive("/bookmark") ? "font-semibold text-primary" : "font-medium"
                 )}
               >
                 <Bookmark className="size-4 shrink-0" aria-hidden />
@@ -105,16 +114,23 @@ export default function MobileNav() {
                 <ul>
                   {entry.items.map((item: NavLink) => (
                     <li key={item.href} className="border-t first:border-t-0">
-                      <Link href={item.href} onClick={() => setOpen(false)} className={linkClass(item.href)}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className={linkClass(item.href)}
+                      >
                         <span className="min-w-0">
                           <span className="block truncate">{tr(item.key, item.label)}</span>
                           {item.description ? (
-                            <span className="text-muted-foreground block truncate text-xs font-normal">
+                            <span className="block truncate text-xs font-normal text-muted-foreground">
                               {desc(item.key, item.description)}
                             </span>
                           ) : null}
                         </span>
-                        <ChevronRight className="text-muted-foreground size-4 shrink-0" aria-hidden />
+                        <ChevronRight
+                          className="size-4 shrink-0 text-muted-foreground"
+                          aria-hidden
+                        />
                       </Link>
                     </li>
                   ))}
@@ -122,12 +138,16 @@ export default function MobileNav() {
               </div>
             ) : (
               <div key={entry.href} className="border-b">
-                <Link href={entry.href} onClick={() => setOpen(false)} className={linkClass(entry.href)}>
+                <Link
+                  href={entry.href}
+                  onClick={() => setOpen(false)}
+                  className={linkClass(entry.href)}
+                >
                   {tr(entry.key, entry.label)}
-                  <ChevronRight className="text-muted-foreground size-4 shrink-0" aria-hidden />
+                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
                 </Link>
               </div>
-            ),
+            )
           )}
         </nav>
       </SheetContent>
