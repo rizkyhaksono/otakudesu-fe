@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Clapperboard, Play, X } from "lucide-react";
+import { Clapperboard, Pause, Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/client";
 
@@ -21,6 +21,8 @@ export type HeroSlide = {
 };
 
 const INTERVAL_MS = 7000;
+// A slide playing its trailer in the background stays up long enough to watch some of it.
+const VIDEO_INTERVAL_MS = 20000;
 
 /**
  * Cinematic hero that rotates through featured titles.
@@ -43,6 +45,32 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
   const playButton = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const activeTrailer = trailerOpen ? (slides[index]?.trailerId ?? null) : null;
+  // Background video: muted trailer behind the active slide. Off under reduced
+  // motion or Save-Data, only after the page has loaded, and stoppable.
+  const [videoAllowed, setVideoAllowed] = useState(false);
+  const [videoStopped, setVideoStopped] = useState(false);
+  const [videoReady, setVideoReady] = useState<string | null>(null);
+  const backgroundId =
+    videoAllowed && !videoStopped && !trailerOpen ? (slides[index]?.trailerId ?? null) : null;
+
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || connection?.saveData) return;
+
+    // Wait for the page itself to finish before pulling in YouTube.
+    const start = () => window.setTimeout(() => setVideoAllowed(true), 1000);
+    if (document.readyState === "complete") {
+      const id = start();
+      return () => window.clearTimeout(id);
+    }
+    let id = 0;
+    const onLoad = () => (id = start());
+    window.addEventListener("load", onLoad, { once: true });
+    return () => {
+      window.removeEventListener("load", onLoad);
+      window.clearTimeout(id);
+    };
+  }, []);
 
   const closeTrailer = () => {
     setTrailerOpen(false);
@@ -80,10 +108,10 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
 
     const timer = window.setInterval(
       () => setIndex((value) => (value + 1) % slides.length),
-      INTERVAL_MS
+      backgroundId ? VIDEO_INTERVAL_MS : INTERVAL_MS
     );
     return () => window.clearInterval(timer);
-  }, [paused, trailerOpen, autoPlay, slides.length]);
+  }, [paused, trailerOpen, autoPlay, slides.length, backgroundId]);
 
   if (!slides.length) return null;
 
@@ -135,6 +163,27 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                   )}
                   unoptimized={!wide}
                 />
+              ) : null}
+
+              {/* Muted trailer as the backdrop. Sized like object-fit: cover
+                  with container units, and faded in only after YouTube has
+                  had time to hide its own loading chrome. */}
+              {active && backgroundId && backgroundId === slide.trailerId ? (
+                <div className="pointer-events-none absolute inset-0 overflow-hidden [container-type:size]" aria-hidden>
+                  <iframe
+                    key={backgroundId}
+                    src={`https://www.youtube-nocookie.com/embed/${backgroundId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${backgroundId}&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0`}
+                    title=""
+                    tabIndex={-1}
+                    allow="autoplay; encrypted-media"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    onLoad={() => window.setTimeout(() => setVideoReady(backgroundId), 1500)}
+                    className={cn(
+                      "absolute top-1/2 left-1/2 h-[max(100cqh,56.25cqw)] w-[max(100cqw,177.78cqh)] -translate-x-1/2 -translate-y-1/2 border-0 transition-opacity duration-1000",
+                      videoReady === backgroundId ? "opacity-60" : "opacity-0"
+                    )}
+                  />
+                </div>
               ) : null}
 
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
@@ -232,6 +281,19 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
         ) : null}
       </div>
 
+      {/* Moving video longer than 5s needs a way to stop it (WCAG 2.2.2). */}
+      {videoAllowed && slides[index]?.trailerId && !trailerOpen ? (
+        <button
+          type="button"
+          onClick={() => setVideoStopped((value) => !value)}
+          aria-label={videoStopped ? t.common.playVideo : t.common.pauseVideo}
+          aria-pressed={videoStopped}
+          className="press absolute top-3 right-3 z-10 inline-flex size-11 items-center justify-center bg-background/70 hover:bg-background sm:right-6"
+        >
+          {videoStopped ? <Play className="size-4" aria-hidden /> : <Pause className="size-4" aria-hidden />}
+        </button>
+      ) : null}
+
       {slides.length > 1 ? (
         <div className="absolute right-4 bottom-4 z-10 flex gap-1.5 sm:right-6">
           {slides.map((slide, slideIndex) => {
@@ -256,7 +318,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                     key={slide.href}
                     aria-hidden
                     className="animate-fill-bar absolute inset-y-0 left-0 bg-primary"
-                    style={{ animationDuration: `${INTERVAL_MS}ms` }}
+                    style={{ animationDuration: `${backgroundId ? VIDEO_INTERVAL_MS : INTERVAL_MS}ms` }}
                   />
                 ) : current ? (
                   <span aria-hidden className="absolute inset-0 bg-primary" />
