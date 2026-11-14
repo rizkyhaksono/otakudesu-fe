@@ -8,7 +8,7 @@ import HlsPlayer from "@/components/tv/hls-player";
 import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
-import { apiBaseUrl } from "@/lib/api";
+import { publicApiBaseUrl } from "@/lib/api";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { dictionaryFor } from "@/lib/i18n/server";
 
@@ -96,7 +96,7 @@ export default async function TvChannelPage({ params }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <div className="min-w-0">
-          <HlsPlayer streams={channel.streams} apiBase={apiBaseUrl()} channelName={channel.name} />
+          <HlsPlayer streams={channel.streams} apiBase={publicApiBaseUrl()} channelName={channel.name} />
 
           {facts.length ? (
             <dl className="grid-hairline mt-6 grid-cols-2 sm:grid-cols-4">

@@ -65,11 +65,22 @@ export default function HlsPlayer({
     };
 
     const start = async () => {
-      // Safari and iOS play HLS without a library.
+      // Safari, iOS and recent Chrome play HLS without a library. Status follows
+      // the media element's own events: a native failure must still reach the
+      // proxy fallback instead of leaving a black frame.
       if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        const onPlaying = () => setStatus("playing");
+        const onError = () => {
+          if (!fallbackToProxy()) video.removeAttribute("src");
+        };
+        video.addEventListener("loadeddata", onPlaying);
+        video.addEventListener("error", onError);
         video.src = src;
         video.play().catch(() => undefined);
-        setStatus("playing");
+        destroy = () => {
+          video.removeEventListener("loadeddata", onPlaying);
+          video.removeEventListener("error", onError);
+        };
         return;
       }
 

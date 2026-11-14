@@ -8,7 +8,7 @@ import RadioPlayer from "@/components/radio/radio-player";
 import RecordView from "@/components/history/record-view";
 import BookmarkButton from "@/components/history/bookmark-button";
 import JsonLd from "@/components/seo/json-ld";
-import { apiBaseUrl } from "@/lib/api";
+import { publicApiBaseUrl } from "@/lib/api";
 import { absoluteUrl, localeAlternates } from "@/lib/site";
 import { dictionaryFor } from "@/lib/i18n/server";
 
@@ -89,7 +89,7 @@ export default async function RadioStationPage({ params }: Props) {
           <RadioPlayer
             direct={station.direct}
             proxyUrl={station.proxy_url}
-            apiBase={apiBaseUrl()}
+            apiBase={publicApiBaseUrl()}
             stationName={station.name}
           />
 

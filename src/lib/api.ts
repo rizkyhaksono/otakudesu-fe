@@ -89,6 +89,15 @@ export function apiBaseUrl(): string {
 }
 
 /**
+ * Backend origin as the visitor's browser must reach it (stream proxies).
+ * Production renders talk to the backend over the internal network, which no
+ * browser can resolve, so the public origin is configured separately.
+ */
+export function publicApiBaseUrl(): string {
+  return (process.env.PUBLIC_API_BASE_URL ?? BASE_URL).replace(/\/+$/, "");
+}
+
+/**
  * Cheap liveness check against the backend.
  *
  * Used only to tell two very different failures apart in the UI: "the backend
