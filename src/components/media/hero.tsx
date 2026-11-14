@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Clapperboard, Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/client";
 
 export type HeroSlide = {
   href: string;
@@ -15,6 +16,8 @@ export type HeroSlide = {
   kind: string;
   meta?: string | null;
   synopsis?: string | null;
+  /** YouTube id of the official trailer, when one was matched. */
+  trailerId?: string | null;
 };
 
 const INTERVAL_MS = 7000;
@@ -31,9 +34,31 @@ const INTERVAL_MS = 7000;
  * an auto-advancing hero is exactly what that preference is about.
  */
 export default function Hero({ slides }: { slides: HeroSlide[] }) {
+  const { t } = useI18n();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [autoPlay, setAutoPlay] = useState(false);
+  // The trailer iframe exists only after a click: no YouTube script loads with the page.
+  const [trailerOpen, setTrailerOpen] = useState(false);
+  const playButton = useRef<HTMLButtonElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const activeTrailer = trailerOpen ? (slides[index]?.trailerId ?? null) : null;
+
+  const closeTrailer = () => {
+    setTrailerOpen(false);
+    // Focus goes back to the control that opened the panel.
+    window.setTimeout(() => playButton.current?.focus(), 0);
+  };
+
+  useEffect(() => {
+    if (!activeTrailer) return;
+    closeButton.current?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeTrailer();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeTrailer]);
 
   // Whether the timer is actually allowed to run at all — set once from a
   // media query, which is itself only readable after mount. Doing this in an
@@ -51,14 +76,14 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
   }, []);
 
   useEffect(() => {
-    if (paused || !autoPlay || slides.length < 2) return;
+    if (paused || trailerOpen || !autoPlay || slides.length < 2) return;
 
     const timer = window.setInterval(
       () => setIndex((value) => (value + 1) % slides.length),
       INTERVAL_MS
     );
     return () => window.clearInterval(timer);
-  }, [paused, autoPlay, slides.length]);
+  }, [paused, trailerOpen, autoPlay, slides.length]);
 
   if (!slides.length) return null;
 
@@ -152,20 +177,59 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
                       </p>
                     ) : null}
 
-                    <Link
-                      href={slide.href}
-                      tabIndex={active ? 0 : -1}
-                      className="press animate-rise mt-5 inline-flex items-center gap-2 bg-foreground px-5 py-2.5 text-sm font-semibold text-background [animation-delay:180ms] hover:bg-primary hover:text-primary-foreground"
-                    >
-                      <Play className="size-4 fill-current" aria-hidden />
-                      Tonton sekarang
-                    </Link>
+                    <div className="animate-rise mt-5 flex flex-wrap gap-2 [animation-delay:180ms]">
+                      <Link
+                        href={slide.href}
+                        tabIndex={active ? 0 : -1}
+                        className="press inline-flex min-h-11 items-center gap-2 bg-foreground px-5 py-2.5 text-sm font-semibold text-background hover:bg-primary hover:text-primary-foreground"
+                      >
+                        <Play className="size-4 fill-current" aria-hidden />
+                        Tonton sekarang
+                      </Link>
+                      {slide.trailerId ? (
+                        <button
+                          ref={active ? playButton : undefined}
+                          type="button"
+                          tabIndex={active ? 0 : -1}
+                          onClick={() => setTrailerOpen(true)}
+                          className="press inline-flex min-h-11 items-center gap-2 border border-foreground/50 px-5 py-2.5 text-sm font-semibold hover:border-foreground hover:bg-foreground/10"
+                        >
+                          <Clapperboard className="size-4" aria-hidden />
+                          {t.common.playTrailer}
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           );
         })}
+
+        {activeTrailer ? (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black">
+            <iframe
+              key={activeTrailer}
+              src={`https://www.youtube-nocookie.com/embed/${activeTrailer}?autoplay=1&rel=0&playsinline=1`}
+              title={`Trailer ${slides[index]?.title ?? ""}`}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              // YouTube refuses to play embeds that arrive without a Referer (error 153).
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              // Full stage height at 16:9; on narrow screens the width caps and YouTube letterboxes.
+              className="aspect-video h-full max-w-full border-0"
+            />
+            <button
+              ref={closeButton}
+              type="button"
+              onClick={closeTrailer}
+              aria-label={t.common.closeTrailer}
+              className="press absolute top-3 right-3 inline-flex size-11 items-center justify-center bg-background/80 hover:bg-background"
+            >
+              <X className="size-5" aria-hidden />
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {slides.length > 1 ? (

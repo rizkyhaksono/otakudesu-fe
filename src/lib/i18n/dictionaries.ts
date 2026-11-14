@@ -47,6 +47,8 @@ const id = {
   },
   common: {
     seeAll: "Lihat semua",
+    playTrailer: "Putar trailer",
+    closeTrailer: "Tutup trailer",
     home: "Beranda",
     back: "Kembali",
     retry: "Coba lagi",
@@ -444,6 +446,8 @@ const en: Dictionary = {
   },
   common: {
     seeAll: "See all",
+    playTrailer: "Play trailer",
+    closeTrailer: "Close trailer",
     home: "Home",
     back: "Back",
     retry: "Try again",
@@ -832,6 +836,8 @@ const ja: Dictionary = {
   },
   common: {
     seeAll: "すべて見る",
+    playTrailer: "予告編を再生",
+    closeTrailer: "予告編を閉じる",
     home: "ホーム",
     back: "戻る",
     retry: "再試行",

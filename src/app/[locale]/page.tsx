@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getAnimeHome } from "@/services/anime";
 import { getComicHome } from "@/services/comic";
 import { getMovieHome } from "@/services/movie";
+import { getTrailer } from "@/services/trailer";
 import { getTvChannels } from "@/services/tv";
 import { getRadioStations } from "@/services/radio";
 import { getNews } from "@/services/news";
@@ -52,9 +53,14 @@ export default async function HomePage({ params }: Props) {
     getNews({ limit: 6 }),
   ]);
 
+  const heroAnime = anime.ongoing_anime.slice(0, 3);
+  const trailers = await Promise.all(
+    heroAnime.map((item) => (item.title ? getTrailer(item.title) : Promise.resolve(null))),
+  );
+
   // The hero mixes domains so the front page shows what the site actually is.
   const heroSlides: HeroSlide[] = [
-    ...anime.ongoing_anime.slice(0, 3).map((item) => ({
+    ...heroAnime.map((item, i) => ({
       href: `/anime/${item.slug}`,
       title: item.title ?? t.common.untitled,
       poster: item.poster ?? null,
@@ -62,6 +68,7 @@ export default async function HomePage({ params }: Props) {
       kind: "Anime",
       meta: [item.current_episode, item.release_day].filter(Boolean).join(" · ") || null,
       synopsis: null,
+      trailerId: trailers[i]?.youtubeId ?? null,
     })),
     ...movie.trending.slice(0, 2).map((item) => ({
       href: item.media_type === "tv" ? `/movie/tv/${item.id}` : `/movie/${item.id}`,
