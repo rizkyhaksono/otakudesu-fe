@@ -50,6 +50,7 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
   const [videoAllowed, setVideoAllowed] = useState(false);
   const [videoStopped, setVideoStopped] = useState(false);
   const [videoReady, setVideoReady] = useState<string | null>(null);
+  const videoFrame = useRef<HTMLIFrameElement>(null);
   const backgroundId =
     videoAllowed && !videoStopped && !trailerOpen ? (slides[index]?.trailerId ?? null) : null;
 
@@ -71,6 +72,36 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
       window.clearTimeout(id);
     };
   }, []);
+
+  // YouTube draws its own controls over the video at start, while buffering,
+  // paused or ended, even with controls=0. Show the backdrop only once the
+  // player reports "playing" and those controls have had time to fade.
+  useEffect(() => {
+    if (!backgroundId) return;
+    let reveal = 0;
+    let last: number | null = null;
+    const onMessage = (event: MessageEvent) => {
+      if (event.source !== videoFrame.current?.contentWindow) return;
+      let data: { event?: string; info?: unknown } | null = null;
+      try {
+        data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      } catch {
+        return;
+      }
+      const info = data?.info as { playerState?: unknown } | number | undefined;
+      const state = data?.event === "onStateChange" ? info : (info as { playerState?: unknown } | undefined)?.playerState;
+      if (typeof state !== "number" || state === last) return;
+      last = state;
+      window.clearTimeout(reveal);
+      if (state === 1) reveal = window.setTimeout(() => setVideoReady(backgroundId), 3000);
+      else setVideoReady(null);
+    };
+    window.addEventListener("message", onMessage);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearTimeout(reveal);
+    };
+  }, [backgroundId]);
 
   const closeTrailer = () => {
     setTrailerOpen(false);
@@ -166,18 +197,25 @@ export default function Hero({ slides }: { slides: HeroSlide[] }) {
               ) : null}
 
               {/* Muted trailer as the backdrop. Sized like object-fit: cover
-                  with container units, and faded in only after YouTube has
-                  had time to hide its own loading chrome. */}
+                  with container units, and faded in only while YouTube reports it
+                  playing, after its own controls have faded. */}
               {active && backgroundId && backgroundId === slide.trailerId ? (
                 <div className="pointer-events-none absolute inset-0 overflow-hidden [container-type:size]" aria-hidden>
                   <iframe
                     key={backgroundId}
-                    src={`https://www.youtube-nocookie.com/embed/${backgroundId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${backgroundId}&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0`}
+                    src={`https://www.youtube-nocookie.com/embed/${backgroundId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${backgroundId}&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1`}
                     title=""
                     tabIndex={-1}
                     allow="autoplay; encrypted-media"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    onLoad={() => window.setTimeout(() => setVideoReady(backgroundId), 1500)}
+                    ref={videoFrame}
+                    // Subscribe to player state events (IFrame API handshake).
+                    onLoad={(event) =>
+                      event.currentTarget.contentWindow?.postMessage(
+                        JSON.stringify({ event: "listening", id: backgroundId, channel: "widget" }),
+                        "https://www.youtube-nocookie.com"
+                      )
+                    }
                     className={cn(
                       "absolute top-1/2 left-1/2 h-[max(100cqh,56.25cqw)] w-[max(100cqw,177.78cqh)] -translate-x-1/2 -translate-y-1/2 border-0 transition-opacity duration-1000",
                       videoReady === backgroundId ? "opacity-60" : "opacity-0"
